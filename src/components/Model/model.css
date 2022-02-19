@@ -1,0 +1,16 @@
+  .modal {
+    background: rgba(0, 0, 0, 0.6);
+  }
+  .modal-container {
+    position: absolute;
+    width: 60%;
+    background: #ffffff;
+    left: 25%;
+    top: 20%;
+    padding: 20px;
+  }
+
+  .hederModel{
+      text-align: end;
+  }
+  
