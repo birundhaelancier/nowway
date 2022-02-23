@@ -5,11 +5,28 @@ import { Select, Checkbox } from 'antd';
 import SelectInput from '../Select/index';
 import { InsertListing } from '../apiActions/index';
 import { notification } from "antd";
+import { APIURL, REQUEST_HEADERS } from "../apiActions/baseHeaders";
+import axios from 'axios';
+import CryptoJS from 'crypto-js'
+
+var CryptoJSAesJson = {
+    stringify: function (cipherParams) {
+        var j = { ct: cipherParams.ciphertext.toString(CryptoJS.enc.Base64) };
+        if (cipherParams.salt) j.s = cipherParams.salt.toString();
+        return JSON.stringify(j);
+    },
+    parse: function (jsonStr) {
+        var j = JSON.parse(jsonStr);
+        var cipherParams = CryptoJS.lib.CipherParams.create({ ciphertext: CryptoJS.enc.Base64.parse(j.ct) });
+        if (j.s) cipherParams.salt = CryptoJS.enc.Hex.parse(j.s)
+        return cipherParams;
+    }
+}
 
 
 const AddListing = ({ structure_type, floor_type, property_type, prefered_type, furnishing_type, parking_type, bathroom_type, available, amenities }) => {
     const { Option } = Select;
-    const [selectedFile, setSelectedFile] = useState(null);
+    const [selectedFile, setSelectedFile] = useState({});
     const [zipCodeErr, setZipCodeErr] = useState(false)
     const initialValues = {
         title: "",
@@ -21,7 +38,7 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
         ownerFee: "",
         propertyType: "",
         types: "",
-        images: "",
+        images: [],
         address: "",
         city: "",
         state: "",
@@ -54,8 +71,14 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
     };
     const [listValues, setListValues] = useState(initialValues);
     const [checkList, setCheckList] = useState([]);
+    const mypass = "$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq"
 
+    const decryptValue = (data) => {
+        var res = JSON.parse(CryptoJS.AES.decrypt(data, mypass, { format: CryptoJSAesJson }).toString(CryptoJS.enc.Utf8));
+        return res
+    }
     const handleChange = (e, key, name, row, id) => {
+
         if (key === "select") {
             setListValues({
                 ...listValues,
@@ -83,6 +106,21 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
                 ...listValues,
                 [name]: e,
             });
+        } else if (key === "files") {
+            let reader = new FileReader();
+            let file = e.target.files[0];
+            setCheckList(file)
+
+            // reader.onload = function (upload) {
+            //     setCheckList(upload.target.result);
+            // };
+
+            // reader.readAsDataURL(file)
+
+            setListValues({
+                ...listValues,
+                [name]: e.target.files,
+            });
         } else {
             const { name, value } = e.target;
             if (name === "zipCode") {
@@ -98,10 +136,14 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
             });
         }
     }
+    console.log(checkList, listValues.images)
+
     const submitForm = async (e) => {
         e.preventDefault();
-        if(!zipCodeErr){
-            InsertListing(listValues).then((data) => {
+
+        if (!zipCodeErr) {
+            InsertListing(listValues, checkList).then((data) => {
+                console.log(data, "ss")
                 if (data.Status === "Success") {
                     notification.success({
                         message: data.Message
@@ -112,17 +154,16 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
                         message: data.Message
                     })
                 }
-    
             })
         }
     }
     const options = [
         {
-            name: "Rentals",
+            name: "Rent",
             id: 1,
         },
         {
-            name: "Sales",
+            name: "Sell",
             id: 2,
         },
     ];
@@ -134,8 +175,14 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
             ...prevState,
         }));
     }
-
-    console.log(listValues, listValues.parking.toString(), "li")
+    const test = () => {
+        const formData = new FormData();
+        for (let i = 0; i < listValues.images.length; i++) {
+            console.log(listValues.images[i].name)
+            formData.append("images" + i, listValues.images[i])
+        }
+        console.log(formData, listValues.images, listValues.images.name, "li")
+    }
 
     return (
         <div className="ltn__appointment-area pb-120">
@@ -201,12 +248,12 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
                                 </div>
                                 <h2>2. Media</h2>
                                 <h6>Listing Media</h6>
-                                <input type="file" id="myFile" name="filename" className="btn theme-btn-3 mb-10" multiple
-                                    value={selectedFile}
-                                    onChange={(e) => setSelectedFile(e.target.files[0])}
+                                <input type="file" id="myFile" name="images" className="btn theme-btn-3 mb-10"
+                                    // value={selectedFile}
+                                    onChange={(e) => handleChange(e, "files", "images")}
                                 /><br />
                                 <p>
-                                    <small>* At least 1 image is required for a valid submission.Minimum size is 500/500px.</small><br />
+                                    <small>* At least 1 image is for a valid submission.Minimum size is 500/500px.</small><br />
                                     <small>* PDF files upload supported as well.</small><br />
                                     <small>* Images might take longer to be processed.</small>
                                 </p>
@@ -235,7 +282,7 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="text" name={"neighbourhood"} value={listValues.neighbourhood} onChange={(e) => handleChange(e)} placeholder="Neighborhood" />
+                                            <input required type="text" name={"neighbourhood"} value={listValues.neighbourhood} onChange={(e) => handleChange(e)} placeholder="Neighbourhood" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
@@ -268,11 +315,11 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
                                             <input required type="number" name={"bedRooms"} value={listValues.bedRooms} onChange={(e) => handleChange(e)} placeholder="Bedrooms (*only numbers)" />
                                         </div>
                                     </div>
-                                    <div className="col-md-6">
+                                    {/* <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
                                             <input required type="number" name={"pathRooms"} value={listValues.pathRooms} onChange={(e) => handleChange(e)} placeholder="Bathrooms (*only numbers)" />
                                         </div>
-                                    </div>
+                                    </div> */}
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
                                             <input required type="text" name={"garges"} value={listValues.garges} onChange={(e) => handleChange(e)} placeholder="Garages (*text)" />
@@ -331,7 +378,6 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
                                     </div>
                                 </div>
                                 <h2>5. Features</h2>
-                                <h6>Amenities and Features</h6>
                                 <h6 className="mt-20">BHK Type</h6>
                                 <div className="row">
                                     {floor_type.map((data, index) => {
@@ -351,7 +397,7 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
                                         )
                                     })}
                                 </div>
-                                <h6 className="mt-20">Prefered Tenents</h6>
+                                <h6 className="mt-20">Preferred Tenants</h6>
                                 <div className="row">
                                     {prefered_type.map((data, index) => {
                                         return (
@@ -419,7 +465,7 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
                                                         type="radio"
                                                         name='availability'
                                                         value={listValues.availability}
-                                                        defaultChecked={index === 0}
+                                                        // defaultChecked={index === 0}
                                                         onChange={() => handleChange(data.name, "radio", "availability")}
                                                     />
                                                     <span className="checkmark"  >{data.name}</span>

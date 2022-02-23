@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import parse from 'html-react-parser';
 
-class ProductSliderV4 extends Component {
 
-	render() {
+const ProductSliderV4 = ({ list }) => {
+	let publicUrl = process.env.PUBLIC_URL + '/'
 
-		let publicUrl = process.env.PUBLIC_URL + '/'
+	return (
 
-		return <div>
+		<div>
 			<div className="ltn__product-slider-area ltn__product-gutter pt-115 pb-70">
 				<div className="container">
 					<div className="row">
@@ -19,95 +19,98 @@ class ProductSliderV4 extends Component {
 							</div>
 						</div>
 					</div>
-					<div className="row ltn__product-slider-item-three-active slick-arrow-1">
-						{/* ltn__product-item */}
-						<div className="col-xl-4 col-sm-6 col-12">
-							<div className="ltn__product-item ltn__product-item-4 text-center---">
-								<div className="product-img go-top">
-									<Link to="/product-details"><img src={publicUrl + "assets/img/product-3/1.jpg"} alt="#" /></Link>
-									<div className="product-badge">
-										<ul>
-											<li className="sale-badge bg-green">For Rent</li>
-										</ul>
-									</div>
-									<div className="product-img-location-gallery">
-										<div className="product-img-location">
-											<ul>
-												<li>
-													<Link to="/#"><i className="flaticon-pin" /> Belmont Gardens, Chicago</Link>
+					<div className="row ltn__product-slider-item-three-active slick-arrow-1 card-show">
+						{list?.map((item) => {
+							return (
+								<div className="col-xl-4 col-sm-6 col-12">
+									<div className="ltn__product-item ltn__product-item-4 text-center---">
+										<div className="product-img go-top">
+											<Link to={`/product-details?product_id=${item.id}`}><img src={item.image} alt="#" /></Link>
+											<div className="product-badge">
+												<ul>
+													<li className="sale-badge bg-green">For Rent</li>
+												</ul>
+											</div>
+											<div className="product-img-location-gallery">
+												<div className="product-img-location">
+													<ul>
+														<li>
+															<Link to={`/product-details?product_id=${item.id}`}><i className="flaticon-pin" /> Belmont Gardens, Chicago</Link>
+														</li>
+													</ul>
+												</div>
+												<div className="product-img-gallery go-top">
+													<ul>
+														<li>
+															<Link to={`/product-details?product_id=${item.id}`}><i className="fas fa-camera" /> 4</Link>
+														</li>
+														<li>
+															<Link to={`/product-details?product_id=${item.id}`}><i className="fas fa-film" /> 2</Link>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+										<div className="product-info">
+											<div className="product-price">
+												<span>₹{item.price}<label>/Month</label></span>
+											</div>
+											<h2 className="product-title go-top"><Link to={`/product-details?product_id=${item.id}`}>{item.tit}</Link></h2>
+											<div className="product-description">
+												<p>{item.description}</p>
+											</div>
+											<ul className="ltn__list-item-2 ltn__list-item-2-before">
+												<li><span>{item.bedrooms} <i className="flaticon-bed" /></span>
+													Bedrooms
+												</li>
+												<li><span>{item.bathroom} <i className="flaticon-clean" /></span>
+													Bathrooms
+												</li>
+												<li><span>3450 <i className="flaticon-square-shape-design-interface-tool-symbol" /></span>
+													square Ft
 												</li>
 											</ul>
 										</div>
-										<div className="product-img-gallery go-top">
-											<ul>
-												<li>
-													<Link to="/product-details"><i className="fas fa-camera" /> 4</Link>
-												</li>
-												<li>
-													<Link to="/product-details"><i className="fas fa-film" /> 2</Link>
-												</li>
-											</ul>
+										<div className="product-info-bottom">
+											<div className="real-estate-agent">
+												<div className="agent-img go-top">
+													<Link to={`/product-details?product_id=${item.id}`}><img src={publicUrl + "assets/img/blog/author.jpg"} alt="#" /></Link>
+												</div>
+												<div className="agent-brief go-top">
+													<h6><Link to={`/product-details?product_id=${item.id}`}>{item.user_name}</Link></h6>
+													<small>Estate Agents</small>
+												</div>
+											</div>
+											<div className="product-hover-action">
+												<ul>
+													<li>
+														<a href="#" title="Quick View">
+															{/* data-bs-toggle="modal" data-bs-target="#quick_view_modal" */}
+															<i className="flaticon-expand" />
+														</a>
+													</li>
+													<li>
+														<a href="#" title="Wishlist">
+															<i className="flaticon-heart-1" /></a>
+													</li>
+													{/* data-bs-toggle="modal" data-bs-target="#liton_wishlist_modal" */}
+													<li>
+														<span className="go-top">
+															<Link to={`/product-details?product_id=${item.id}`} title="Product Details">
+																<i className="flaticon-add" />
+															</Link>
+														</span>
+													</li>
+												</ul>
+											</div>
 										</div>
 									</div>
 								</div>
-								<div className="product-info">
-									<div className="product-price">
-										<span>₹34,900<label>/Month</label></span>
-									</div>
-									<h2 className="product-title go-top"><Link to="/product-details">New Apartment Nice View</Link></h2>
-									<div className="product-description">
-										<p>Beautiful Huge 1 Family House In Heart Of <br />
-											Westbury. Newly Renovated With New Wood</p>
-									</div>
-									<ul className="ltn__list-item-2 ltn__list-item-2-before">
-										<li><span>3 <i className="flaticon-bed" /></span>
-											Bedrooms
-										</li>
-										<li><span>2 <i className="flaticon-clean" /></span>
-											Bathrooms
-										</li>
-										<li><span>3450 <i className="flaticon-square-shape-design-interface-tool-symbol" /></span>
-											square Ft
-										</li>
-									</ul>
-								</div>
-								<div className="product-info-bottom">
-									<div className="real-estate-agent">
-										<div className="agent-img go-top">
-											<Link to="/#"><img src={publicUrl + "assets/img/blog/author.jpg"} alt="#" /></Link>
-										</div>
-										<div className="agent-brief go-top">
-											<h6><Link to="/#">William Seklo</Link></h6>
-											<small>Estate Agents</small>
-										</div>
-									</div>
-									<div className="product-hover-action">
-										<ul>
-											<li>
-												<a href="#" title="Quick View">
-													{/* data-bs-toggle="modal" data-bs-target="#quick_view_modal" */}
-													<i className="flaticon-expand" />
-												</a>
-											</li>
-											<li>
-												<a href="#" title="Wishlist">
-													<i className="flaticon-heart-1" /></a>
-											</li>
-											{/* data-bs-toggle="modal" data-bs-target="#liton_wishlist_modal" */}
-											<li>
-												<span className="go-top">
-													<Link to="/product-details" title="Product Details">
-														<i className="flaticon-add" />
-													</Link>
-												</span>
-											</li>
-										</ul>
-									</div>
-								</div>
-							</div>
-						</div>
-						{/* ltn__product-item */}
-						<div className="col-xl-4 col-sm-6 col-12">
+							)
+						})}
+
+
+						{/* <div className="col-xl-4 col-sm-6 col-12">
 							<div className="ltn__product-item ltn__product-item-4 text-center---">
 								<div className="product-img go-top">
 									<Link to="/product-details"><img src={publicUrl + "assets/img/product-3/2.jpg"} alt="#" /></Link>
@@ -190,7 +193,6 @@ class ProductSliderV4 extends Component {
 								</div>
 							</div>
 						</div>
-						{/* ltn__product-item */}
 						<div className="col-xl-4 col-sm-6 col-12">
 							<div className="ltn__product-item ltn__product-item-4 text-center---">
 								<div className="product-img go-top">
@@ -274,7 +276,6 @@ class ProductSliderV4 extends Component {
 								</div>
 							</div>
 						</div>
-						{/* ltn__product-item */}
 						<div className="col-xl-4 col-sm-6 col-12">
 							<div className="ltn__product-item ltn__product-item-4 text-center---">
 								<div className="product-img go-top">
@@ -358,7 +359,6 @@ class ProductSliderV4 extends Component {
 								</div>
 							</div>
 						</div>
-						{/* ltn__product-item */}
 						<div className="col-xl-4 col-sm-6 col-12">
 							<div className="ltn__product-item ltn__product-item-4 text-center---">
 								<div className="product-img go-top">
@@ -441,8 +441,10 @@ class ProductSliderV4 extends Component {
 									</div>
 								</div>
 							</div>
-						</div>
+						</div>  */}
 						{/*  */}
+
+
 					</div>
 				</div>
 			</div>
@@ -615,7 +617,8 @@ class ProductSliderV4 extends Component {
 				</div>
 			</div>
 		</div>
-	}
+	)
 }
+
 
 export default ProductSliderV4

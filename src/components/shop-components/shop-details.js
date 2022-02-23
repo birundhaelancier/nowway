@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import parse from 'html-react-parser';
 import Modal from '../Model';
 
-const ShopDetails = () => {
+const ShopDetails = ({ ProductInfo }) => {
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	let publicUrl = process.env.PUBLIC_URL + '/'
+	console.log(ProductInfo,"ProductInfo")
 	return (
 		<div className="ltn__shop-details-area pb-10">
 			<div className="container">
