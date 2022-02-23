@@ -5,11 +5,11 @@ import { Select, Checkbox } from 'antd';
 import SelectInput from '../Select/index';
 import { InsertListing } from '../apiActions/index';
 import { notification } from "antd";
-
-
+import { APIURL, REQUEST_HEADERS } from "../../components/apiActions/baseHeaders";
+import axios  from 'axios';
 const AddListing = ({ structure_type, floor_type, property_type, prefered_type, furnishing_type, parking_type, bathroom_type, available, amenities }) => {
     const { Option } = Select;
-    const [selectedFile, setSelectedFile] = useState(null);
+    const [selectedFile, setSelectedFile] = useState({});
     const [zipCodeErr, setZipCodeErr] = useState(false)
     const initialValues = {
         title: "",
@@ -56,6 +56,7 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
     const [checkList, setCheckList] = useState([]);
 
     const handleChange = (e, key, name, row, id) => {
+
         if (key === "select") {
             setListValues({
                 ...listValues,
@@ -83,6 +84,21 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
                 ...listValues,
                 [name]: e,
             });
+        } else if (e.target&&key === "files") {
+            alert("fghjk")
+            let reader = new FileReader();
+            let file = e.target.files[0];
+    
+            // reader.onload = function (upload) {
+                setCheckList(e.target.files[0]);
+            //   };
+    
+            // reader.readAsDataURL(file)
+            
+            setListValues({
+                ...listValues,
+                [name]: e.target.files[0],
+            });
         } else {
             const { name, value } = e.target;
             if (name === "zipCode") {
@@ -98,22 +114,58 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
             });
         }
     }
+    // const formData = new FormData();
+    // // listValues.images.for
+    // for (let i = 0; i < Object.keys(listValues.images).length; i++) {
+    //     formData.append(`images[${i}]`, listValues.images[i])
+    // }
+    // formData.append("images", listValues.images)
+
+    // for (let i = 0; i < listValues.images.length; i++) {
+    //     console.log(listValues.images[i].name)
+    //     formData.append("images"+ i, listValues.images[i])
+    //   }
+
+    // formData.append("images", listValues.images[0]);
+
     const submitForm = async (e) => {
         e.preventDefault();
-        if(!zipCodeErr){
-            InsertListing(listValues).then((data) => {
-                if (data.Status === "Success") {
-                    notification.success({
-                        message: data.Message
-                    })
-                    handleCancel()
-                } else {
-                    notification.error({
-                        message: data.Message
-                    })
-                }
-    
-            })
+        
+        if (!zipCodeErr) {
+            // InsertListing(listValues,checkList).then((data) => {
+            //     console.log(data,"ss")
+            //     if (data.Status === "Success") {
+            //         notification.success({
+            //             message: data.Message
+            //         })
+            //         handleCancel()
+            //     } else {
+            //         notification.error({
+            //             message: data.Message
+            //         })
+            //     }
+
+            // })
+            let formData = new FormData();
+            formData.append("images", checkList)
+            formData.set("user_id", JSON.parse(localStorage.getItem("user_id")))
+            formData.set("title", "ffghj")
+            axios({
+                method: 'POST',
+                url: APIURL + 'add_listing',
+                data:formData
+              })
+            .then((response) => {
+                
+                //   localStorage.setItem("token",response.data.Response.token);
+                //   dispatch({type:AUTHO_LOGIN,payload:response.data.Response.token})
+              })
+
+
+
+       
+      
+          
         }
     }
     const options = [
@@ -134,8 +186,16 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
             ...prevState,
         }));
     }
+    const test = () => {
+        const formData = new FormData();
+        for (let i = 0; i < listValues.images.length; i++) {
+            console.log(listValues.images[i].name)
+            formData.append("images" + i, listValues.images[i])
+        }
+        console.log(formData, listValues.images, listValues.images.name, "li")
 
-    console.log(listValues, listValues.parking.toString(), "li")
+    }
+
 
     return (
         <div className="ltn__appointment-area pb-120">
@@ -150,10 +210,10 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
                                 <div className="row">
                                     <div className="col-md-12">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="text" name={"title"} value={listValues.title} onChange={(e) => handleChange(e)} placeholder="*Title (mandatory)" />
+                                            <input type="text" name={"title"} value={listValues.title} onChange={(e) => handleChange(e)} placeholder="*Title (mandatory)" />
                                         </div>
                                         <div className="input-item input-item-textarea ltn__custom-icon">
-                                            <textarea required name={"description"} value={listValues.description} onChange={(e) => handleChange(e)} placeholder="Description" defaultValue={""} />
+                                            <textarea name={"description"} value={listValues.description} onChange={(e) => handleChange(e)} placeholder="Description" defaultValue={""} />
                                         </div>
                                     </div>
                                 </div>
@@ -161,27 +221,27 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
                                 <div className="row">
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="text" name={"price"} value={listValues.price} onChange={(e) => handleChange(e)} placeholder="Price in ₹ (only numbers)" />
+                                            <input type="text" name={"price"} value={listValues.price} onChange={(e) => handleChange(e)} placeholder="Price in ₹ (only numbers)" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="text" name={"afterPrice"} value={listValues.afterPrice} onChange={(e) => handleChange(e)} placeholder="After Price Label (ex: /month)" />
+                                            <input type="text" name={"afterPrice"} value={listValues.afterPrice} onChange={(e) => handleChange(e)} placeholder="After Price Label (ex: /month)" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="text" name={"beforePrice"} value={listValues.beforePrice} onChange={(e) => handleChange(e)} placeholder="Before Price Label (ex: from)" />
+                                            <input type="text" name={"beforePrice"} value={listValues.beforePrice} onChange={(e) => handleChange(e)} placeholder="Before Price Label (ex: from)" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="text" name={"yearlyTax"} value={listValues.yearlyTax} onChange={(e) => handleChange(e)} placeholder="Yearly Tax Rate" />
+                                            <input type="text" name={"yearlyTax"} value={listValues.yearlyTax} onChange={(e) => handleChange(e)} placeholder="Yearly Tax Rate" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="text" name={"ownerFee"} value={listValues.ownerFee} onChange={(e) => handleChange(e)} placeholder="Homeowners Association Fee(monthly)" />
+                                            <input type="text" name={"ownerFee"} value={listValues.ownerFee} onChange={(e) => handleChange(e)} placeholder="Homeowners Association Fee(monthly)" />
                                         </div>
                                     </div>
                                 </div>
@@ -201,12 +261,12 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
                                 </div>
                                 <h2>2. Media</h2>
                                 <h6>Listing Media</h6>
-                                <input type="file" id="myFile" name="filename" className="btn theme-btn-3 mb-10" multiple
-                                    value={selectedFile}
-                                    onChange={(e) => setSelectedFile(e.target.files[0])}
+                                <input type="file" id="myFile" multiple name="images" className="btn theme-btn-3 mb-10"
+                                    // value={selectedFile}
+                                    onChange={(e) => handleChange(e, "files", "images")}
                                 /><br />
                                 <p>
-                                    <small>* At least 1 image is required for a valid submission.Minimum size is 500/500px.</small><br />
+                                    <small>* At least 1 image is for a valid submission.Minimum size is 500/500px.</small><br />
                                     <small>* PDF files upload supported as well.</small><br />
                                     <small>* Images might take longer to be processed.</small>
                                 </p>
@@ -215,32 +275,32 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
                                 <div className="row">
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="text" name={"address"} value={listValues.address} onChange={(e) => handleChange(e)} placeholder="*Address" />
+                                            <input type="text" name={"address"} value={listValues.address} onChange={(e) => handleChange(e)} placeholder="*Address" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="text" name={"country"} value={listValues.country} onChange={(e) => handleChange(e)} placeholder="Country" />
+                                            <input type="text" name={"country"} value={listValues.country} onChange={(e) => handleChange(e)} placeholder="Country" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="text" name={"state"} value={listValues.state} onChange={(e) => handleChange(e)} placeholder="County / State" />
+                                            <input type="text" name={"state"} value={listValues.state} onChange={(e) => handleChange(e)} placeholder="County / State" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="text" name={"city"} value={listValues.city} onChange={(e) => handleChange(e)} placeholder="City" />
+                                            <input type="text" name={"city"} value={listValues.city} onChange={(e) => handleChange(e)} placeholder="City" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="text" name={"neighbourhood"} value={listValues.neighbourhood} onChange={(e) => handleChange(e)} placeholder="Neighborhood" />
+                                            <input type="text" name={"neighbourhood"} value={listValues.neighbourhood} onChange={(e) => handleChange(e)} placeholder="Neighbourhood" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="number" name={"zipCode"} value={listValues.zipCode} onChange={(e) => handleChange(e)} placeholder="Zip" />
+                                            <input type="number" name={"zipCode"} value={listValues.zipCode} onChange={(e) => handleChange(e)} placeholder="Zip" />
                                             {zipCodeErr && <div className='errMsg'>Zip Code should be 6 digit only</div>}
                                         </div>
                                     </div>
@@ -250,67 +310,67 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
                                 <div className="row">
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="number" name={"size"} value={listValues.size} onChange={(e) => handleChange(e)} placeholder="Size in ft2 (*only numbers)" />
+                                            <input type="number" name={"size"} value={listValues.size} onChange={(e) => handleChange(e)} placeholder="Size in ft2 (*only numbers)" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="number" name={"lotSize"} value={listValues.lotSize} onChange={(e) => handleChange(e)} placeholder="Lot Size in ft2 (*only numbers)" />
+                                            <input type="number" name={"lotSize"} value={listValues.lotSize} onChange={(e) => handleChange(e)} placeholder="Lot Size in ft2 (*only numbers)" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="number" name={"rooms"} value={listValues.rooms} onChange={(e) => handleChange(e)} placeholder="Rooms (*only numbers)" />
+                                            <input type="number" name={"rooms"} value={listValues.rooms} onChange={(e) => handleChange(e)} placeholder="Rooms (*only numbers)" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="number" name={"bedRooms"} value={listValues.bedRooms} onChange={(e) => handleChange(e)} placeholder="Bedrooms (*only numbers)" />
+                                            <input type="number" name={"bedRooms"} value={listValues.bedRooms} onChange={(e) => handleChange(e)} placeholder="Bedrooms (*only numbers)" />
+                                        </div>
+                                    </div>
+                                    {/* <div className="col-md-6">
+                                        <div className="input-item input-item-name ltn__custom-icon">
+                                            <input type="number" name={"pathRooms"} value={listValues.pathRooms} onChange={(e) => handleChange(e)} placeholder="Bathrooms (*only numbers)" />
+                                        </div>
+                                    </div> */}
+                                    <div className="col-md-6">
+                                        <div className="input-item input-item-name ltn__custom-icon">
+                                            <input type="text" name={"garges"} value={listValues.garges} onChange={(e) => handleChange(e)} placeholder="Garages (*text)" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="number" name={"pathRooms"} value={listValues.pathRooms} onChange={(e) => handleChange(e)} placeholder="Bathrooms (*only numbers)" />
+                                            <input type="number" name={"yearBuilt"} value={listValues.yearBuilt} onChange={(e) => handleChange(e)} placeholder="Year Built (*numeric)" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="text" name={"garges"} value={listValues.garges} onChange={(e) => handleChange(e)} placeholder="Garages (*text)" />
+                                            <input type="text" name={"garageSize"} value={listValues.garageSize} onChange={(e) => handleChange(e)} placeholder="Garage Size (*text)" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="number" name={"yearBuilt"} value={listValues.yearBuilt} onChange={(e) => handleChange(e)} placeholder="Year Built (*numeric)" />
+                                            <input type="date" name={"availableFrom"} value={listValues.availableFrom} onChange={(e) => handleChange(e)} placeholder="Available from (*date)" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="text" name={"garageSize"} value={listValues.garageSize} onChange={(e) => handleChange(e)} placeholder="Garage Size (*text)" />
+                                            <input type="text" name={"basement"} value={listValues.basement} onChange={(e) => handleChange(e)} placeholder="Basement (*text)" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="date" name={"availableFrom"} value={listValues.availableFrom} onChange={(e) => handleChange(e)} placeholder="Available from (*date)" />
+                                            <input type="text" name={"extra_details"} value={listValues.extra_details} onChange={(e) => handleChange(e)} placeholder="Extra Details (*text)" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="text" name={"basement"} value={listValues.basement} onChange={(e) => handleChange(e)} placeholder="Basement (*text)" />
+                                            <input type="text" name={"roofing"} value={listValues.roofing} onChange={(e) => handleChange(e)} placeholder="Roofing (*text)" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="text" name={"extra_details"} value={listValues.extra_details} onChange={(e) => handleChange(e)} placeholder="Extra Details (*text)" />
-                                        </div>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="text" name={"roofing"} value={listValues.roofing} onChange={(e) => handleChange(e)} placeholder="Roofing (*text)" />
-                                        </div>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="text" name={"exteriorMaterial"} value={listValues.exteriorMaterial} onChange={(e) => handleChange(e)} placeholder="Exterior Material (*text)" />
+                                            <input type="text" name={"exteriorMaterial"} value={listValues.exteriorMaterial} onChange={(e) => handleChange(e)} placeholder="Exterior Material (*text)" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
@@ -326,19 +386,18 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
                                     </div>
                                     <div className="col-lg-12">
                                         <div className="input-item input-item-textarea ltn__custom-icon">
-                                            <textarea required name={"owner_note"} value={listValues.owner_note} onChange={(e) => handleChange(e)} placeholder="Owner/Agent notes (*not visible on front end)" defaultValue={""} />
+                                            <textarea name={"owner_note"} value={listValues.owner_note} onChange={(e) => handleChange(e)} placeholder="Owner/Agent notes (*not visible on front end)" defaultValue={""} />
                                         </div>
                                     </div>
                                 </div>
                                 <h2>5. Features</h2>
-                                <h6>Amenities and Features</h6>
                                 <h6 className="mt-20">BHK Type</h6>
                                 <div className="row">
                                     {floor_type.map((data, index) => {
                                         return (
                                             <div className="col-lg-4 col-md-6">
                                                 <label className="radio-item" key={index}>
-                                                    <input required
+                                                    <input
                                                         type="radio"
                                                         name='bhk_type'
                                                         value={listValues.bhk_type}
@@ -351,7 +410,7 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
                                         )
                                     })}
                                 </div>
-                                <h6 className="mt-20">Prefered Tenents</h6>
+                                <h6 className="mt-20">Preferred Tenants</h6>
                                 <div className="row">
                                     {prefered_type.map((data, index) => {
                                         return (
@@ -396,7 +455,7 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
                                         return (
                                             <div className="col-lg-4 col-md-6">
                                                 <label className="radio-item" key={index}>
-                                                    <input required
+                                                    <input
                                                         type="radio"
                                                         name='bathroom'
                                                         value={listValues.bathroom}
@@ -415,7 +474,7 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
                                         return (
                                             <div className="col-lg-4 col-md-6">
                                                 <label className="radio-item" key={index}>
-                                                    <input required
+                                                    <input
                                                         type="radio"
                                                         name='availability'
                                                         value={listValues.availability}

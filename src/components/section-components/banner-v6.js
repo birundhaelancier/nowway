@@ -1,17 +1,29 @@
-import React, { Component, useEffect } from 'react';
+import React, { Component, useEffect,useRef } from 'react';
 import { Link } from 'react-router-dom';
 import parse from 'html-react-parser';
 import { GetPropertyType } from '../apiActions/index';
 import { APIURL, REQUEST_HEADERS } from "../../index";
 import axios from 'axios';
+import $ from "jquery";
+window.jQuery = window.$ = $;
+require("jquery-nice-select");
 
+// import "jquery-nice-select/css/style.css";
 const BannerV6 = ({ property_type, location }) => {
 	let publicUrl = process.env.PUBLIC_URL + '/';
-	// useEffect(() => {
+	const selectRef = useRef();
 
-	// }, [property_type])
-	console.log(location,property_type, "property_type")
+	useEffect(() => {
+	  $(selectRef.current).niceSelect();
+	}, []);
 
+
+
+	const getItem = (e) => {
+	  e.preventDefault();
+	  let selected = $(selectRef.current).val();
+	  alert(` You have selected ${selected}`);
+	};
 	return (
 		<div className="ltn__slider-area ltn__slider-4 position-relative  ltn__primary-bg">
 			<div className="ltn__slide-one-active----- slick-slide-arrow-1----- slick-slide-dots-1----- arrow-white----- ltn__slide-animation-active">
@@ -42,18 +54,21 @@ const BannerV6 = ({ property_type, location }) => {
 													<div className="car-dealer-form-inner">
 														<form action="#" className="ltn__car-dealer-form-box row">
 															<div className="ltn__car-dealer-form-item ltn__custom-icon ltn__icon-car col-lg-4 col-md-6">
-																<select className="nice-select">
-																	<option>Property Type</option>
-																	{property_type?.map((data) => {
+																<p>
+																<select className="wide" ref={selectRef}>
+																	{/* <option>fsgfdgdf</option> */}
+																	{property_type?.map((data,index) => {
 																		return (
 																			<option>{data.name}</option>
-																		)
+																		) 
 																	})}
 																</select>
+																</p>
 															</div>
 															<div className="ltn__car-dealer-form-item ltn__custom-icon ltn__icon-meter col-lg-4 col-md-6">
 																<select className="nice-select">
 																	<option>Location</option>
+		
 																	{ location?.map((data) => {
 																		return (
 																			<option>{data.name}</option>
