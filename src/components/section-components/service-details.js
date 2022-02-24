@@ -13,7 +13,7 @@ const ServiceDetails = ({ sub_services, ser_image }) => {
 	const [kitchenModelopen, setKitchenModelopen] = useState(false)
 	const [bathroomModelopen, setBathroomModelopen] = useState(false)
 	const [mobileErr, setMobileErr] = useState(false)
-	const [sub_serv,setSub_serv]=useState()
+	const [sub_serv, setSub_serv] = useState()
 	console.log(sub_services, "sub_services")
 	const initialValues = {
 		name: "",
@@ -38,7 +38,7 @@ const ServiceDetails = ({ sub_services, ser_image }) => {
 	}
 	const submitForm = async (e) => {
 		e.preventDefault();
-		AddSubServiceEnquiry(values).then((data) => {
+		AddSubServiceEnquiry(values, sub_serv?.name).then((data) => {
 			console.log(data.Response,)
 			if (data.Status == "Success") {
 				notification.success({
@@ -59,7 +59,7 @@ const ServiceDetails = ({ sub_services, ser_image }) => {
 		// selectSubserivce(data)
 	}
 
-	console.log(sub_services,"sub_services")
+	console.log(sub_services, "sub_services")
 	return (
 		<div className="ltn__page-details-area ltn__service-details-area">
 			<div className="container">
@@ -202,7 +202,7 @@ const ServiceDetails = ({ sub_services, ser_image }) => {
 				<div className="ltn__quick-view-modal-inner">
 					{/* <div className="container">
 						<div className="row"> */}
-					<div className="col-lg-12 text-center modalHeading">{sub_serv?.name+ "Service"}</div>
+					<div className="col-lg-12 text-center modalHeading">{sub_serv?.name}</div>
 					{/* </div>
 						</div> */}
 					<div className="container">
@@ -213,9 +213,10 @@ const ServiceDetails = ({ sub_services, ser_image }) => {
 									<div className='listed'>
 										<div className="text-start">
 											<h6 className="section-titles">{sub_serv?.name}</h6>
-											</div>
+										</div>
 										<ul>
-											{sub_serv?.description}
+											<div dangerouslySetInnerHTML={{ __html:sub_serv?.description }}></div>
+
 										</ul>
 									</div>
 								</div>

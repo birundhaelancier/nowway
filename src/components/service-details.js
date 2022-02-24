@@ -15,6 +15,7 @@ const Service_Details = (props) => {
     const [sub_services, setSub_services] = useState();
     useEffect(() => {
         GetSubService(EditText).then((data) => {
+            console.log(data.Response)
             setSub_services(data.Response)
         })
     }, [])
