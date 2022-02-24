@@ -9,18 +9,19 @@ import { GetSubService } from '../components/apiActions/index';
 const Service_Details = (props) => {
     const params = new URLSearchParams(props.location.search);
     const EditText = params.get('edit');
-    const Details = params.get('details');
-console.log(Details)
+    const ser_image = params.get('image');
+    const ser_name = params.get('ser_name');
+// console.log(Details)
     const [sub_services, setSub_services] = useState();
     useEffect(() => {
-        // GetSubService(EditText).then((data) => {
-        //     setSub_services(data.Response)
-        // })
+        GetSubService(EditText).then((data) => {
+            setSub_services(data.Response)
+        })
     }, [])
     return <div>
         <Navbar />
-        <PageHeader headertitle="Service Details" subheader="Service Details" />
-        <ServiceDetails sub_services={sub_services} />
+        <PageHeader headertitle="Service Details" subheader={ser_name} />
+        <ServiceDetails sub_services={sub_services} ser_image={ser_image} />
         <CallToActionV1 />
         <Footer />
     </div>

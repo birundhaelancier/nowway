@@ -1,25 +1,51 @@
 import {
-    GENEALOGY_TREE,
+    PROPERTY_SEARCH,
   
 } from '../Utils/constant';
-import { apiurl, findServer } from '../Utils/baseurl';
-import axios from 'axios';
-import { notification } from 'antd';
+import { APIURL, REQUEST_HEADERS } from "../../components/apiActions/baseHeaders";
+import CryptoJS from 'crypto-js'
 
-export const GetGenealogyTree = (name, id) => async dispatch => {
+var CryptoJSAesJson = {
+    stringify: function (cipherParams) {
+        var j = { ct: cipherParams.ciphertext.toString(CryptoJS.enc.Base64) };
+        if (cipherParams.salt) j.s = cipherParams.salt.toString();
+        return JSON.stringify(j);
+    },
+    parse: function (jsonStr) {
+        var j = JSON.parse(jsonStr);
+        var cipherParams = CryptoJS.lib.CipherParams.create({ ciphertext: CryptoJS.enc.Base64.parse(j.ct) });
+        if (j.s) cipherParams.salt = CryptoJS.enc.Hex.parse(j.s)
+        return cipherParams;
+    }
+}
+
+const mypass = "$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq"
+
+const decryptValue = (data) => {
+    var res = JSON.parse(CryptoJS.AES.decrypt(data, mypass, { format: CryptoJSAesJson }).toString(CryptoJS.enc.Utf8));
+    return res
+}
+
+
+
+export const GetPropertyType_Search= (data,type,Search) => async dispatch =>{
+    let Amenities=data?.Amenities?.toString()
+    const Encription = CryptoJS.AES.encrypt(JSON.stringify({
+        "property_type":data?.Property_Type  || data?.Property?.toString() || "","amenities":Amenities || "","from_price":"","to_price":"","bedrooms":data?.Bed_Bath?.toString() || "","type":type || "","bathrooms":data?.Bed_Bath?.toString() || "","user_id":JSON.parse(localStorage.getItem("user_id")) || 0,"search":Search || "","city":data?.Location || data?.Category?.toString() || ""
+    }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
     try {
-        axios({
-                method: 'POST',
-                url: apiurl + 'genealogyTree.php',
-                data: JSON.stringify({
-                    "username": id == 1 ? name : JSON.parse(localStorage.getItem("UserName"))
-                })
-            })
+        const requestOptions = {
+            method: 'POST',
+            headers: REQUEST_HEADERS,
+            body: JSON.stringify({ encrypted: Encription }),
+        };
+        return fetch(APIURL + "search_listing", requestOptions)
+            .then((response) => response.json())
             .then((response) => {
                 dispatch({
-                    type: GENEALOGY_TREE,
-                    payload: response.data.Response
+                    type: PROPERTY_SEARCH,
+                    payload: decryptValue(response.encrypted)
                 })
-            })
-    } catch (err) {}
+            });
+    } catch (err) { }
 }

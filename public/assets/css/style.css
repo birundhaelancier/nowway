@@ -13051,6 +13051,9 @@ input[type='radio']{
   .get-a-quote-wrap {
     padding: 40px 30px 50px; } }
 
+    .card-show{
+      display: flex;
+    }
 /* ----------------------------------------------------
     Car Dealer Form
 ---------------------------------------------------- */
@@ -13059,7 +13062,12 @@ input[type='radio']{
   .ltn__car-dealer-form-tab .ltn__tab-menu .active {
     border-color: var(--ltn__secondary-color);
     background-color: var(--ltn__secondary-color);
-    color: var(--white); }
+    color: white !important;
+ 
+  }
+  .ltn__car-dealer-form-tab .ltn__tab-menu .active:hover{
+    color: white !important;
+  }
 
 .ltn__car-dealer-form-tab .tab-content {
   padding: 15px;

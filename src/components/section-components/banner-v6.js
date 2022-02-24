@@ -1,36 +1,43 @@
-import React, { Component, useEffect,useRef } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link,useHistory } from 'react-router-dom';
 import parse from 'html-react-parser';
-import { GetPropertyType } from '../apiActions/index';
+import { GetPropertyType,GetPropertyType_Search } from '../../Redux/Action/allActions';
 import { APIURL, REQUEST_HEADERS } from "../../index";
 import axios from 'axios';
-import $ from "jquery";
-window.jQuery = window.$ = $;
-require("jquery-nice-select");
+import { notification } from 'antd'
+import SelectInput from '../Select/index';
+import { useDispatch } from 'react-redux'
 
-// import "jquery-nice-select/css/style.css";
+
 const BannerV6 = ({ property_type, location }) => {
+	let history=useHistory()
+	let dispatch=useDispatch()
 	let publicUrl = process.env.PUBLIC_URL + '/';
-	const selectRef = useRef();
-
-	useEffect(() => {
-	  $(selectRef.current).niceSelect();
-	}, []);
-
-
-
-	const getItem = (e) => {
-	  e.preventDefault();
-	  let selected = $(selectRef.current).val();
-	  alert(` You have selected ${selected}`);
+	const [Type,setType]=useState("Rent")
+	const [SearchValues,setSearchValues]=useState({Property_Type:"",Location:""})
+	const initialValues = {
+		mobile: "",
+		password: "",
 	};
+	const [values, setValues] = useState(initialValues);
+
+
+	const handleChange = (data,key) => {
+		
+		setSearchValues({
+			...SearchValues,
+			[key]: data,
+		});
+	}
+
+	const submitForm = () => {
+		dispatch(GetPropertyType_Search(SearchValues,Type)).then((data) => {
+				history.push(`/shop-right-sidebar/${SearchValues.Property_Type}`)			
+		})
+	}
 	return (
 		<div className="ltn__slider-area ltn__slider-4 position-relative  ltn__primary-bg">
 			<div className="ltn__slide-one-active----- slick-slide-arrow-1----- slick-slide-dots-1----- arrow-white----- ltn__slide-animation-active">
-
-				{/* <video autoPlay muted loop id="myVideo">
-				<source src={publicUrl+"assets/media/3.mp4"} type="video/mp4" />
-			</video> */}
 
 				<div className="ltn__slide-item ltn__slide-item-2 ltn__slide-item-7 bg-image--- bg-overlay-theme-black-30" data-bs-bg={publicUrl + "assets/img/slider/41.jpg"}>
 					<div className="ltn__slide-item-inner text-center">
@@ -44,9 +51,9 @@ const BannerV6 = ({ property_type, location }) => {
 										<div className="ltn__car-dealer-form-tab">
 											<div className="ltn__tab-menu  text-uppercase text-center">
 												<div className="nav">
-													<a className="tab" data-bs-toggle="tab" href="#ltn__form_tab_1_1"><i className="fas fa-home" />Rent</a>
-													<a data-bs-toggle="tab" href="#ltn__form_tab_1_2" className><i className="fas fa-store" />Sale</a>
-													<a className="tab" data-bs-toggle="tab" href="#ltn__form_tab_1_1"><i className="fab fa-algolia" />Buy</a>
+													<a className="tab active" onClick={()=>setType("Rent")} data-bs-toggle="tab" href="#ltn__form_tab_1_1"><i className="fas fa-home" />Rent</a>
+													<a data-bs-toggle="tab"  onClick={()=>setType("Sell")} href="#ltn__form_tab_1_1" className><i className="fas fa-store" />Sale</a>
+													<a className="tab" data-bs-toggle="tab" onClick={()=>setType("Sell")}  href="#ltn__form_tab_1_1"><i className="fab fa-algolia" />Buy</a>
 												</div>
 											</div>
 											<div className="tab-content pb-10">
@@ -54,75 +61,23 @@ const BannerV6 = ({ property_type, location }) => {
 													<div className="car-dealer-form-inner">
 														<form action="#" className="ltn__car-dealer-form-box row">
 															<div className="ltn__car-dealer-form-item ltn__custom-icon ltn__icon-car col-lg-4 col-md-6">
-																<p>
-																<select className="wide" ref={selectRef}>
-																	{/* <option>fsgfdgdf</option> */}
-																	{property_type?.map((data,index) => {
-																		return (
-																			<option>{data.name}</option>
-																		) 
-																	})}
-																</select>
-																</p>
+																<SelectInput dropdown={property_type} placeholder={"Property Type"}
+																 value={SearchValues.Property_Type} 
+																 changeData={(data) => handleChange(data, "Property_Type")}
+																 />
+																
 															</div>
 															<div className="ltn__car-dealer-form-item ltn__custom-icon ltn__icon-meter col-lg-4 col-md-6">
-																<select className="nice-select">
-																	<option>Location</option>
-		
-																	{ location?.map((data) => {
-																		return (
-																			<option>{data.name}</option>
-																		)
-																	})}
-																</select>
+																<SelectInput dropdown={location} placeholder={"Location"} 
+																 value={SearchValues.Location} 
+																 changeData={(data) => handleChange(data, "Location")}
+																/>
+															
 															</div>
 															<div className="ltn__car-dealer-form-item ltn__custom-icon ltn__icon-calendar col-lg-4 col-md-6">
 																<div className="btn-wrapper text-center mt-0 go-top">
 																	{/* <button type="submit" class="btn theme-btn-1 btn-effect-1 text-uppercase">Search Inventory</button> */}
-																	<Link to="/shop-right-sidebar" className="btn theme-btn-1 btn-effect-1 text-uppercase">Search</Link>
-																</div>
-															</div>
-														</form>
-													</div>
-												</div>
-												<div className="tab-pane fade" id="ltn__form_tab_1_2">
-													<div className="car-dealer-form-inner">
-														<form action="#" className="ltn__car-dealer-form-box row">
-															<div className="ltn__car-dealer-form-item ltn__custom-icon ltn__icon-car col-lg-3 col-md-6">
-																<select className="nice-select">
-																	<option>Property Type</option>
-																	<option>Apartment</option>
-																	<option>Co-op</option>
-																	<option>Condo</option>
-																	<option>Single Family Home</option>
-																</select>
-															</div>
-															<div className="ltn__car-dealer-form-item ltn__custom-icon ltn__icon-meter col-lg-3 col-md-6">
-																<select className="nice-select">
-																	<option>Location</option>
-																	<option>chicago</option>
-																	<option>London</option>
-																	<option>Los Angeles</option>
-																	<option>New York</option>
-																	<option>New Jersey</option>
-																</select>
-															</div>
-															{/* <div className="ltn__car-dealer-form-item ltn__custom-icon ltn__icon-calendar col-lg-3 col-md-6">
-															<select className="nice-select">
-																<option>Sub Location</option>
-																<option>Bayonne</option>
-																<option>Greenville</option>
-																<option>Manhattan</option>
-																<option>Queens</option>
-																<option>The Heights</option>
-																<option>Upper East Side</option>
-																<option>West Side</option>
-															</select>
-														</div> */}
-															<div className="ltn__car-dealer-form-item ltn__custom-icon ltn__icon-calendar col-lg-3 col-md-6">
-																<div className="btn-wrapper text-center mt-0 go-top">
-																	{/* <button type="submit" class="btn theme-btn-1 btn-effect-1 text-uppercase">Search Inventory</button> */}
-																	<Link to="/shop-right-sidebar" className="btn theme-btn-1 btn-effect-1 text-uppercase">Search</Link>
+																	<div className="btn theme-btn-1 btn-effect-1 text-uppercase" onClick={()=>submitForm()}>Search</div>
 																</div>
 															</div>
 														</form>
