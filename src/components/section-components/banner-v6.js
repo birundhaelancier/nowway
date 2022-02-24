@@ -36,7 +36,7 @@ const BannerV6 = ({ property_type, location }) => {
 		})
 	}
 	return (
-		<div className="ltn__slider-area ltn__slider-4 position-relative  ltn__primary-bg">
+		<div className="ltn__slider-area ltn__slider-4 position-relative  ltn__primary-bg parent_select">
 			<div className="ltn__slide-one-active----- slick-slide-arrow-1----- slick-slide-dots-1----- arrow-white----- ltn__slide-animation-active">
 
 				<div className="ltn__slide-item ltn__slide-item-2 ltn__slide-item-7 bg-image--- bg-overlay-theme-black-30" data-bs-bg={publicUrl + "assets/img/slider/41.jpg"}>
@@ -64,6 +64,7 @@ const BannerV6 = ({ property_type, location }) => {
 																<SelectInput dropdown={property_type} placeholder={"Property Type"}
 																 value={SearchValues.Property_Type} 
 																 changeData={(data) => handleChange(data, "Property_Type")}
+																 suffixicon={<i className="fa fa-car sel_icon" />}
 																 />
 																
 															</div>
@@ -71,13 +72,14 @@ const BannerV6 = ({ property_type, location }) => {
 																<SelectInput dropdown={location} placeholder={"Location"} 
 																 value={SearchValues.Location} 
 																 changeData={(data) => handleChange(data, "Location")}
+																 suffixicon={<i className="fa fa-car sel_icon" />}
 																/>
 															
 															</div>
 															<div className="ltn__car-dealer-form-item ltn__custom-icon ltn__icon-calendar col-lg-4 col-md-6">
 																<div className="btn-wrapper text-center mt-0 go-top">
 																	{/* <button type="submit" class="btn theme-btn-1 btn-effect-1 text-uppercase">Search Inventory</button> */}
-																	<div className="btn theme-btn-1 btn-effect-1 text-uppercase" onClick={()=>submitForm()}>Search</div>
+																	<div className="btn theme-btn-1 btn-effect-1 text-uppercase" style={{padding:"11px 40px"}} onClick={()=>submitForm()}>Search</div>
 																</div>
 															</div>
 														</form>

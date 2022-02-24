@@ -384,22 +384,22 @@ export const GetHomeList = () => {
     } catch (err) { }
 }
 
-export const GetPropertyType_Search= (data,type) => {
-    let Amenities=data?.Amenities?.toString()
-    const Encription = CryptoJS.AES.encrypt(JSON.stringify({
-        "property_type":data?.Property_Type  || "","amenities":Amenities || "","from_price":"","to_price":"","bedrooms":"","type":type || "","bathrooms":"","user_id":JSON.parse(localStorage.getItem("user_id")) || 0,"search":"","city":data?.Location || ""
-    }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
+// export const GetPropertyType_Search= (data,type) => {
+//     let Amenities=data?.Amenities?.toString()
+//     const Encription = CryptoJS.AES.encrypt(JSON.stringify({
+//         "property_type":data?.Property_Type  || "","amenities":Amenities || "","from_price":"","to_price":"","bedrooms":"","type":type || "","bathrooms":"","user_id":JSON.parse(localStorage.getItem("user_id")) || 0,"search":"","city":data?.Location || ""
+//     }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
 
-    try {
-        const requestOptions = {
-            method: 'POST',
-            headers: REQUEST_HEADERS,
-            body: JSON.stringify({ encrypted: Encription }),
-        };
-        return fetch(APIURL + "search_listing", requestOptions)
-            .then((response) => response.json())
-            .then((response) => {
-                return decryptValue(response.encrypted)
-            });
-    } catch (err) { }
-}
+//     try {
+//         const requestOptions = {
+//             method: 'POST',
+//             headers: REQUEST_HEADERS,
+//             body: JSON.stringify({ encrypted: Encription }),
+//         };
+//         return fetch(APIURL + "search_listing", requestOptions)
+//             .then((response) => response.json())
+//             .then((response) => {
+//                 return decryptValue(response.encrypted)
+//             });
+//     } catch (err) { }
+// }

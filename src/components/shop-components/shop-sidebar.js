@@ -2,25 +2,30 @@ import React, {useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Checkbox,notification } from 'antd'
 import { GetPropertyType_Search } from '../../Redux/Action/allActions';
-import { useDispatch } from 'react-redux';
+import { useDispatch,connect } from 'react-redux';
+import {GetAmenities,GetPropertyType,GetBathroom } from '../../components/apiActions/index';
+import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 
-const Sidebar=({Property_type,Amenities})=>{
+const Sidebar=(props)=>{
 		let anchor = '#'
 		let imagealt = 'image'
 		let publicUrl = process.env.PUBLIC_URL + '/'
+		const { id } =useParams()
 		const [Amenities,setAmenities]=useState([])
         const [Property_type,setProperty_type]=useState([])
+		const [Bathroom_type,setBathroom_type]=useState([])
 
 		let dispatch =useDispatch()
-		const PriceRange=["Low Budget","Medium","High Buget"]
-		const Bed_Bath=["Single","Double","Up To 3","Up To 5"]
-		const Category=[{heading:"Renting",label:"Rent"},{heading:"Selling",label:"Sell"},{heading:"Buying",label:"Sell"}]
+		const PriceRange=[{heading:"Low Price",from:5000,to:10000},{heading:"Medium",from:10000,to:30000},{heading:"High Price",from:30000,to:50000}]
+		const Bed_Rooms=["Single","Double","Up To 3","Up To 5"]
+		const Category=[{heading:"Renting",label:"Rent"},{heading:"Selling / Buying",label:"Sell"}]
 		const [CheckValues,setCheckValues]=useState({
 			Amenities:"",
 			property:"",
 			PriceRange:"",
 			Bed_Bath:"",
-			Category:""
+			Category:"",
+			Bathrooms:"",
 		})
 	
 		const ChangeCheckbox=(e,name)=>{
@@ -38,7 +43,7 @@ const Sidebar=({Property_type,Amenities})=>{
                 ...CheckValues,
                 [name]: arrValues,
             });
-        
+			// ApiActionCall(CheckValues)
 		}
 
 	useEffect(()=>{
@@ -48,29 +53,22 @@ const Sidebar=({Property_type,Amenities})=>{
 			GetPropertyType().then((data) => {
 				setProperty_type(data.Response)
 			})
+			GetBathroom().then((data) => {
+				setBathroom_type(data.Response)
+			})
 	  
 	  },[])	
 
-		useEffect(()=>{
-			dispatch(GetPropertyType_Search(CheckValues)).then((data) => {
-				
-			})
 
-		},[CheckValues])
   useEffect(()=>{
-	props.Property_Detail.map((data)=>{
-		console.log("chhhh",data)
-	CheckValues.Amenities= 
-	CheckValues.property=
-	CheckValues.Category=
-	CheckValues.Bed_Bath=
-	CheckValues.PriceRange=
-	setCheckValues({
-		...CheckValues,
-	});
-    })
-  },[props.Property_Detail])
+	ApiActionCall(CheckValues)
+  },[CheckValues])
+ const ApiActionCall=(CheckValues)=>{
+	dispatch(GetPropertyType_Search(CheckValues)).then((data) => {	
+  })
+ }
 
+ console.log("hhhhhhh",id,CheckValues)
 
 		return (
 			<div className="col-lg-4">
@@ -99,7 +97,7 @@ const Sidebar=({Property_type,Amenities})=>{
 							{Amenities.map((data,index)=>
 							<li>
 							   <label className="checkbox-item">{data.name}
-									<input type="checkbox" checked={CheckValues.Amenities.lastIndexOf(String(data.name)) >= 0 ? true : false}  onChange={(e)=>ChangeCheckbox(e,  "Amenities", data.id, index + 1)}  name={data.name} value={data.name} />
+									<input type="checkbox" checked={CheckValues.Amenities.lastIndexOf(String(data.name)) >= 0 ? true : false}  onChange={(e)=>ChangeCheckbox(e,  "Amenities",index + 1)}  name={data.name} value={data.name} />
 									<span className="checkmark" />
 								</label>
 								{/* <span className="categorey-no">3,924</span> */}
@@ -111,20 +109,20 @@ const Sidebar=({Property_type,Amenities})=>{
 						<ul>
 							{PriceRange.map((data,index)=>
 							<li>
-								<label className="checkbox-item">{data}
-									<input type="checkbox" checked={CheckValues.PriceRange.lastIndexOf(String(data)) >= 0 ? true : false}  onChange={(e)=>ChangeCheckbox(e,  "PriceRange", data.id, index + 1)}  name={data} value={data} />
+								<label className="checkbox-item">{data.heading}
+									<input type="checkbox" checked={CheckValues.PriceRange.lastIndexOf(String(data.heading)) >= 0 ? true : false}  onChange={(e)=>ChangeCheckbox(e,  "PriceRange", index + 1)}  name={data.heading} value={data.heading} />
 									<span className="checkmark" />
 								</label>
-								{/* <span className="categorey-no">₹5,000 - ₹10,000</span> */}
+								<span className="categorey-no">₹{data.from} - ₹{data.to}</span>
 							</li>
 							)}
 								{/* <span className="categorey-no">₹30,000 Up</span> */}
 						</ul>
 						<hr />
 					
-						<h4 className="ltn__widget-title">Bed/bath</h4>
+						<h4 className="ltn__widget-title">Bed Rooms</h4>
 						<ul>
-						{Bed_Bath.map((data,index)=>
+						{Bed_Rooms.map((data,index)=>
 							<li>
 								<label className="checkbox-item">{data}
 									<input type="checkbox" checked={CheckValues.Bed_Bath.lastIndexOf(String(data)) >= 0 ? true : false}  onChange={(e)=>ChangeCheckbox(e,  "Bed_Bath", data.id, index + 1)}  name={data} value={data} />
@@ -135,6 +133,33 @@ const Sidebar=({Property_type,Amenities})=>{
 						)}
 						</ul>
 						<hr />
+
+						<h4 className="ltn__widget-title">Bath Rooms</h4>
+						<ul>
+						{Bathroom_type.map((data,index)=>
+							<li>
+								<label className="checkbox-item">{data.name}
+									<input type="checkbox" checked={CheckValues.Bathrooms.lastIndexOf(String(data.name)) >= 0 ? true : false}  onChange={(e)=>ChangeCheckbox(e,  "Bathrooms", data.id, index + 1)}  name={data.name} value={data.name} />
+									<span className="checkmark" />
+								</label>
+								{/* <span className="categorey-no">3,924</span> */}
+							</li>
+						)}
+						</ul>
+						<hr />
+						{/* Price Filter Widget */}
+						{/* <div className="widget--- ltn__price-filter-widget">
+							<h4 className="ltn__widget-title ltn__widget-title-border---">Filter by price</h4>
+							<div className="price_filter">
+								<div className="price_slider_amount">
+									<input type="submit" defaultValue="Your range:" />
+									<input type="text" className="amount"  value={45678} name="price" placeholder="Add Your Price" />
+								</div>
+								<div className="slider-range" />
+							</div>
+						</div>
+						<hr /> */}
+
 						<h4 className="ltn__widget-title">Catagory</h4>
 						<ul>
 							

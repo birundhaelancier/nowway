@@ -31,8 +31,9 @@ const decryptValue = (data) => {
 export const GetPropertyType_Search= (data,type,Search) => async dispatch =>{
     let Amenities=data?.Amenities?.toString()
     const Encription = CryptoJS.AES.encrypt(JSON.stringify({
-        "property_type":data?.Property_Type  || data?.Property?.toString() || "","amenities":Amenities || "","from_price":"","to_price":"","bedrooms":data?.Bed_Bath?.toString() || "","type":type || "","bathrooms":data?.Bed_Bath?.toString() || "","user_id":JSON.parse(localStorage.getItem("user_id")) || 0,"search":Search || "","city":data?.Location || data?.Category?.toString() || ""
+        "property_type":data?.Property_Type  || data?.property?.toString() || "","amenities":Amenities || "","from_price":"","to_price":"","bedrooms":data?.Bed_Bath?.toString() || "","type":type || data?.Category?.toString() || "","bathrooms":data?.Bathrooms?.toString() || "","user_id":0,"search":Search || "","city":data?.Location || ""
     }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
+    console.log("checkddddddddddddddddddddd",decryptValue(Encription))
     try {
         const requestOptions = {
             method: 'POST',

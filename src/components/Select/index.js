@@ -4,7 +4,8 @@ import './select.css';
 const SelectInput = (props) => {
     const { Option } = Select;
     return (
-        <>
+        <div className='sel_parent'>
+             {props.suffixicon&&<div className='pos_prefix'>{props.suffixicon}</div>}
             <Select
                 // className={`${data.error && "selectbrdred brdnone"} ${props.mode !== "multiple" && "selectAdjustHeight"} selectbox`}
                 showSearch
@@ -29,7 +30,7 @@ const SelectInput = (props) => {
                     <div>{props.error && props.errmsg}</div>
                 </div>
             }
-        </>
+        </div>
     )
 }
 

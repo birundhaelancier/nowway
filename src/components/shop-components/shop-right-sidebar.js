@@ -25,11 +25,9 @@ useEffect(()=>{
 useEffect(()=>{
 },[props.Property_Detail])	
 useEffect(()=>{
-	dispatch(GetPropertyType_Search("","",Search)).then((data) => {
-		
-	})
+	dispatch(GetPropertyType_Search("","",Search)).then((data) => {	
+    })
 },[Search])
-console.log("chekc",Search)
 
 		let publicUrl = process.env.PUBLIC_URL + '/'
 
@@ -55,7 +53,7 @@ console.log("chekc",Search)
 										</div>
 									</li>
 									<li>
-										<div className="short-by text-center">
+										{/* <div className="short-by text-center">
 											<select className="nice-select">
 												<option>Default Sorting</option>
 												<option>Sort by popularity</option>
@@ -63,7 +61,7 @@ console.log("chekc",Search)
 												<option>Sort by price: low to high</option>
 												<option>Sort by price: high to low</option>
 											</select>
-										</div>
+										</div> */}
 									</li>
 								</ul>
 							</div>
@@ -129,7 +127,7 @@ console.log("chekc",Search)
 																		<i className="flaticon-heart-1" /></a>
 																</li>
 																<li className="go-top">
-																	<Link to="/product-details" title="Product Details">
+																	<Link to={`/product-details/${data.id}`} title="Product Details">
 																		<i className="flaticon-add" />
 																	</Link>
 																</li>

@@ -8,9 +8,10 @@ const ProductSliderV4 = ({ list }) => {
 	let publicUrl = process.env.PUBLIC_URL + '/'
 	var settings = {
 		dots: true,
-		infinite: true,
+		// arrows:true,
+		infinite: false,
 		speed: 500,
-		slidesToShow: slideNumber,
+		slidesToShow: 1,
 		slidesToScroll: 1,
 	};
 	useEffect(() => {
@@ -48,7 +49,7 @@ const ProductSliderV4 = ({ list }) => {
 
 					<div className="row">
 						<div className="col-lg-12 slider-div">
-							<Slider {...settings} arrows={true}>
+							<Slider {...settings}>
 								{list?.map((item, index) => {
 									return (
 										<div className="col-xl-4 col-sm-6 col-12">
