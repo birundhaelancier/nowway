@@ -7,10 +7,10 @@ const ProductSliderV4 = ({ list }) => {
 	const [slideNumber, setSlideNumber] = useState(3)
 	let publicUrl = process.env.PUBLIC_URL + '/'
 	var settings = {
-		dots: true,
+		dots: false,
 		infinite: true,
 		speed: 500,
-		slidesToShow: slideNumber,
+		slidesToShow: 3,
 		slidesToScroll: 1,
 	};
 	useEffect(() => {
@@ -31,7 +31,6 @@ const ProductSliderV4 = ({ list }) => {
 		{ img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg" }
 	]
 
-	console.log(slideNumber, "window.width")
 	return (
 
 		<div>
@@ -47,7 +46,8 @@ const ProductSliderV4 = ({ list }) => {
 					</div>
 
 					<div className="row">
-						<div className="col-lg-12 slider-div">
+						<div className="col-lg-12 product-slider-container">
+							{ }
 							<Slider {...settings} arrows={true}>
 								{list?.map((item, index) => {
 									return (
@@ -57,14 +57,14 @@ const ProductSliderV4 = ({ list }) => {
 													<Link to={`/product-details?product_id=${item.id}`}><img src={Images[index]?.img} alt="#" /></Link>
 													<div className="product-badge">
 														<ul>
-															<li className="sale-badge bg-green">For Rent</li>
+															<li className={item.type === "Rent" ? "sale-badge bg-green" : "sale-badge bg-pink"}>{item.type === "Rent" ? "For Rent" : "For Sell"}</li>
 														</ul>
 													</div>
 													<div className="product-img-location-gallery">
 														<div className="product-img-location">
 															<ul>
 																<li>
-																	<Link to={`/product-details?product_id=${item.id}`}><i className="flaticon-pin" /> Belmont Gardens, Chicago</Link>
+																	<Link to={`/product-details?product_id=${item.id}`}><i className="flaticon-pin" /> {item.state + ", " + item.city}</Link>
 																</li>
 															</ul>
 														</div>
@@ -95,7 +95,7 @@ const ProductSliderV4 = ({ list }) => {
 														<li><span>{item.bathroom} <i className="flaticon-clean" /></span>
 															Bathrooms
 														</li>
-														<li><span>3450 <i className="flaticon-square-shape-design-interface-tool-symbol" /></span>
+														<li><span>{item.size} <i className="flaticon-square-shape-design-interface-tool-symbol" /></span>
 															square Ft
 														</li>
 													</ul>
@@ -107,7 +107,7 @@ const ProductSliderV4 = ({ list }) => {
 														</div>
 														<div className="agent-brief go-top">
 															<h6><Link to={`/product-details?product_id=${item.id}`}>{item.user_name}</Link></h6>
-															<small>Estate Agents</small>
+															{/* <small>Estate Agents</small> */}
 														</div>
 													</div>
 													<div className="product-hover-action">

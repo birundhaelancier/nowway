@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import parse from 'html-react-parser';
 import Modal from '../Model';
 
+
 const ShopDetails = ({ ProductInfo }) => {
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [pro_details, setPro_details] = useState()
@@ -23,10 +24,10 @@ const ShopDetails = ({ ProductInfo }) => {
 										<div className="ltn__blog-meta">
 											<ul>
 												<li className="ltn__blog-category">
-													<Link className="bg-orange" to="#">For Rent</Link>
+													<Link className="bg-orange" to="#">{data.type === "Rent" ? "For Rent" : "For Sell"}</Link>
 												</li>
 												<li className="ltn__blog-date">
-													<i className="far fa-calendar-alt" />May 19, 2021
+													<i className="far fa-calendar-alt" />{data.available_from}
 												</li>
 											</ul>
 										</div>
@@ -109,7 +110,7 @@ const ShopDetails = ({ ProductInfo }) => {
 												<div className="property-detail-info-list section-bg-1 clearfix mb-60">
 													<ul>
 														<li><label>Property ID:</label> <span>{data.code}</span></li>
-														<li><label>Home Area: </label> <span>120 sqft</span></li>
+														<li><label>Floors: </label> <span>{data.floors}</span></li>
 														<li><label>Rooms:</label> <span>{data.rooms}</span></li>
 														<li><label>Baths:</label> <span>2</span></li>
 														<li><label>Year built:</label> <span>{data.year_built}</span></li>
@@ -119,7 +120,7 @@ const ShopDetails = ({ ProductInfo }) => {
 														<li><label>Lot dimensions:</label> <span>120 sqft</span></li>
 														<li><label>Beds:</label> <span>{data.bedrooms}</span></li>
 														<li><label>Price:</label> <span>{data.price}</span></li>
-														<li><label>Property Status:</label> <span>{data.property_status}</span></li>
+														<li><label>Garage Size:</label> <span>{data.garage_size}</span></li>
 													</ul>
 												</div>
 												<h4 className="title-2">Facts and Features</h4>

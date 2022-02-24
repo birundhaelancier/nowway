@@ -6446,7 +6446,7 @@ box-shadow: 0px 4px 5px -3px rgba(226, 224, 224, 0.75);
   left: auto; }
 
 .slick-slide-dots-1 .slick-dots {
-  position: absolute;
+  /* position: absolute; */
   bottom: 50px;
   width: 100%;
   margin: 0; }
@@ -7225,7 +7225,11 @@ box-shadow: 0px 4px 5px -3px rgba(226, 224, 224, 0.75);
   -webkit-transition: all 3.5s ease 0s;
   -o-transition: all 3.5s ease 0s;
   transition: all 3.5s ease 0s; 
-height: 262px;}
+}
+
+.product-slider-container .product-img img{
+  height: 262px;
+}
 
 .product-img:before {
   position: absolute;
@@ -7604,6 +7608,10 @@ height: 262px;}
     font-weight: 600; }
   .real-estate-agent .agent-brief small {
     font-size: 12px; }
+    .agent-brief{
+      display: flex;
+      align-items: center;
+    }
 
 /* product-item-5 */
 .ltn__product-item-5 {
@@ -9136,8 +9144,8 @@ margin-bottom: 15px; }
       height: 100px;
       line-height: 115px;
       font-size: 45px;
-      border-radius: 100%;
-      background-color: var(--section-bg-5);
+      /* border-radius: 100%; */
+      /* background-color: var(--section-bg-5); */
       color: var(--ltn__secondary-color);
       text-align: center;
       margin-bottom: 20px; }
@@ -10662,6 +10670,10 @@ blockquote {
     .ltn__testimonial-item-3 .ltn__testimoni-img img {
       border-radius: 0; }
 
+      /* testimoni customize Icon */
+      .ltn__testimoni-info .ltn__category-item-5 a .category-icon{
+        border-radius: 0px;
+      }
 .ltn__testimoni-bg-icon {
   position: absolute;
   right: 15px;
@@ -14624,10 +14636,10 @@ input[type='radio']{
 
 .theme-btn-1 {
   background-color: var(--ltn__secondary-color);
-  color: var(--white); }
+  color: var(--white) !important; }
   .theme-btn-1:hover {
     background-color: var(--ltn__primary-color);
-    color: var(--white); }
+    color: var(--white) !important; }
 
 .theme-btn-2 {
   background-color: var(--ltn__primary-color);
@@ -15561,31 +15573,34 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     -webkit-appearance: none;
 }
 
-.slider-div .slick-dots{
-  margin: 0 0 30px;
-    padding: 0;
-    display: block;
-    text-align: center;
-    line-height: 1;
-    position: absolute;
-    /* bottom: -62px; */
-    bottom: 0;
-    /* top: -41px; */
-    width: 100%;
+.product-slider-container .slick-prev, .slick-next{
+  background-color: #bfbfbf !important;
+  width: 30px !important;
+  height: 30px !important;
 }
- .slick-next{
-  position: absolute !important;
-    top: 0 !important;
-    right: 0;
+.product-slider-container .slick-dots{
+  position: relative !important;
+  bottom: 0px !important;
 }
-.slick-dots{
-  margin-top: 10px !important;
+.product-slider-container .slick-dots li button{
+ display: none !important;
+}
+.product-slider-container .slick-dots li{
+  width:12px !important;
+  height:12px !important;
+}
+.product-slider-container .slick-dots li:hover, .slick-dots li.slick-active{
+  margin-bottom: 0px !important;
 }
 .product-description{
   height: 130px;
   white-space: normal;
   overflow: hidden !important;
   text-overflow: ellipsis;
+}
+
+.parent_select .ant-select-single:not(.ant-select-customize-input) .ant-select-selector{
+  padding: 10px 0px 0px 38px !important;
 }
 /* ----------------------------------------------------
     END

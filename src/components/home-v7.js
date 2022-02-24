@@ -37,31 +37,26 @@ const Home_V7 = (props) => {
         GetAmenities().then((amenities_data) => {
             setAmenities_val(amenities_data.Response)
         })
-        GetHomeOffer().then((data)=>{
+        GetHomeOffer().then((data) => {
             setHome_offer(data.Response)
         })
-        GetHomeList().then((data)=>{
+        GetHomeList().then((data) => {
             setHome_list(data.Response)
         })
     }, [])
-    console.log(home_list,"test")
+    console.log(home_list, "test")
 
     return <div>
         <Navbar CustomClass="ltn__header-transparent gradient-color-2" />
         <BannerV6 property_type={property_type} location={location} />
-        <Featuresv1 customClass="ltn__feature-area section-bg-1" />
+        <Featuresv1 customClass="ltn__feature-area section-bg-1" home_offers={home_offers} />
         {/* <Aboutv2 /> */}
         <div ref={myRef}>
             <Advertisement home_offers={home_offers} />
         </div>
-        <ProSlider list={home_list}/>
-
-        {/* <Gallery /> */}
-        {/* <Apartment CustomClass="pt-115" /> */}
-        {/* <VideoV1 /> */}
+        <ProSlider list={home_list} />
         <Category amenities_val={amenities_val} />
         <Testimonial />
-        {/* <BlogSlider customClass="section-subtitle-2"/> */}
         <CallToActionV1 />
         <Footer />
     </div>
