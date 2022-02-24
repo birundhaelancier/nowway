@@ -12,7 +12,7 @@ import Footer from './global-components/footer';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
-import { GetPropertyType, GetLocations, GetAmenities } from '../components/apiActions/index';
+import { GetPropertyType, GetLocations, GetAmenities, GetHomeOffer, GetHomeList } from '../components/apiActions/index';
 
 const Home_V7 = (props) => {
     const params = new URLSearchParams(props.location.search);
@@ -21,6 +21,9 @@ const Home_V7 = (props) => {
     const [property_type, setProperty_type] = useState([])
     const [location, setLocation] = useState([])
     const [amenities_val, setAmenities_val] = useState([])
+    const [home_offers, setHome_offer] = useState([])
+    const [home_list, setHome_list] = useState([])
+
 
 
     useEffect(() => {
@@ -34,23 +37,26 @@ const Home_V7 = (props) => {
         GetAmenities().then((amenities_data) => {
             setAmenities_val(amenities_data.Response)
         })
+        GetHomeOffer().then((data) => {
+            setHome_offer(data.Response)
+        })
+        GetHomeList().then((data) => {
+            setHome_list(data.Response)
+        })
     }, [])
+    console.log(home_list, "test")
+
     return <div>
         <Navbar CustomClass="ltn__header-transparent gradient-color-2" />
         <BannerV6 property_type={property_type} location={location} />
-        <Featuresv1 customClass="ltn__feature-area section-bg-1" />
+        <Featuresv1 customClass="ltn__feature-area section-bg-1" home_offers={home_offers} />
         {/* <Aboutv2 /> */}
         <div ref={myRef}>
-            <Advertisement />
+            <Advertisement home_offers={home_offers} />
         </div>
-        <ProSlider />
-
-        {/* <Gallery /> */}
-        {/* <Apartment CustomClass="pt-115" /> */}
-        {/* <VideoV1 /> */}
+        <ProSlider list={home_list} />
         <Category amenities_val={amenities_val} />
         <Testimonial />
-        {/* <BlogSlider customClass="section-subtitle-2"/> */}
         <CallToActionV1 />
         <Footer />
     </div>

@@ -4,16 +4,16 @@ import Social from '../section-components/social';
 import axios from 'axios';
 
 
-const NavbarV3 = ({user}) => {
+const NavbarV3 = ({ user }) => {
 	const [login_id, setLogin_id] = useState();
 	let publicUrl = process.env.PUBLIC_URL + '/'
 	let imgattr = 'logo'
 	let anchor = '#'
-	useEffect(()=>{
-		if(user == "user_id"){
+	useEffect(() => {
+		if (user === "user_id") {
 			localStorage.removeItem("user_id")
 		}
-	},[])
+	}, [])
 
 	useEffect(() => {
 		axios({
@@ -137,9 +137,9 @@ const NavbarV3 = ({user}) => {
 												</ul>
 											</li> */}
 												{/* <li><Link to="/contact">Contact</Link></li> */}
-												{login_id && <li className="special-link">
-													<Link to="/add-listing">Add Listing</Link>
-												</li>}
+												<li className="special-link">
+													<Link to={login_id ? "/add-listing" : "/login"}>Add Listing</Link>
+												</li>
 											</ul>
 										</div>
 									</nav>
@@ -191,9 +191,9 @@ const NavbarV3 = ({user}) => {
 									<li><Link to="/faq">FAQ</Link></li>
 								</ul>
 							</li> */}
-								{login_id && <li className="special-link">
-									<Link to="/add-listing">Add Listing</Link>
-								</li>}
+								<li className="special-link">
+									<Link to={login_id ? "/add-listing" : "/login"}>Add Listing</Link>
+								</li>
 							</ul>
 						</div>
 						<div className="ltn__social-media-2">

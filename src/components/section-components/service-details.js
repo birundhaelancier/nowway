@@ -6,14 +6,15 @@ import { AddSubServiceEnquiry } from '../apiActions/index';
 import { notification } from "antd";
 
 
-const ServiceDetails = ({ sub_services }) => {
+const ServiceDetails = ({ sub_services, ser_image }) => {
 	let history = useHistory()
 	let publicUrl = process.env.PUBLIC_URL + '/'
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [kitchenModelopen, setKitchenModelopen] = useState(false)
-	const [bathroomModelopen, setBathroomModelopen] = useState(false)	
+	const [bathroomModelopen, setBathroomModelopen] = useState(false)
 	const [mobileErr, setMobileErr] = useState(false)
-
+	const [sub_serv, setSub_serv] = useState()
+	console.log(sub_services, "sub_services")
 	const initialValues = {
 		name: "",
 		mobile: "",
@@ -37,7 +38,7 @@ const ServiceDetails = ({ sub_services }) => {
 	}
 	const submitForm = async (e) => {
 		e.preventDefault();
-		AddSubServiceEnquiry(values).then((data) => {
+		AddSubServiceEnquiry(values, sub_serv?.name).then((data) => {
 			console.log(data.Response,)
 			if (data.Status == "Success") {
 				notification.success({
@@ -52,6 +53,13 @@ const ServiceDetails = ({ sub_services }) => {
 		})
 	}
 
+	const selectSubserivce = (data) => {
+		setIsModalVisible(true)
+		setSub_serv(data)
+		// selectSubserivce(data)
+	}
+
+	console.log(sub_services, "sub_services")
 	return (
 		<div className="ltn__page-details-area ltn__service-details-area">
 			<div className="container">
@@ -59,7 +67,7 @@ const ServiceDetails = ({ sub_services }) => {
 					<div className="col-lg-8">
 						<div className="ltn__page-details-inner ltn__service-details-inner">
 							<div className="ltn__blog-img">
-								<img className='serviceImage' src={sub_services && sub_services[0]?.image} alt="Image" />
+								<img className='serviceImage' src={ser_image} alt="Image" />
 							</div>
 						</div>
 					</div>
@@ -71,7 +79,7 @@ const ServiceDetails = ({ sub_services }) => {
 									{sub_services?.map((data) => {
 										return (
 											<li>
-												<button className='side-btn-show' onClick={() => setIsModalVisible(true)}>
+												<button className='side-btn-show' onClick={() => selectSubserivce(data)}>
 													<div>
 														{data.name}</div>
 													<div>
@@ -194,23 +202,21 @@ const ServiceDetails = ({ sub_services }) => {
 				<div className="ltn__quick-view-modal-inner">
 					{/* <div className="container">
 						<div className="row"> */}
-					<div className="col-lg-12 text-center modalHeading">House Service</div>
+					<div className="col-lg-12 text-center modalHeading">{sub_serv?.name}</div>
 					{/* </div>
 						</div> */}
 					<div className="container">
 						<div className="row">
 							<div className="col-lg-4 text-center">
 								<div className="account-create text-start ">
-									<img className='homeimage' src={publicUrl + "assets/img/homehand.jpg"} />
+									<img className='homeimage' src={sub_serv?.images} />
 									<div className='listed'>
 										<div className="text-start">
-											<h6 className="section-titles">House Cleaning</h6>
+											<h6 className="section-titles">{sub_serv?.name}</h6>
 										</div>
 										<ul>
-											<li>Lowest Price</li>
-											<li>Top Quality</li>
-											<li>Reschedule</li>
-											<li>Co-Ordination</li>
+											<div dangerouslySetInnerHTML={{ __html:sub_serv?.description }}></div>
+
 										</ul>
 									</div>
 								</div>
@@ -218,13 +224,13 @@ const ServiceDetails = ({ sub_services }) => {
 							<div className="col-lg-8 text-center formShow">
 								<div className="account-login-inner">
 									<form className="form-input-box" onSubmit={(e) => submitForm(e)}>
-										<input type="text" name="name" onChange={(e) => handleChange(e)}  required placeholder="Name*" />
-										<input type="number" name="mobile" onChange={(e) => handleChange(e)}  required placeholder="Mobile Number*" />
+										<input type="text" name="name" onChange={(e) => handleChange(e)} required placeholder="Name*" />
+										<input type="number" name="mobile" onChange={(e) => handleChange(e)} required placeholder="Mobile Number*" />
 										{mobileErr && <div className='errMsgmodel'>Mobile Number should be 10 digit only</div>}
-										<input type="text" name="place" onChange={(e) => handleChange(e)}  required placeholder="Place*" />
+										<input type="text" name="place" onChange={(e) => handleChange(e)} required placeholder="Place*" />
 										<div className="btn-wrapper mt-0">
-									<button className="theme-btn-1 btn btn-block">save</button>
-								</div>
+											<button className="theme-btn-1 btn btn-block">save</button>
+										</div>
 									</form>
 								</div>
 							</div>

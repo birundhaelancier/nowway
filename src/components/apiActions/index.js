@@ -282,10 +282,10 @@ export const GetSubService = (values) => {
     } catch (err) { }
 }
 
-export const AddSubServiceEnquiry = (values) => {
+export const AddSubServiceEnquiry = (values, name) => {
     try {
         const Encription = CryptoJS.AES.encrypt(JSON.stringify({
-            "login_id": JSON.parse(localStorage.getItem("user_id")), "name": values.name, "mobile": values.mobile, "place": values.place
+            "login_id": JSON.parse(localStorage.getItem("user_id")), "name": values.name, "mobile": values.mobile, "place": values.place, "service": name,
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
         const requestOptions = {
             method: 'POST',
@@ -300,18 +300,83 @@ export const AddSubServiceEnquiry = (values) => {
     } catch (err) { }
 }
 
-export const InsertListing = (list) => {
-    console.log(list,"InsertListing")
+
+export const SearchListing = (values) => {
     try {
         const Encription = CryptoJS.AES.encrypt(JSON.stringify({
-            "user_id": JSON.parse(localStorage.getItem("user_id")), "title": list.title, "description": list.description, "price": list.price, "after_price": list.afterPrice, "before_price": list.beforePrice, "yearly_tax": list.yearlyTax, "owner_associ_fee": list.ownerFee, "property_type": list.propertyType, "type": list.types, "images": "", "address": list.address, "city": list.city, "state": list.state, "country": list.country, "neighbourhood": list.neighbourhood, "zip": list.zipCode, "size": list.size, "lot_size": list.lotSize, "rooms": list.rooms, "bedrooms": list.bedRooms, "bathrooms": list.bathrooms, "garges": list.garges, "year_built": list.yearBuilt, "garage_size": list.garageSize, "basement": list.basement, "available_from": list.availableFrom, "extra_details": list.extra_details, "roofing": list.roofing, "exterior_material": list.exteriorMaterial, "structure_type": list.structureType, "floors": list.floors, "owner_note": list.owner_note, "bhk_type": list.bhk_type, "tenants": list.tenants.toString(), "furnishing": list.furnishing.toString(), "parking": list.parking.toString(), "bathroom": list.bathroom, "availability": list.availability, "amenities": list.amenities.toString()
+            "property_type": "", "amenities": "", "from_price": "", "to_price": "", "bedrooms": "", "type": "", "bathrooms": "", "user_id": "0", "search": "t", "city": ""
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
         const requestOptions = {
             method: 'POST',
             headers: REQUEST_HEADERS,
             body: JSON.stringify({ encrypted: Encription }),
         };
+        return fetch(APIURL + "search_listing", requestOptions)
+            .then((response) => response.json())
+            .then((response) => {
+                return decryptValue(response.encrypted)
+            });
+    } catch (err) { }
+}
+
+export const InsertListing = (list, checkList) => {
+    try {
+        const Encription = CryptoJS.AES.encrypt(
+            JSON.stringify({ "user_id": JSON.parse(localStorage.getItem("user_id")), "title": list.title, "description": list.description, "price": list.price, "after_price": list.afterPrice, "before_price": list.beforePrice, "yearly_tax": list.yearlyTax, "owner_associ_fee": list.ownerFee, "property_type": list.propertyType, "type": list.types, "images": "", "address": list.address, "city": list.city, "state": list.state, "country": list.country, "neighbourhood": list.neighbourhood, "zip": list.zipCode, "size": list.size, "lot_size": list.lotSize, "rooms": list.rooms, "bedrooms": list.bedRooms, "bathrooms": list.bathrooms, "garges": list.garges, "year_built": list.yearBuilt, "garage_size": list.garageSize, "basement": list.basement, "available_from": list.availableFrom, "extra_details": list.extra_details, "roofing": list.roofing, "exterior_material": list.exteriorMaterial, "structure_type": list.structureType, "floors": list.floors, "owner_note": list.owner_note, "bhk_type": list.bhk_type, "tenants": list.tenants.toString(), "furnishing": list.furnishing.toString(), "parking": list.parking.toString(), "bathroom": list.bathroom, "availability": list.availability, "amenities": list.amenities.toString() })
+            , '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
+        const requestOptions = {
+            method: 'POST',
+            headers: REQUEST_HEADERS,
+            body: JSON.stringify({ encrypted: Encription }),
+        };
         return fetch(APIURL + "add_listing", requestOptions)
+            .then((response) => response.json())
+            .then((response) => {
+                return decryptValue(response.encrypted)
+            });
+    } catch (err) { }
+}
+
+
+export const GetProductDetails = (values) => {
+    try {
+        const Encription = CryptoJS.AES.encrypt(JSON.stringify({
+            "property_id": values
+        }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
+        const requestOptions = {
+            method: 'POST',
+            headers: REQUEST_HEADERS,
+            body: JSON.stringify({ encrypted: Encription }),
+        };
+        return fetch(APIURL + "get_property", requestOptions)
+            .then((response) => response.json())
+            .then((response) => {
+                return decryptValue(response.encrypted)
+            });
+    } catch (err) { }
+}
+
+export const GetHomeOffer = () => {
+    try {
+        const requestOptions = {
+            method: 'POST',
+            headers: REQUEST_HEADERS,
+        };
+        return fetch(APIURL + "home_offers", requestOptions)
+            .then((response) => response.json())
+            .then((response) => {
+                return decryptValue(response.encrypted)
+            });
+    } catch (err) { }
+}
+
+export const GetHomeList = () => {
+    try {
+        const requestOptions = {
+            method: 'POST',
+            headers: REQUEST_HEADERS,
+        };
+        return fetch(APIURL + "home_listing", requestOptions)
             .then((response) => response.json())
             .then((response) => {
                 return decryptValue(response.encrypted)

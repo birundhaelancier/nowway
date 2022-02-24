@@ -29,7 +29,7 @@ class FeaturesV1 extends Component {
 			          <div className="ltn__feature-info">
 			            <h3><Link to="/#">Buy a home</Link></h3>
 			            <p>over 1 million+ homes for sale available on the website, we can match you with a house you will want to call home.</p>
-			            <Link className="ltn__service-btn" to="/#">Find A Home <i className="flaticon-right-arrow" /></Link>
+			            {/* <Link className="ltn__service-btn" to="/#">Find A Home <i className="flaticon-right-arrow" /></Link> */}
 			          </div>
 			        </div>
 			      </div>
@@ -41,7 +41,7 @@ class FeaturesV1 extends Component {
 			          <div className="ltn__feature-info">
 			            <h3><Link to="/#">Rent a home</Link></h3>
 			            <p>over 1 million+ homes for sale available on the website, we can match you with a house you will want to call home.</p>
-			            <Link className="ltn__service-btn" to="/#">Find A Home <i className="flaticon-right-arrow" /></Link>
+			            {/* <Link className="ltn__service-btn" to="/#">Find A Home <i className="flaticon-right-arrow" /></Link> */}
 			          </div>
 			        </div>
 			      </div>
@@ -53,11 +53,12 @@ class FeaturesV1 extends Component {
 			          <div className="ltn__feature-info">
 			            <h3><Link to="/#">Sell a home</Link></h3>
 			            <p>over 1 million+ homes for sale available on the website, we can match you with a house you will want to call home.</p>
-			            <Link className="ltn__service-btn" to="/#">Find A Home <i className="flaticon-right-arrow" /></Link>
+			            {/* <Link className="ltn__service-btn" to="/#">Find A Home <i className="flaticon-right-arrow" /></Link> */}
 			          </div>
 			        </div>
 			      </div>
 			    </div>
+				
 			  </div>
 			</div>
         }

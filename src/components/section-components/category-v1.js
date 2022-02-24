@@ -18,9 +18,11 @@ const CategoryV1 = ({ amenities_val }) => {
 					{amenities_val?.map((item) => {
 						return (
 							<div className="col-lg-3 col-md-4 col-sm-6 col-6">
-								<div className="ltn__category-item ltn__category-item-5 text-center">
+								<div className="ltn__category-item ltn__category-item-5 text-center ">
 									<Link to="/#">
-										<span className="category-icon"><i className="flaticon-car" /></span>
+										<span className="category-icon">
+											<img src={item.image} />
+										</span>
 										<span className="category-title">{item.name}</span>
 										<span className="category-btn"><i className="flaticon-right-arrow" /></span>
 									</Link>
