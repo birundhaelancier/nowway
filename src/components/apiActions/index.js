@@ -282,10 +282,10 @@ export const GetSubService = (values) => {
     } catch (err) { }
 }
 
-export const AddSubServiceEnquiry = (values) => {
+export const AddSubServiceEnquiry = (values, name) => {
     try {
         const Encription = CryptoJS.AES.encrypt(JSON.stringify({
-            "login_id": JSON.parse(localStorage.getItem("user_id")), "name": values.name, "mobile": values.mobile, "place": values.place
+            "login_id": JSON.parse(localStorage.getItem("user_id")), "name": values.name, "mobile": values.mobile, "place": values.place, "service": name,
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
         const requestOptions = {
             method: 'POST',
