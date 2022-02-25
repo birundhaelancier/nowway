@@ -25,8 +25,10 @@ useEffect(()=>{
 useEffect(()=>{
 },[props.Property_Detail])	
 useEffect(()=>{
+	if(Search!==""){
 	dispatch(GetPropertyType_Search("","",Search)).then((data) => {	
     })
+   }
 },[Search])
 
 		let publicUrl = process.env.PUBLIC_URL + '/'
@@ -35,7 +37,7 @@ useEffect(()=>{
 			<div className="ltn__product-area ltn__product-gutter">
 				<div className="container">
 					<div className="row wrap-reverse">
-						<Sidebar  Property_type={Property_type} Amenities={Amenities}/>
+						<Sidebar Type={props.Type} Property_type={Property_type} Amenities={Amenities}/>
 						<div className="col-lg-8 ">
 							<div className="ltn__shop-options">
 								<ul className="justify-content-start">
@@ -79,7 +81,8 @@ useEffect(()=>{
 												</div>
 											</div>
 											{/* ltn__product-item */}
-											{props.Property_Detail.map((data)=>
+											{
+											props.Property_Detail.length>0?props.Property_Detail.map((data)=>
 											<div className="col-xl-6 col-sm-6 col-12">
 												<div className="ltn__product-item ltn__product-item-4 ltn__product-item-5 text-center---">
 													<div className="product-img go-top">
@@ -141,8 +144,27 @@ useEffect(()=>{
 													</div>
 												</div>
 											</div>
-											)}
-											{/*  */}
+											)
+											// {/*  */}
+											:<div className="ltn__404-area ltn__404-area-1 mb-120">
+				<div className="container">
+				<div className="row">
+					<div className="col-lg-12">
+					<div className="error-404-inner text-center">
+						<div className="error-img mb-30">
+						<img src={publicUrl+"assets/img/others/error-1.png"} alt="#" />
+						</div>
+						<h1 className="error-404-title d-none">404</h1>
+						<h2>Data Not Found!</h2>
+						{/* <h3>Oops! Looks like something going rong</h3> */}
+						<p>Oops! The page you are looking for does not exist. It might have been moved or deleted.</p>
+					
+					</div>
+					</div>
+				</div>
+				</div>
+			</div>
+			}
 											
 											
 										</div>

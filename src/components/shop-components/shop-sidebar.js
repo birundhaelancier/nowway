@@ -5,6 +5,7 @@ import { GetPropertyType_Search } from '../../Redux/Action/allActions';
 import { useDispatch,connect } from 'react-redux';
 import {GetAmenities,GetPropertyType,GetBathroom } from '../../components/apiActions/index';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import { data } from 'jquery';
 
 const Sidebar=(props)=>{
 		let anchor = '#'
@@ -17,18 +18,28 @@ const Sidebar=(props)=>{
 
 		let dispatch =useDispatch()
 		const PriceRange=[{heading:"Low Price",from:5000,to:10000},{heading:"Medium",from:10000,to:30000},{heading:"High Price",from:30000,to:50000}]
-		const Bed_Rooms=["Single","Double","Up To 3","Up To 5"]
+		const Bed_Rooms=[{heading:"Single",label:"1"},{heading:"Double",label:"1 or more"},{heading:"Up To 3",label:"2 or more"},{heading:"Up To 5",label:"3 or more"}]
 		const Category=[{heading:"Renting",label:"Rent"},{heading:"Selling / Buying",label:"Sell"}]
 		const [CheckValues,setCheckValues]=useState({
 			Amenities:"",
-			property:"",
+			property:[id || ""],
 			PriceRange:"",
 			Bed_Bath:"",
-			Category:"",
+			Category:[props?.Type || "Rent"],
 			Bathrooms:"",
 		})
 	
-		const ChangeCheckbox=(e,name)=>{
+		const ChangeCheckbox=(e,name,price)=>{
+           if(name==="PriceRange"){
+             let Price={
+				 from:price.from,
+				 to:price.to
+			 }
+			 setCheckValues({
+                ...CheckValues,
+                [name]: Price,
+            });
+		   }else{
             let arrValues = []
             if (e.target.checked === true) {
                 arrValues = [...CheckValues[name], String(e.target.value)]
@@ -43,6 +54,7 @@ const Sidebar=(props)=>{
                 ...CheckValues,
                 [name]: arrValues,
             });
+		}
 			// ApiActionCall(CheckValues)
 		}
 
@@ -68,7 +80,6 @@ const Sidebar=(props)=>{
   })
  }
 
- console.log("hhhhhhh",id,CheckValues)
 
 		return (
 			<div className="col-lg-4">
@@ -86,7 +97,6 @@ const Sidebar=(props)=>{
 									<input type="checkbox" checked={CheckValues.property.lastIndexOf(String(data.name)) >= 0 ? true : false}  onChange={(e)=>ChangeCheckbox(e,  "property", data.id, index + 1)}  name={data.name} value={data.name} />
 									<span className="checkmark" />
 								</label>
-								{/* <span className="categorey-no">3,924</span> */}
 							</li>
 							)}
 							
@@ -110,13 +120,12 @@ const Sidebar=(props)=>{
 							{PriceRange.map((data,index)=>
 							<li>
 								<label className="checkbox-item">{data.heading}
-									<input type="checkbox" checked={CheckValues.PriceRange.lastIndexOf(String(data.heading)) >= 0 ? true : false}  onChange={(e)=>ChangeCheckbox(e,  "PriceRange", index + 1)}  name={data.heading} value={data.heading} />
+									<input type="checkbox" checked={CheckValues.PriceRange.from===data.from?true : false}  onChange={(e)=>ChangeCheckbox(e,  "PriceRange",data)}  name={data.heading} value={data.heading} />
 									<span className="checkmark" />
 								</label>
 								<span className="categorey-no">₹{data.from} - ₹{data.to}</span>
 							</li>
 							)}
-								{/* <span className="categorey-no">₹30,000 Up</span> */}
 						</ul>
 						<hr />
 					
@@ -124,11 +133,10 @@ const Sidebar=(props)=>{
 						<ul>
 						{Bed_Rooms.map((data,index)=>
 							<li>
-								<label className="checkbox-item">{data}
-									<input type="checkbox" checked={CheckValues.Bed_Bath.lastIndexOf(String(data)) >= 0 ? true : false}  onChange={(e)=>ChangeCheckbox(e,  "Bed_Bath", data.id, index + 1)}  name={data} value={data} />
+								<label className="checkbox-item">{data.heading}
+									<input type="checkbox" checked={CheckValues.Bed_Bath.lastIndexOf(String(data.label)) >= 0 ? true : false}  onChange={(e)=>ChangeCheckbox(e,  "Bed_Bath", data.id, index + 1)}  name={data.label} value={data.label} />
 									<span className="checkmark" />
 								</label>
-								{/* <span className="categorey-no">3,924</span> */}
 							</li>
 						)}
 						</ul>
@@ -147,18 +155,7 @@ const Sidebar=(props)=>{
 						)}
 						</ul>
 						<hr />
-						{/* Price Filter Widget */}
-						{/* <div className="widget--- ltn__price-filter-widget">
-							<h4 className="ltn__widget-title ltn__widget-title-border---">Filter by price</h4>
-							<div className="price_filter">
-								<div className="price_slider_amount">
-									<input type="submit" defaultValue="Your range:" />
-									<input type="text" className="amount"  value={45678} name="price" placeholder="Add Your Price" />
-								</div>
-								<div className="slider-range" />
-							</div>
-						</div>
-						<hr /> */}
+						
 
 						<h4 className="ltn__widget-title">Catagory</h4>
 						<ul>
@@ -169,7 +166,6 @@ const Sidebar=(props)=>{
 									<input type="checkbox" checked={CheckValues.Category.lastIndexOf(String(data.label)) >= 0 ? true : false}  onChange={(e)=>ChangeCheckbox(e,  "Category", data.id, index + 1)}  name={data.label} value={data.label} />
 									<span className="checkmark" />
 								</label>
-								{/* <span className="categorey-no">3,924</span> */}
 							</li>
 						)}
 						</ul>
