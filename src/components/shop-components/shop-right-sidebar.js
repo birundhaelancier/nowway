@@ -59,17 +59,7 @@ const ShopGridV1 = (props) => {
                       <span>Showing 1–12 of 18 results</span>
                     </div>
                   </li>
-                  <li>
-                    {/* <div className="short-by text-center">
-											<select className="nice-select">
-												<option>Default Sorting</option>
-												<option>Sort by popularity</option>
-												<option>Sort by new arrivals</option>
-												<option>Sort by price: low to high</option>
-												<option>Sort by price: high to low</option>
-											</select>
-										</div> */}
-                  </li>
+               
                 </ul>
               </div>
               <div className="tab-content">
