@@ -10,7 +10,7 @@ const NavbarV3 = ({ user }) => {
 	let imgattr = 'logo'
 	let anchor = '#'
 	useEffect(() => {
-		if (user == "user_id") {
+		if (user === "user_id") {
 			localStorage.removeItem("user_id")
 		}
 	}, [])

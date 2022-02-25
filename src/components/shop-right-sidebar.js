@@ -28,7 +28,7 @@ const ShopRightSidebarPage = (props) => {
     return <div>
         <Navbar />
         <PageHeader headertitle="Shop Right Sidebar" />
-        <ShopRightSidebar Property_Detail={Property_Details} Property_type={Property_type} Amenities={Amenities}/>
+        <ShopRightSidebar Property_Detail={Property_Details} Property_type={Property_type} Amenities={Amenities} Type={props?.location?.state}/>
         <CallToActionV1 Property_Detail={Property_Details}/>
         <Footer />
     </div>

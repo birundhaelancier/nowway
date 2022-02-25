@@ -32,7 +32,7 @@ const BannerV6 = ({ property_type, location }) => {
 
 	const submitForm = () => {
 		dispatch(GetPropertyType_Search(SearchValues,Type)).then((data) => {
-				history.push(`/shop-right-sidebar/${SearchValues.Property_Type}`)			
+				history.push({pathname:`/shop-right-sidebar/${SearchValues.Property_Type}`,state:Type})			
 		})
 	}
 	return (

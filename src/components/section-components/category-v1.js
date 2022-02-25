@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import parse from 'html-react-parser';
 
 const CategoryV1 = ({ amenities_val }) => {
-	console.log(amenities_val,"amenities_val")
 	return (
 		<div className="ltn__category-area ltn__product-gutter section-bg-1--- pt-115 pb-90 go-top">
 			<div className="container">
@@ -19,7 +18,7 @@ const CategoryV1 = ({ amenities_val }) => {
 					{amenities_val?.map((item) => {
 						return (
 							<div className="col-lg-3 col-md-4 col-sm-6 col-6">
-								<div className="ltn__category-item ltn__category-item-5 text-center">
+								<div className="ltn__category-item ltn__category-item-5 text-center ">
 									<Link to="/#">
 										<span className="category-icon">
 											<img src={item.image} />

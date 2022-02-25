@@ -9,21 +9,21 @@ const Advertisement = ({ home_offers }) => {
     const [slideNumber, setSlideNumber] = useState(3)
 
     var settings = {
-        dots: true,
+        dots: false,
         infinite: true,
         speed: 500,
         slidesToShow: slideNumber,
         slidesToScroll: 1,
     };
-    useEffect(()=>{
-		if(window.innerWidth >= 550 && window.innerWidth <= 1000 ){
-			setSlideNumber(2)
-		}else if(window.innerWidth <549){
-			setSlideNumber(1)
-		}else if(window.innerWidth >= 1001){
-			setSlideNumber(3)
-		}
-	},[slideNumber])
+    useEffect(() => {
+        if (window.innerWidth >= 550 && window.innerWidth <= 1000) {
+            setSlideNumber(2)
+        } else if (window.innerWidth < 549) {
+            setSlideNumber(1)
+        } else if (window.innerWidth >= 1001) {
+            setSlideNumber(3)
+        }
+    }, [slideNumber])
     return (
         <div>
             <div className="ltn__product-slider-area ltn__product-gutter pt-115 pb-70">
@@ -38,7 +38,7 @@ const Advertisement = ({ home_offers }) => {
                         </div>
                     </div>
                     <div className="row">
-                        <div className='col-lg-12'>
+                        <div className='col-lg-12 product-slider-container'>
                             <Slider {...settings}>
                                 {home_offers?.map((item) => {
                                     return (
@@ -53,7 +53,6 @@ const Advertisement = ({ home_offers }) => {
                                 })}
                             </Slider>
                         </div>
-
                     </div>
                 </div>
             </div>
