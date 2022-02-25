@@ -59,7 +59,9 @@ const ShopGridV1 = (props) => {
                       <span>Showing 1–12 of 18 results</span>
                     </div>
                   </li>
-               
+                  <li>
+           
+                  </li>
                 </ul>
               </div>
               <div className="tab-content">
