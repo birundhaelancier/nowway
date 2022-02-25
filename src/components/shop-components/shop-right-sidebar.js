@@ -9,7 +9,6 @@ import {
   GetAmenities,
   GetPropertyType,
 } from "../../components/apiActions/index";
-import Error from "../section-components/error";
 const ShopGridV1 = (props) => {
   let dispatch = useDispatch();
   const [Amenities, setAmenities] = useState([]);
@@ -31,6 +30,7 @@ const ShopGridV1 = (props) => {
       dispatch(GetPropertyType_Search("", "", Search)).then((data) => {});
     }
   }, [Search]);
+
   let publicUrl = process.env.PUBLIC_URL + "/";
 
   return (
@@ -39,8 +39,8 @@ const ShopGridV1 = (props) => {
         <div className="container">
           <div className="row wrap-reverse">
             <Sidebar
+              Type={props.Type}
               Property_type={Property_type}
-              Type={props?.Type}
               Amenities={Amenities}
             />
             <div className="col-lg-8 ">
@@ -138,7 +138,7 @@ const ShopGridV1 = (props) => {
                                     <li>
                                       <Link to="/contact">
                                         <i className="flaticon-pin" />{" "}
-                                        {data.address},{data.city}
+                                        {data.address} , {data.city}
                                       </Link>
                                     </li>
                                   </ul>
@@ -171,7 +171,7 @@ const ShopGridV1 = (props) => {
                                     </li>
                                     <li className="go-top">
                                       <Link
-                                        to={`/product-details/${data.id}`}
+                                        to={`/product-details?product_id=${data.id}`}
                                         title="Product Details"
                                       >
                                         <i className="flaticon-add" />

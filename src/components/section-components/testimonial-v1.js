@@ -28,7 +28,7 @@ const Testimonial = ({ home_offers }) => {
 				<div className="row">
 					<div className='col-lg-12 product-slider-container'>
 						<Slider {...settings}>
-							{home_offers?.map((item) => {
+							{["A", "B", "c", "d", "r"].map((item) => {
 								return (
 									<div className="col-lg-4">
 										<div className="ltn__testimonial-item ltn__testimonial-item-7">

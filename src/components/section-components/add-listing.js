@@ -188,6 +188,7 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
         <div className="ltn__appointment-area pb-120">
             <div className="container">
                 <div className="row">
+                    
                     <div className="col-lg-12">
                         <div className="ltn__appointment-inner">
                             <form onSubmit={(e) => submitForm(e)}>
