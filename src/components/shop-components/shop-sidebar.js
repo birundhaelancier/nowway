@@ -21,10 +21,10 @@ const Sidebar=(props)=>{
 		const Category=[{heading:"Renting",label:"Rent"},{heading:"Selling / Buying",label:"Sell"}]
 		const [CheckValues,setCheckValues]=useState({
 			Amenities:"",
-			property:[id || ""],
+			property:[id&&id],
 			PriceRange:"",
 			Bed_Bath:"",
-			Category:[props?.Type || "Rent"],
+			Category:props?.Type&&props?.Type,
 			Bathrooms:"",
 
 		})
@@ -40,6 +40,12 @@ const Sidebar=(props)=>{
                 ...CheckValues,
                 [name]: Pricerange,
               });
+			}
+			else if(name==="Category"){
+			    setCheckValues({
+					...CheckValues,
+					[name]: e.target.value,
+				});	
 			}
             else{
             let arrValues = []
@@ -82,7 +88,7 @@ const Sidebar=(props)=>{
   })
  }
 
- console.log("hhhhhhh",id,CheckValues)
+ console.log("hhhhhhh",id=="null")
  console.log("dddd",props.Property_Detail)
 
 		return (
@@ -175,13 +181,13 @@ const Sidebar=(props)=>{
 						</div>
 						<hr /> */}
 
-						<h4 className="ltn__widget-title">Catagory</h4>
+						<h4 className="ltn__widget-title">Category</h4>
 						<ul>
 							
 							{Category.map((data,index)=>
 							<li>
 								<label className="checkbox-item">{data.heading}
-									<input type="checkbox" checked={CheckValues.Category.lastIndexOf(String(data.label)) >= 0 ? true : false}  onChange={(e)=>ChangeCheckbox(e,  "Category", data.id, index + 1)}  name={data.label} value={data.label} />
+									<input type="checkbox" checked={CheckValues.Category==data.label? true : false}  onChange={(e)=>ChangeCheckbox(e,  "Category", data.id, index + 1)}  name={data.label} value={data.label} />
 									<span className="checkmark" />
 								</label>
 								{/* <span className="categorey-no">3,924</span> */}

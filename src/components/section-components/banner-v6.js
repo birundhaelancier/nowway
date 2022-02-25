@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { Alert } from 'antd';
 import parse from "html-react-parser";
 import {
   GetPropertyType,
@@ -20,17 +21,13 @@ const BannerV6 = ({ property_type, location }) => {
     Property_Type: "",
     Location: "",
   });
-  const initialValues = {
-    mobile: "",
-    password: "",
-  };
-  const [values, setValues] = useState(initialValues);
   const [login_id, setLogin_id] = useState();
   useEffect(() => {
     setLogin_id(JSON.parse(localStorage.getItem("user_id")));
   }, []);
 
   const handleChange = (data, key) => {
+	
     setSearchValues({
       ...SearchValues,
       [key]: data,
@@ -38,13 +35,22 @@ const BannerV6 = ({ property_type, location }) => {
   };
 
   const submitForm = () => {
+	  if(SearchValues.Property_Type!==""&&SearchValues.Location!=="") {
     dispatch(GetPropertyType_Search(SearchValues, Type)).then((data) => {
       history.push({
-        pathname: `/shop-right-sidebar/${SearchValues.Property_Type}`,
+        pathname: `/shop-right-sidebar/${SearchValues.Property_Type || null}`,
         state: Type,
       });
     });
-  };
+   }
+   else{
+	 notification.error(({
+		 message:SearchValues.Property_Type==""&&SearchValues.Location==""?
+		 "Please select Propert Type and Location":SearchValues.Property_Type!==""&&SearchValues.Location==""?"Please select location":SearchValues.Property_Type==""&&SearchValues.Location!==""?"Please select Property type":""
+	 }))
+   }
+  };  
+
   return (
     <div className="ltn__slider-area ltn__slider-4 position-relative  ltn__primary-bg parent_select">
       <div className="ltn__slide-one-active----- slick-slide-arrow-1----- slick-slide-dots-1----- arrow-white----- ltn__slide-animation-active">
@@ -144,7 +150,9 @@ const BannerV6 = ({ property_type, location }) => {
                                   </div>
                                 </div>
                               </div>
+							  
                             </form>
+						
                           </div>
                         </div>
                       </div>

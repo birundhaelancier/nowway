@@ -4,14 +4,14 @@ import parse from 'html-react-parser';
 import Modal from '../Model';
 
 
-const ShopDetails = ({ ProductInfo }) => {
+const ShopDetails = ({ ProductInfo,RelatedProducts }) => {
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [pro_details, setPro_details] = useState()
 	useEffect(() => {
 		setPro_details(ProductInfo)
 	}, [ProductInfo])
 	let publicUrl = process.env.PUBLIC_URL + '/'
-	console.log(pro_details, "ProductInfo")
+	console.log(RelatedProducts, "ProductInfo")
 	return (
 		<div className="ltn__shop-details-area pb-10">
 			<div className="container">
@@ -112,203 +112,37 @@ const ShopDetails = ({ ProductInfo }) => {
 														<li><label>Property ID:</label> <span>{data.code}</span></li>
 														<li><label>Floors: </label> <span>{data.floors}</span></li>
 														<li><label>Rooms:</label> <span>{data.rooms}</span></li>
-														<li><label>Baths:</label> <span>2</span></li>
+														<li><label>Baths:</label> <span>{data.bathroom}</span></li>
 														<li><label>Year built:</label> <span>{data.year_built}</span></li>
 													</ul>
 													<ul>
-														<li><label>Lot Area:</label> <span>HZ29 </span></li>
-														<li><label>Lot dimensions:</label> <span>120 sqft</span></li>
+														<li><label>Availability:</label> <span>{data.availability}</span></li>
+														<li><label>Lot Area:</label> <span>{data.size} sqft</span></li>
 														<li><label>Beds:</label> <span>{data.bedrooms}</span></li>
 														<li><label>Price:</label> <span>{data.price}</span></li>
 														<li><label>Garage Size:</label> <span>{data.garage_size}</span></li>
 													</ul>
 												</div>
-												<h4 className="title-2">Facts and Features</h4>
-												<div className="property-detail-feature-list clearfix mb-45">
-													<ul>
-														<li>
-															<div className="property-detail-feature-list-item">
-																<i className="flaticon-double-bed" />
-																<div>
-																	<h6>Living Room</h6>
-																	<small>20 x 16 sq feet</small>
-																</div>
-															</div>
-														</li>
-														<li>
-															<div className="property-detail-feature-list-item">
-																<i className="flaticon-double-bed" />
-																<div>
-																	<h6>Garage</h6>
-																	<small>20 x 16 sq feet</small>
-																</div>
-															</div>
-														</li>
-														<li>
-															<div className="property-detail-feature-list-item">
-																<i className="flaticon-double-bed" />
-																<div>
-																	<h6>Dining Area</h6>
-																	<small>20 x 16 sq feet</small>
-																</div>
-															</div>
-														</li>
-														<li>
-															<div className="property-detail-feature-list-item">
-																<i className="flaticon-double-bed" />
-																<div>
-																	<h6>Bedroom</h6>
-																	<small>20 x 16 sq feet</small>
-																</div>
-															</div>
-														</li>
-														<li>
-															<div className="property-detail-feature-list-item">
-																<i className="flaticon-double-bed" />
-																<div>
-																	<h6>Bathroom</h6>
-																	<small>20 x 16 sq feet</small>
-																</div>
-															</div>
-														</li>
-														<li>
-															<div className="property-detail-feature-list-item">
-																<i className="flaticon-double-bed" />
-																<div>
-																	<h6>Gym Area</h6>
-																	<small>20 x 16 sq feet</small>
-																</div>
-															</div>
-														</li>
-														<li>
-															<div className="property-detail-feature-list-item">
-																<i className="flaticon-double-bed" />
-																<div>
-																	<h6>Garden</h6>
-																	<small>20 x 16 sq feet</small>
-																</div>
-															</div>
-														</li>
-														<li>
-															<div className="property-detail-feature-list-item">
-																<i className="flaticon-double-bed" />
-																<div>
-																	<h6>Parking</h6>
-																	<small>20 x 16 sq feet</small>
-																</div>
-															</div>
-														</li>
-													</ul>
-												</div>
+												
 
 												<h4 className="title-2 mb-10">Amenities</h4>
 												<div className="property-details-amenities mb-60">
 													<div className="row">
+														
+													
 														<div className="col-lg-4 col-md-6">
 															<div className="ltn__menu-widget">
 																<ul>
+																	{data.amenities.split(',').map(o=>
 																	<li>
-																		<label className="checkbox-item">Air Conditioning
+																		<label className="checkbox-item">{o}
 																			<input type="checkbox" defaultChecked="checked" />
 																			<span className="checkmark" />
 																		</label>
 																	</li>
-																	<li>
-																		<label className="checkbox-item">Gym
-																			<input type="checkbox" defaultChecked="checked" />
-																			<span className="checkmark" />
-																		</label>
-																	</li>
-																	<li>
-																		<label className="checkbox-item">Microwave
-																			<input type="checkbox" defaultChecked="checked" />
-																			<span className="checkmark" />
-																		</label>
-																	</li>
-																	<li>
-																		<label className="checkbox-item">Swimming Pool
-																			<input type="checkbox" defaultChecked="checked" />
-																			<span className="checkmark" />
-																		</label>
-																	</li>
-																	<li>
-																		<label className="checkbox-item">WiFi
-																			<input type="checkbox" defaultChecked="checked" />
-																			<span className="checkmark" />
-																		</label>
-																	</li>
-																</ul>
-															</div>
-														</div>
-														<div className="col-lg-4 col-md-6">
-															<div className="ltn__menu-widget">
-																<ul>
-																	<li>
-																		<label className="checkbox-item">Barbeque
-																			<input type="checkbox" defaultChecked="checked" />
-																			<span className="checkmark" />
-																		</label>
-																	</li>
-																	<li>
-																		<label className="checkbox-item">Recreation
-																			<input type="checkbox" defaultChecked="checked" />
-																			<span className="checkmark" />
-																		</label>
-																	</li>
-																	<li>
-																		<label className="checkbox-item">Microwave
-																			<input type="checkbox" defaultChecked="checked" />
-																			<span className="checkmark" />
-																		</label>
-																	</li>
-																	<li>
-																		<label className="checkbox-item">Basketball Cout
-																			<input type="checkbox" defaultChecked="checked" />
-																			<span className="checkmark" />
-																		</label>
-																	</li>
-																	<li>
-																		<label className="checkbox-item">Fireplace
-																			<input type="checkbox" defaultChecked="checked" />
-																			<span className="checkmark" />
-																		</label>
-																	</li>
-																</ul>
-															</div>
-														</div>
-														<div className="col-lg-4 col-md-6">
-															<div className="ltn__menu-widget">
-																<ul>
-																	<li>
-																		<label className="checkbox-item">Refrigerator
-																			<input type="checkbox" defaultChecked="checked" />
-																			<span className="checkmark" />
-																		</label>
-																	</li>
-																	<li>
-																		<label className="checkbox-item">Window Coverings
-																			<input type="checkbox" defaultChecked="checked" />
-																			<span className="checkmark" />
-																		</label>
-																	</li>
-																	<li>
-																		<label className="checkbox-item">Washer
-																			<input type="checkbox" defaultChecked="checked" />
-																			<span className="checkmark" />
-																		</label>
-																	</li>
-																	<li>
-																		<label className="checkbox-item">24x7 Security
-																			<input type="checkbox" defaultChecked="checked" />
-																			<span className="checkmark" />
-																		</label>
-																	</li>
-																	<li>
-																		<label className="checkbox-item">Indoor Game
-																			<input type="checkbox" defaultChecked="checked" />
-																			<span className="checkmark" />
-																		</label>
-																	</li>
+																	)}
+
+												
 																</ul>
 															</div>
 														</div>
@@ -319,7 +153,10 @@ const ShopDetails = ({ ProductInfo }) => {
 												<h4 className="title-2">Related Properties</h4>
 												<div className="row">
 													{/* ltn__product-item */}
+													{RelatedProducts&&RelatedProducts.map((item)=>
 													<div className="col-xl-6 col-sm-6 col-12 go-top">
+													{console.log(item,"dfghj")}
+
 														<div className="ltn__product-item ltn__product-item-4 ltn__product-item-5 text-center---">
 															<div className="product-img">
 																<Link to="/product-details"><img src={publicUrl + "assets/img/product-3/1.jpg"} alt="#" /></Link>
@@ -332,25 +169,25 @@ const ShopDetails = ({ ProductInfo }) => {
 															<div className="product-info">
 																<div className="product-badge">
 																	<ul>
-																		<li className="sale-badg">For Rent</li>
+																		<li className="sale-badg">{item.type==="Rent"?"For Rent":"For Sale"}</li>
 																	</ul>
 																</div>
-																<h2 className="product-title"><Link to="/#">New Apartment Nice View</Link></h2>
+																<h2 className="product-title"><Link to="/#">{item.title}</Link></h2>
 																<div className="product-img-location">
 																	<ul>
 																		<li>
-																			<Link to="/#"><i className="flaticon-pin" /> Belmont Gardens, Chicago</Link>
+																			<Link to="/#"><i className="flaticon-pin" /> {item.address} , {item.city}</Link>
 																		</li>
 																	</ul>
 																</div>
 																<ul className="ltn__list-item-2--- ltn__list-item-2-before--- ltn__plot-brief">
-																	<li><span>3 </span>
+																	<li><span>{item.bedrooms} </span>
 																		Bedrooms
 																	</li>
-																	<li><span>2 </span>
+																	<li><span>{item.bathroom || 0} </span>
 																		Bathrooms
 																	</li>
-																	<li><span>3450 </span>
+																	<li><span>{item.size} </span>
 																		square Ft
 																	</li>
 																</ul>
@@ -375,73 +212,14 @@ const ShopDetails = ({ ProductInfo }) => {
 															</div>
 															<div className="product-info-bottom">
 																<div className="product-price">
-																	<span>₹349,00<label>/Month</label></span>
+																	<span>₹{data.price}<label>/Month</label></span>
 																</div>
 															</div>
 														</div>
 													</div>
+													 )} 
 													{/* ltn__product-item */}
-													<div className="col-xl-6 col-sm-6 col-12 go-top">
-														<div className="ltn__product-item ltn__product-item-4 ltn__product-item-5 text-center---">
-															<div className="product-img">
-																<Link to="/#"><img src={publicUrl + "assets/img/product-3/2.jpg"} alt="#" /></Link>
-																<div className="real-estate-agent">
-																	<div className="agent-img">
-																		<Link to="/product-details"><img src={publicUrl + "assets/img/blog/author.jpg"} alt="#" /></Link>
-																	</div>
-																</div>
-															</div>
-															<div className="product-info">
-																<div className="product-badge">
-																	<ul>
-																		<li className="sale-badg">For Sale</li>
-																	</ul>
-																</div>
-																<h2 className="product-title"><Link to="/#">New Apartment Nice View</Link></h2>
-																<div className="product-img-location">
-																	<ul>
-																		<li>
-																			<Link to="/#"><i className="flaticon-pin" /> Belmont Gardens, Chicago</Link>
-																		</li>
-																	</ul>
-																</div>
-																<ul className="ltn__list-item-2--- ltn__list-item-2-before--- ltn__plot-brief">
-																	<li><span>3 </span>
-																		Bedrooms
-																	</li>
-																	<li><span>2 </span>
-																		Bathrooms
-																	</li>
-																	<li><span>3450 </span>
-																		square Ft
-																	</li>
-																</ul>
-																<div className="product-hover-action">
-																	<ul>
-																		<li>
-																			<a href="#" title="Quick View" data-bs-toggle="modal" data-bs-target="#quick_view_modal">
-																				<i className="flaticon-expand" />
-																			</a>
-																		</li>
-																		<li>
-																			<a href="#" title="Wishlist" data-bs-toggle="modal" data-bs-target="#liton_wishlist_modal">
-																				<i className="flaticon-heart-1" /></a>
-																		</li>
-																		<li>
-																			<a href="portfolio-details.html" title="Compare">
-																				<i className="flaticon-add" />
-																			</a>
-																		</li>
-																	</ul>
-																</div>
-															</div>
-															<div className="product-info-bottom">
-																<div className="product-price">
-																	<span>₹349,00<label>/Month</label></span>
-																</div>
-															</div>
-														</div>
-													</div>
+												
 												</div>
 											</div>
 										</div>
@@ -461,6 +239,7 @@ const ShopDetails = ({ ProductInfo }) => {
 												<div className="widget ltn__menu-widget ltn__menu-widget-2--- ltn__menu-widget-2-color-2---">
 													<h4 className="ltn__widget-title ltn__widget-title-border-2">Top Categories</h4>
 													<ul className="go-top">
+														
 														<li><Link to="/#">Apartments <span>(26)</span></Link></li>
 														<li><Link to="/#">Picture Stodio <span>(30)</span></Link></li>
 														<li><Link to="/#">Office  <span>(71)</span></Link></li>
@@ -470,7 +249,7 @@ const ShopDetails = ({ ProductInfo }) => {
 												</div>
 
 												{/* Tagcloud Widget */}
-												<div className="widget ltn__tagcloud-widget go-top">
+												{/* <div className="widget ltn__tagcloud-widget go-top">
 													<h4 className="ltn__widget-title ltn__widget-title-border-2">Popular Tags</h4>
 													<ul>
 														<li><Link to="/#">Popular</Link></li>
@@ -488,7 +267,7 @@ const ShopDetails = ({ ProductInfo }) => {
 														<li><Link to="/#">Oil Change</Link></li>
 														<li><Link to="/#">Body Color</Link></li>
 													</ul>
-												</div>
+												</div> */}
 												{/* Banner Widget */}
 												<div className="widget ltn__banner-widget d-none go-top">
 													<Link to="/#"><img src={publicUrl + "assets/img/banner/2.jpg"} alt="#" /></Link>
