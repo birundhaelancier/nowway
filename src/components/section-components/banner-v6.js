@@ -35,8 +35,8 @@ const BannerV6 = ({ property_type, location }) => {
 	// 		[name]: value,
 	// 	});
 	// }
-	const handleChange = (data,key) => {
-		
+	const handleChange = (data, key) => {
+
 		setSearchValues({
 			...SearchValues,
 			[key]: data,
@@ -47,6 +47,8 @@ const BannerV6 = ({ property_type, location }) => {
 		e.preventDefault();
 
 	}
+
+	console.log(SearchValues, "SearchValues")
 
 	return (
 		<div className="ltn__slider-area ltn__slider-4 position-relative  ltn__primary-bg parent_select">
@@ -64,7 +66,7 @@ const BannerV6 = ({ property_type, location }) => {
 										<div className="ltn__car-dealer-form-tab">
 											<div className="ltn__tab-menu  text-uppercase text-center">
 												<div className="nav">
-													<a className="tab" data-bs-toggle="tab" href="#ltn__form_tab_1_1"><i className="fas fa-home" />Rent</a>
+													<a className="tab active" data-bs-toggle="tab" href="#ltn__form_tab_1_1"><i className="fas fa-home" />Rent</a>
 													<a data-bs-toggle="tab" href="#ltn__form_tab_1_1" className><i className="fas fa-store" />Sale</a>
 													<a className="tab" data-bs-toggle="tab" href="#ltn__form_tab_1_1"><i className="fab fa-algolia" />Buy</a>
 												</div>
@@ -77,7 +79,7 @@ const BannerV6 = ({ property_type, location }) => {
 																<SelectInput dropdown={property_type} placeholder={"Property Type"}
 																	value={SearchValues.Property_Type}
 																	//  value={Property_Type} 
-																	changeData={(data) => handleChange(data, "select", "Property_Type")}
+																	changeData={(data) => handleChange(data, "Property_Type")}
 																	suffixicon={<i className="fa fa-car sel_icon" />}
 																/>
 
@@ -85,7 +87,7 @@ const BannerV6 = ({ property_type, location }) => {
 															<div className="ltn__car-dealer-form-item ltn__custom-icon ltn__icon-meter col-lg-4 col-md-6">
 																<SelectInput dropdown={location} placeholder={"Location"}
 																	value={SearchValues.Location}
-																	changeData={(data) => handleChange(data, "select", "Location")}
+																	changeData={(data) => handleChange(data, "Location")}
 																	suffixicon={<i className="fa fa-map-marker sel_icon" />}
 																/>
 
@@ -93,7 +95,8 @@ const BannerV6 = ({ property_type, location }) => {
 															<div className="ltn__car-dealer-form-item ltn__custom-icon ltn__icon-calendar col-lg-4 col-md-6">
 																<div className="btn-wrapper text-center mt-0 go-top">
 																	{/* <button type="submit" class="btn theme-btn-1 btn-effect-1 text-uppercase">Search Inventory</button> */}
-																	<Link to="/shop-right-sidebar" className="theme-btn-1 btn btn-block text-uppercase">Search</Link>
+																	<div className="btn theme-btn-1 btn-effect-1 text-uppercase" style={{ padding: "11px 40px" }} >Search</div>
+																	{/* <Link to="/shop-right-sidebar" className="theme-btn-1 btn btn-block text-uppercase">Search</Link> */}
 																</div>
 															</div>
 														</form>

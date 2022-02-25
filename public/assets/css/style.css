@@ -9225,6 +9225,12 @@ margin-bottom: 15px; }
     .ltn__category-item-5 a .category-title {
       font-size: 18px; } }
 
+      .category-icon img{
+        width: 80%;
+        height: 80px;
+        border-radius: 50%;
+      }
+
 @media (max-width: 767px) {
   .ltn__category-item-2 .ltn__category-item-img {
     display: none; }
@@ -15607,3 +15613,4 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 ---------------------------------------------------- */
 
 /*# sourceMappingURL=style.css.map */
+

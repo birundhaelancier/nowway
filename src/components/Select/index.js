@@ -8,7 +8,7 @@ const SelectInput = (props) => {
              {props.suffixicon&&<div className='pos_prefix'>{props.suffixicon}</div>}
             <Select
                 // className={`${data.error && "selectbrdred brdnone"} ${props.mode !== "multiple" && "selectAdjustHeight"} selectbox`}
-                showSearch
+                // showSearch
                 value={props.value ? props.value : props.placeholder}
                 // suffixIcon={<img src={SelectionIcon} className="SelectInput_svg" />}
                 placeholder={props.placeholder}

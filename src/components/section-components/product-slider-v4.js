@@ -53,8 +53,9 @@ const ProductSliderV4 = ({ list }) => {
 									return (
 										<div className="col-xl-4 col-sm-6 col-12">
 											<div className="ltn__product-item ltn__product-item-4 text-center---">
+											{/* product-details?product_id=${item.id} */}
 												<div className="product-img go-top">
-													<Link to={`/product-details?product_id=${item.id}`}><img src={Images[index]?.img} alt="#" /></Link>
+													<Link to={`/#`}><img src={Images[index]?.img} alt="#" /></Link>
 													<div className="product-badge">
 														<ul>
 															<li className={item.type === "Rent" ? "sale-badge bg-green" : "sale-badge bg-pink"}>{item.type === "Rent" ? "For Rent" : "For Sell"}</li>
@@ -64,17 +65,17 @@ const ProductSliderV4 = ({ list }) => {
 														<div className="product-img-location">
 															<ul>
 																<li>
-																	<Link to={`/product-details?product_id=${item.id}`}><i className="flaticon-pin" /> {item.state + ", " + item.city}</Link>
+																	<Link to={`/#`}><i className="flaticon-pin" /> {item.state + ", " + item.city}</Link>
 																</li>
 															</ul>
 														</div>
 														<div className="product-img-gallery go-top">
 															<ul>
 																<li>
-																	<Link to={`/product-details?product_id=${item.id}`}><i className="fas fa-camera" /> 4</Link>
+																	<Link to={`/#`}><i className="fas fa-camera" /> 4</Link>
 																</li>
 																<li>
-																	<Link to={`/product-details?product_id=${item.id}`}><i className="fas fa-film" /> 2</Link>
+																	<Link to={`/#`}><i className="fas fa-film" /> 2</Link>
 																</li>
 															</ul>
 														</div>
@@ -84,7 +85,7 @@ const ProductSliderV4 = ({ list }) => {
 													<div className="product-price">
 														<span>₹{item.price}<label>/Month</label></span>
 													</div>
-													<h2 className="product-title go-top"><Link to={`/product-details?product_id=${item.id}`}>{item.tit}</Link></h2>
+													<h2 className="product-title go-top"><Link to={`/#`}>{item.tit}</Link></h2>
 													<div className="product-description">
 														<p>{item.description}</p>
 													</div>
@@ -103,10 +104,10 @@ const ProductSliderV4 = ({ list }) => {
 												<div className="product-info-bottom">
 													<div className="real-estate-agent">
 														<div className="agent-img go-top">
-															<Link to={`/product-details?product_id=${item.id}`}><img src={publicUrl + "assets/img/blog/author.jpg"} alt="#" /></Link>
+															<Link to={`/#`}><img src={publicUrl + "assets/img/blog/author.jpg"} alt="#" /></Link>
 														</div>
 														<div className="agent-brief go-top">
-															<h6><Link to={`/product-details?product_id=${item.id}`}>{item.user_name}</Link></h6>
+															<h6><Link to={`/#`}>{item.user_name}</Link></h6>
 															{/* <small>Estate Agents</small> */}
 														</div>
 													</div>
@@ -125,7 +126,7 @@ const ProductSliderV4 = ({ list }) => {
 															{/* data-bs-toggle="modal" data-bs-target="#liton_wishlist_modal" */}
 															<li>
 																<span className="go-top">
-																	<Link to={`/product-details?product_id=${item.id}`} title="Product Details">
+																	<Link to={`/#`} title="Product Details">
 																		<i className="flaticon-add" />
 																	</Link>
 																</span>
