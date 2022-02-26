@@ -1,4 +1,5 @@
 export const PROPERTY_SEARCH = "PROPERTY_SEARCH";
+export const ADD_WISHLIST="ADD_WISHLIST"
 
 
 

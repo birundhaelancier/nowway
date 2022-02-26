@@ -2,7 +2,8 @@ import React, { Component, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import parse from 'html-react-parser';
 import Slider from "react-slick";
-
+import { Add_WishList } from '../apiActions'
+import Swal from "sweetalert2";
 const ProductSliderV4 = ({ list }) => {
 	const [slideNumber, setSlideNumber] = useState(3)
 	let publicUrl = process.env.PUBLIC_URL + '/'
@@ -35,7 +36,16 @@ const ProductSliderV4 = ({ list }) => {
 		{ img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg" },
 		{ img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg" }
 	]
-
+	const AddWishlist=(id)=>{
+		alert("fghj")
+		Add_WishList(id).then((res)=>{
+			if(res.Status==="Success"){
+				Swal.fire('Success', "Wishlist Added Successfully ", 'success') 
+			}else{
+				Swal.fire('Success', "Something went wrong not added in your wishlist ", 'success') 
+			}	
+		})
+	}
 	return (
 
 		<div>
@@ -125,13 +135,13 @@ const ProductSliderV4 = ({ list }) => {
 																</a>
 															</li>
 															<li>
-																<a href="#" title="Wishlist">
-																	<i className="flaticon-heart-1" /></a>
+																<a  title="Wishlist">
+																	<i className="flaticon-heart-1" onClick={()=>AddWishlist(item.id)}/></a>
 															</li>
 															{/* data-bs-toggle="modal" data-bs-target="#liton_wishlist_modal" */}
 															<li>
 																<span className="go-top">
-																	<Link to={`/#`} title="Product Details">
+																	<Link to={`/product-details?product_id=${item.id}`} title="Product Details">
 																		<i className="flaticon-add" />
 																	</Link>
 																</span>

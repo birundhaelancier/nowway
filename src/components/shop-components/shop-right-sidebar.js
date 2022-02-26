@@ -5,12 +5,16 @@ import { connect, useDispatch } from "react-redux";
 import Sidebar from "./shop-sidebar";
 import { useEffect } from "react";
 import { GetPropertyType_Search } from "../../Redux/Action/allActions";
+import { Add_WishList } from '../apiActions'
 import {
   GetAmenities,
   GetPropertyType,
 } from "../../components/apiActions/index";
+import Swal from "sweetalert2";
+import { useHistory } from "react-router-dom";
 const ShopGridV1 = (props) => {
   let dispatch = useDispatch();
+  let history =useHistory()
   const [Amenities, setAmenities] = useState([]);
   const [Search, setSearch] = useState("");
   const [Property_type, setProperty_type] = useState([]);
@@ -32,7 +36,19 @@ const ShopGridV1 = (props) => {
   }, [Search]);
 
   let publicUrl = process.env.PUBLIC_URL + "/";
-
+  const AddWishlist=(id)=>{
+    if(JSON.parse(localStorage.getItem("user_id"))){
+		Add_WishList(id).then((res)=>{
+			if(res.Status==="Success"){
+				Swal.fire('Success', "Wishlist Added Successfully ", 'success') 
+			}else{
+				Swal.fire('Success', "Something went wrong not added in your wishlist ", 'success') 
+			}	
+		})
+  }else{
+    history.push("/login")
+  }
+	}
   return (
     <div>
       <div className="ltn__product-area ltn__product-gutter">
@@ -157,8 +173,8 @@ const ShopGridV1 = (props) => {
                                       </a>
                                     </li>
                                     <li>
-                                      <a href="#" title="Wishlist">
-                                        <i className="flaticon-heart-1" />
+                                      <a  title="Wishlist">
+                                        <i className="flaticon-heart-1" onClick={()=>AddWishlist(data.id)}/>
                                       </a>
                                     </li>
                                     <li className="go-top">

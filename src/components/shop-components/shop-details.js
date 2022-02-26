@@ -1,17 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import parse from 'html-react-parser';
-import Modal from '../Model';
-
-
-const ShopDetails = ({ ProductInfo,RelatedProducts }) => {
+import Modal from '../Model'; 
+import { Add_ContactDetails,Add_WishList } from '../apiActions'
+import { DatePicker,TimePicker } from 'antd'
+import Swal from "sweetalert2";
+import { useHistory } from 'react-router-dom';
+const ShopDetails = ({ ProductInfo,RelatedProducts,TopCategory }) => {
 	const [isModalVisible, setIsModalVisible] = useState(false);
+	const [visitOpen,setvisitOpen]=useState(false)
 	const [pro_details, setPro_details] = useState()
+	let history=useHistory()
 	useEffect(() => {
 		setPro_details(ProductInfo)
 	}, [ProductInfo])
 	let publicUrl = process.env.PUBLIC_URL + '/'
-	console.log(RelatedProducts, "ProductInfo")
+	const AddContact=(id)=>{
+	if(JSON.parse(localStorage.getItem("user_id"))){
+		Add_ContactDetails(id).then((res)=>{
+		  if(res.Status==="Success"){
+		  setIsModalVisible(false)
+		  Swal.fire('Success', "Successfully added", 'success') 
+		  }
+		})
+	 }
+	 else{
+		 history.push('/login')
+	 }
+	}
+	const AddWishlist=(id)=>{
+		Add_WishList(id).then((res)=>{
+			if(res.Status==="Success"){
+				setIsModalVisible(false)
+				Swal.fire('Success', "Wishlist Added Successfully ", 'success') 
+			}else{
+				Swal.fire('Failure', "Something went wrong not added in your wishlist ", 'warning') 
+			}	
+		})
+	}
 	return (
 		<div className="ltn__shop-details-area pb-10">
 			<div className="container">
@@ -79,7 +105,7 @@ const ShopDetails = ({ ProductInfo,RelatedProducts }) => {
 									</aside>
 
 								</div>
-								<Modal show={isModalVisible} handleClose={() => setIsModalVisible(false)}>
+								<Modal show={isModalVisible} width={40} handleClose={() => setIsModalVisible(false)}>
 									<div className="ltn__quick-view-modal-inner">
 										<div className="col-lg-12 text-center modalHeading">Owner Contact Details</div>
 										<div className="container">
@@ -88,17 +114,32 @@ const ShopDetails = ({ ProductInfo,RelatedProducts }) => {
 													<div className='phone-info'>Owner Details send to your +984507289</div>
 													<div className='phone-mail'>and nowway@gmail.com</div>
 													<div className='owner-btn-show'>
-														<button className='messegeBtn'>Messege Owner</button>
-														<button className='propertyBtn'>Shedule Property Visit</button>
+														<button className='messegeBtn' onClick={()=>AddContact(data.id)}>Messege Owner</button>
+														<button className='propertyBtn' onClick={()=>{setvisitOpen(true);setIsModalVisible(false)}}>Shedule Property Visit</button>
 													</div>
 												</div>
 											</div>
 										</div>
 									</div>
+								</Modal>
 
+								<Modal show={visitOpen}  width={35} handleClose={() => setvisitOpen(false)}>
+									<div className="ltn__quick-view-modal-inner">
+										<div className="col-lg-12 text-center modalHeading">Book a House Visit</div>
+										<div className="container">
+											<div className="row">
+												<div className="col-lg-12 custom-model visitmodal" >
+												<div><DatePicker/></div>
+												<div><TimePicker format="h:mm:ss A"/></div>
+													<div className='owner-btn-show'>
+														<button className='propertyBtn'>Book Slot</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
 								</Modal>
 							</div>
-
 
 
 							<div className="row">
@@ -200,7 +241,7 @@ const ShopDetails = ({ ProductInfo,RelatedProducts }) => {
 																		</li>
 																		<li>
 																			<a href="#" title="Wishlist" data-bs-toggle="modal" data-bs-target="#liton_wishlist_modal">
-																				<i className="flaticon-heart-1" /></a>
+																				<i className="flaticon-heart-1" onClick={()=>AddWishlist(data.id)}/></a>
 																		</li>
 																		<li>
 																			<Link to="/#" title="Compare">
@@ -236,18 +277,18 @@ const ShopDetails = ({ ProductInfo,RelatedProducts }) => {
 												</div>
 
 												{/* Menu Widget (Category) */}
-												<div className="widget ltn__menu-widget ltn__menu-widget-2--- ltn__menu-widget-2-color-2---">
+												
+												<div className="widget ltn__tagcloud-widget go-top">
 													<h4 className="ltn__widget-title ltn__widget-title-border-2">Top Categories</h4>
 													<ul className="go-top">
+													{TopCategory.map((data)=>
+							
+														<li><Link to={`/shop-right-sidebar/${data.name}`}>{data.name}</Link></li>
+													)}
 														
-														<li><Link to="/#">Apartments <span>(26)</span></Link></li>
-														<li><Link to="/#">Picture Stodio <span>(30)</span></Link></li>
-														<li><Link to="/#">Office  <span>(71)</span></Link></li>
-														<li><Link to="/#">Luxary Vilas <span>(56)</span></Link></li>
-														<li><Link to="/#">Duplex House <span>(60)</span></Link></li>
 													</ul>
 												</div>
-
+                                                   
 												{/* Tagcloud Widget */}
 												{/* <div className="widget ltn__tagcloud-widget go-top">
 													<h4 className="ltn__widget-title ltn__widget-title-border-2">Popular Tags</h4>

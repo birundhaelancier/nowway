@@ -3687,7 +3687,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
       font-family: var(--ltn__heading-font); }
       .ltn__tagcloud-widget ul li a:hover {
         background-color: var(--ltn__secondary-color);
-        color: var(--white); }
+        color: var(--white) !important; }
 
 /* ----------------------------------------------------
     Color Widget
@@ -15684,6 +15684,25 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .sale-badge-sell{
   background: #ec4249;
   color: white;
+}
+.ant-picker-dropdown{
+  z-index: 1083 !important;
+}
+.visitmodal .ant-picker{
+  width:100% !important;
+  height:46px !important;
+  margin-bottom: 20px !important;
+}
+.visitmodal .ant-picker-suffix {
+  color: #dc3545 !important;
+  font-size: 18px !important;
+}
+.visitmodal .propertyBtn{
+  width:100%;
+  padding: 11px;
+}
+.visitmodal .owner-btn-show{
+  display: block;
 }
 /* ----------------------------------------------------
     END

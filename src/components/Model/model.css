@@ -5,9 +5,10 @@
     position: absolute;
     width: 60%;
     background: #ffffff;
-    left: 25%;
-    top: 20%;
     padding: 20px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
 
   .hederModel{
