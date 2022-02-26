@@ -343,6 +343,7 @@ export const GetProductDetails = (values) => {
         const Encription = CryptoJS.AES.encrypt(JSON.stringify({
             "property_id": values
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
+        console.log(decryptValue(Encription),"gggggggggggg")
         const requestOptions = {
             method: 'POST',
             headers: REQUEST_HEADERS,
@@ -415,6 +416,24 @@ export const UpdateUserDetails = (userDetails, picture, show_PasswordInput) => {
             body: JSON.stringify({ encrypted: Encription }),
         };
         return fetch(APIURL + "update_user", requestOptions)
+            .then((response) => response.json())
+            .then((response) => {
+                return decryptValue(response.encrypted)
+            });
+    } catch (err) { }
+}
+
+export const GetRelatedProducts = (values) => {
+    try {
+        const Encription = CryptoJS.AES.encrypt(JSON.stringify({
+            "property_id": values
+        }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
+        const requestOptions = {
+            method: 'POST',
+            headers: REQUEST_HEADERS,
+            body: JSON.stringify({ encrypted: Encription }),
+        };
+        return fetch(APIURL + "related_listing", requestOptions)
             .then((response) => response.json())
             .then((response) => {
                 return decryptValue(response.encrypted)

@@ -14645,7 +14645,7 @@ input[type='radio']{
   background-color: var(--ltn__secondary-color);
   color: var(--white) !important; }
   .theme-btn-1:hover {
-    background-color: var(--ltn__primary-color);
+    background-color: black !important;
     color: var(--white) !important; }
 
 .theme-btn-2 {
@@ -15590,6 +15590,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background-color: #bfbfbf !important;
   width: 30px !important;
   height: 30px !important;
+}
+ /* .slick-next{
+  position: absolute !important;
+    top: 0 !important;
+    right: 0;
+} */
+
+.slick-dots{
+  margin-top: 10px !important;
 }
 .product-slider-container .slick-dots{
   position: relative !important;

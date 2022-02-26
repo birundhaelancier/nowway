@@ -28,6 +28,11 @@ const ProductSliderV4 = ({ list }) => {
 		{ img: "https://elancier.in/nowway/public/upload/offer/16456040931180807696.jpg" },
 		{ img: "https://elancier.in/nowway/public/upload/offer/1645604156917821097.jpg" },
 		{ img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg" },
+		{ img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg" },
+		{ img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg" },
+		{ img: "https://elancier.in/nowway/public/upload/offer/16456040931180807696.jpg" },
+		{ img: "https://elancier.in/nowway/public/upload/offer/1645604156917821097.jpg" },
+		{ img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg" },
 		{ img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg" }
 	]
 
