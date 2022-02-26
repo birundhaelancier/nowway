@@ -87,7 +87,7 @@ const App=()=>{
                 <Route path="/shop" component={ Shop } />
                 <Route path="/shop-grid" component={ ShopGrid } />
                 <Route path="/shop-left-sidebar" component={ ShopLeftSidebar } />
-                <Route path="/shop-right-sidebar" component={ ShopRightSidebar } />
+                <Route path="/shop-right-sidebar/:id" component={ ShopRightSidebar } />
                 <Route path="/advertisement" component={ Advertisement } />
                 <Route path="/plan" component={OwnwerPlan} />
                 <Route path="/wallet" component={Wallet} />

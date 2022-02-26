@@ -1,10 +1,12 @@
-import { GENEALOGY_TREE } from '../Utils/constant';
-
-export default function (state = [], action) {
+import { PROPERTY_SEARCH } from '../Utils/constant';
+const initialValues={
+    Property_list:[]
+}
+export default function (state = initialValues, action) {
     const { type, payload } = action;
     switch (type) {
-        case GENEALOGY_TREE:
-            return { ...state, GetGenealogyTree: payload }
+        case PROPERTY_SEARCH:
+            return { ...state, Property_list: payload }
         default:
             return state;
     }

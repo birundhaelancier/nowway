@@ -24,8 +24,6 @@ const Home_V7 = (props) => {
     const [home_offers, setHome_offer] = useState([])
     const [home_list, setHome_list] = useState([])
 
-
-
     useEffect(() => {
         myRef.current.scrollIntoView()
         GetPropertyType().then((data) => {

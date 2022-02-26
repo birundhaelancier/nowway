@@ -70,6 +70,7 @@ font-family: 'Poppins', sans-serif;
 /* ====================================================
     Gutter Code 
 ==================================================== */
+
 .container,
 .container-fluid {
   padding-right: 15px;
@@ -15497,6 +15498,12 @@ justify-content: center;}
 }
 
 /* Contact at */
+.gridproperty-Shows{
+  box-shadow: 0 0 3px rgb(0 0 0 / 16%);
+  display: grid;
+  grid-template-columns: 30% 47% 23%;
+  margin:10px;
+}
 .grid-Shows{
   box-shadow: 0 0 3px rgb(0 0 0 / 16%);
   display: grid;
@@ -15607,6 +15614,67 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .parent_select .ant-select-single:not(.ant-select-customize-input) .ant-select-selector{
   padding: 10px 0px 0px 38px !important;
+}
+
+.change_pwd_link{
+  text-align: end;
+    color: #48a4e7;
+    text-decoration: underline;
+    cursor: pointer;
+    position: relative;
+    bottom: 22px;
+}
+
+.uploads ::-webkit-file-upload-button {
+  display: none;
+  
+}
+.uploads input[type='file'] {
+  color: transparent;
+}
+.filecontainer {
+  display: flex;
+  justify-content: center;
+}
+
+.uploads {
+  width: 155px;
+}
+
+.uploadimage {
+  height: 150px;
+  width: 100%;
+  border-radius: 50%;
+  box-shadow: 1px 1px 10px rgb(62 62 62 / 20%)
+}
+.profile_show{
+  height: 175px;
+  margin: 10px 0px;
+}
+.list_username{
+  color: var(--border-color-4);
+  font-size: 20px;
+  font-weight: 500;
+}
+.lisu_number{
+  font-weight: 500;
+  /* color: rgb(151, 150, 150); */
+}
+.list_more{
+  display: flex;
+  justify-content: end;
+  align-items: flex-end;
+  padding: 0px 10px 10px 0px;
+}
+.more_btn{
+  background: #068ad7;
+  color: white;
+  padding: 2px 16px;
+  border-radius: 5px;
+}
+.sale-badge-sell{
+  background: #ec4249;
+  color: white;
 }
 /* ----------------------------------------------------
     END

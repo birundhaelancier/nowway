@@ -10,8 +10,6 @@ const ServiceDetails = ({ sub_services, ser_image }) => {
 	let history = useHistory()
 	let publicUrl = process.env.PUBLIC_URL + '/'
 	const [isModalVisible, setIsModalVisible] = useState(false);
-	const [kitchenModelopen, setKitchenModelopen] = useState(false)
-	const [bathroomModelopen, setBathroomModelopen] = useState(false)
 	const [mobileErr, setMobileErr] = useState(false)
 	const [sub_serv, setSub_serv] = useState()
 	console.log(sub_services, "sub_services")
@@ -73,7 +71,6 @@ const ServiceDetails = ({ sub_services, ser_image }) => {
 					</div>
 					<div className="col-lg-4">
 						<aside className="sidebar-area ltn__right-sidebar">
-							{/* Menu Widget */}
 							<div className="widget-2 ltn__menu-widget ltn__menu-widget-2 text-uppercase">
 								<ul className="go-top">
 									{sub_services?.map((data) => {
@@ -89,25 +86,6 @@ const ServiceDetails = ({ sub_services, ser_image }) => {
 											</li>
 										)
 									})}
-
-									{/* <li >
-										<button className='side-btn-show' onClick={() => setBathroomModelopen(true)}>
-											<div>
-												Bathroom Cleaning</div>
-											<div>
-												<span><i className="fas fa-arrow-right" /></span>
-											</div>
-										</button>
-									</li>
-									<li>
-										<button className='side-btn-show' onClick={() => setKitchenModelopen(true)}>
-											<div>
-												Kitchen Cleaning</div>
-											<div>
-												<span><i className="fas fa-arrow-right" /></span>
-											</div>
-										</button>
-									</li> */}
 								</ul>
 							</div>
 						</aside>
@@ -200,11 +178,7 @@ const ServiceDetails = ({ sub_services, ser_image }) => {
 			</div>
 			<Modal show={isModalVisible} handleClose={() => setIsModalVisible(false)}>
 				<div className="ltn__quick-view-modal-inner">
-					{/* <div className="container">
-						<div className="row"> */}
 					<div className="col-lg-12 text-center modalHeading">{sub_serv?.name}</div>
-					{/* </div>
-						</div> */}
 					<div className="container">
 						<div className="row">
 							<div className="col-lg-4 text-center">
@@ -215,8 +189,7 @@ const ServiceDetails = ({ sub_services, ser_image }) => {
 											<h6 className="section-titles">{sub_serv?.name}</h6>
 										</div>
 										<ul>
-											<div dangerouslySetInnerHTML={{ __html:sub_serv?.description }}></div>
-
+											<div dangerouslySetInnerHTML={{ __html: sub_serv?.description }}></div>
 										</ul>
 									</div>
 								</div>
@@ -230,84 +203,6 @@ const ServiceDetails = ({ sub_services, ser_image }) => {
 										<input type="text" name="place" onChange={(e) => handleChange(e)} required placeholder="Place*" />
 										<div className="btn-wrapper mt-0">
 											<button className="theme-btn-1 btn btn-block">save</button>
-										</div>
-									</form>
-								</div>
-							</div>
-
-						</div>
-					</div>
-				</div>
-
-			</Modal>
-
-			<Modal show={bathroomModelopen} handleClose={() => setBathroomModelopen(false)}>
-				<div className="ltn__quick-view-modal-inner">
-					<div className="container">
-						<div className="row">
-							<div className="col-lg-4 text-center">
-								<div className="account-create text-start ">
-									<img className='homeimage' src={publicUrl + "assets/img/homehand.jpg"} />
-									<div className='listed'>
-										<div className="text-start">
-											<h6 className="section-titles">Bathroom Cleaning</h6>
-										</div>
-										<ul>
-											<li>Lowest Price</li>
-											<li>Top Quality</li>
-											<li>Reschedule</li>
-											<li>Co-Ordination</li>
-										</ul>
-									</div>
-								</div>
-							</div>
-							<div className="col-lg-8 text-center formShow">
-								<div className="account-login-inner">
-									<form method="GET" className="form-input-box">
-										<input type="text" name="email" placeholder="Email*" />
-										<input type="text" name="place" placeholder="Place*" />
-										<input type="text" name="mobile" placeholder="Mobile Number*" />
-										<div className="btn-wrapper go-top">
-											<Link to="/plan" className="theme-btn-1 btn-show black-btn">Check Prices</Link>
-										</div>
-									</form>
-								</div>
-							</div>
-
-						</div>
-					</div>
-				</div>
-
-			</Modal>
-
-			<Modal show={kitchenModelopen} handleClose={() => setKitchenModelopen(false)}>
-				<div className="ltn__quick-view-modal-inner">
-					<div className="container">
-						<div className="row">
-							<div className="col-lg-4 text-center">
-								<div className="account-create text-start ">
-									<img className='homeimage' src={publicUrl + "assets/img/homehand.jpg"} />
-									<div className='listed'>
-										<div className="text-start">
-											<h6 className="section-titles">Bathroom Cleaning</h6>
-										</div>
-										<ul>
-											<li>Lowest Price</li>
-											<li>Top Quality</li>
-											<li>Reschedule</li>
-											<li>Co-Ordination</li>
-										</ul>
-									</div>
-								</div>
-							</div>
-							<div className="col-lg-8 text-center formShow">
-								<div className="account-login-inner">
-									<form method="GET" className="form-input-box">
-										<input type="text" name="email" placeholder="Email*" />
-										<input type="text" name="place" placeholder="Place*" />
-										<input type="text" name="mobile" placeholder="Mobile Number*" />
-										<div className="btn-wrapper go-top">
-											<Link to="/plan" className="theme-btn-1 btn-show black-btn">Check Prices</Link>
 										</div>
 									</form>
 								</div>

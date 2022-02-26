@@ -383,3 +383,42 @@ export const GetHomeList = () => {
             });
     } catch (err) { }
 }
+
+
+export const GetUserDetails = () => {
+    try {
+        const Encription = CryptoJS.AES.encrypt(JSON.stringify({
+            "user_id": JSON.parse(localStorage.getItem("user_id"))
+        }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
+        const requestOptions = {
+            method: 'POST',
+            headers: REQUEST_HEADERS,
+            body: JSON.stringify({ encrypted: Encription }),
+        };
+        return fetch(APIURL + "get_user", requestOptions)
+            .then((response) => response.json())
+            .then((response) => {
+                return decryptValue(response.encrypted)
+            });
+    } catch (err) { }
+}
+
+export const UpdateUserDetails = (userDetails, picture, show_PasswordInput) => {
+    try {
+        const Encription = CryptoJS.AES.encrypt(JSON.stringify({
+            "user_id": JSON.parse(localStorage.getItem("user_id")), "first_name": userDetails.fname, "last_name": userDetails.lname, "password": show_PasswordInput ? userDetails.newPassword : userDetails.curPassword, "email": userDetails.email, "display_name": userDetails.name, "description": userDetails.description, "image": picture, "profession": userDetails.profession
+        }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
+        console.log(decryptValue(Encription), "decryptValue")
+        const requestOptions = {
+            method: 'POST',
+            headers: REQUEST_HEADERS,
+            body: JSON.stringify({ encrypted: Encription }),
+        };
+        return fetch(APIURL + "update_user", requestOptions)
+            .then((response) => response.json())
+            .then((response) => {
+                return decryptValue(response.encrypted)
+            });
+    } catch (err) { }
+}
+

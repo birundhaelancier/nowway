@@ -25,3 +25,10 @@
 @import "elements/_preloader";
 @import "elements/_search_popup";
 @import "elements/_button";
+
+
+.ant-select-selection-item{
+    color: rgb(0 0 0 / 45%);
+    font-weight: 700;
+    font-size: 15px;
+}
