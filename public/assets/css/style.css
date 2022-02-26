@@ -5658,6 +5658,9 @@ box-shadow: 0px 4px 5px -3px rgba(226, 224, 224, 0.75);
 @media (max-width: 479px) {
   .ltn__utilize {
     width: 300px; }
+    .showUpload{
+      width: 30% !important;
+    }
   .ltn__utilize.ltn__utilize-mobile-menu {
     /* padding: 50px 20px;  */
   } }
@@ -9723,6 +9726,9 @@ height: 325px;}
         height: 700px !important;
         overflow: auto;
     }
+    .showUpload{
+      width: 28% !important;
+    }
     .ltn__login-area{
       padding-top: 10px !important;
     }
@@ -9785,6 +9791,9 @@ height: 325px;}
   .ltn__countdown-1 {
     min-width: 380px; } 
   }
+  /* .showUpload{
+    width: 24% !important;
+  } */
 
 /* ----------------------------------------------------
     Blog Area
@@ -10228,6 +10237,9 @@ height: 325px;}
   .ltn__login-area{
     padding-top: 90px;
   }
+  /* .showUpload{
+    width: 24% !important;
+  } */
   .ltn__blog-title {
     font-size: 16px; }
   .ltn__blog-meta li {
@@ -13008,6 +13020,9 @@ input[type='radio']{
 @media (max-width: 575px) {
   .ltn__service-form-1 .ltn__service-form-brief {
     padding-left: 20px; } }
+    /* .showUpload{
+      width: 28% !important;
+    } */
 
 /* ----------------------------------------------------
     Get A Quote Form
@@ -13737,7 +13752,7 @@ input[type='radio']{
       font-size: 14px; }
     .ltn__tab-menu-list .nav a.active {
       background-color: var(--section-bg-2);
-      color: var(--white); }
+      color: var(--white) !important; }
 
 .ltn__myaccount-tab-content-inner > p {
   padding: 20px;
@@ -15507,7 +15522,7 @@ justify-content: center;}
 .grid-Shows{
   box-shadow: 0 0 3px rgb(0 0 0 / 16%);
   display: grid;
-  grid-template-columns: 30% 27% 40% 3%;
+  grid-template-columns: 30% 40% 27% 3%;
   margin:10px;
 }.cross-btn{
   text-align: end;
@@ -15522,7 +15537,7 @@ justify-content: center;}
 }.cont-address{
   padding: 7px;
 }.cont-address .icon i{
-  color: rgb(77, 74, 74);
+  color: #eb6954;
   margin-right: 10px;
 }.cont-mail{
   margin: 20px 0px;
@@ -15662,7 +15677,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 .list_username{
   color: var(--border-color-4);
-  font-size: 20px;
+  font-size: 15px;
   font-weight: 500;
 }
 .lisu_number{
@@ -15684,6 +15699,32 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .sale-badge-sell{
   background: #ec4249;
   color: white;
+}
+.showProfile{
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.showUpload{
+  width: 13%;
+  border-radius: 50%;
+  height: 90px;
+  margin-right: 20px;
+}
+.u_name{
+  color: #ec4249;
+  font-weight: 500;
+  font-size: 18px;
+}
+.modal_content-view{
+  height: 350px;
+  overflow: auto;
+}
+.extra_info label{
+  font-size: 15px;
+  margin-right: 10px;
+  font-weight: 500;
+
 }
 /* ----------------------------------------------------
     END

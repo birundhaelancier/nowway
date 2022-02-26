@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import parse from 'html-react-parser';
 import Slider from "react-slick";
@@ -6,13 +6,25 @@ import Slider from "react-slick";
 const Testimonial = ({ home_offers }) => {
 	let publicUrl = process.env.PUBLIC_URL + '/'
 	let imagealt = 'image';
+	const [slideNumber, setSlideNumber] = useState(3)
+
+
 	var settings = {
 		dots: false,
 		infinite: true,
 		speed: 500,
-		slidesToShow: 3,
+		slidesToShow: slideNumber,
 		slidesToScroll: 1,
 	};
+	useEffect(() => {
+        if (window.innerWidth >= 550 && window.innerWidth <= 1000) {
+            setSlideNumber(2)
+        } else if (window.innerWidth < 549) {
+            setSlideNumber(1)
+        } else if (window.innerWidth >= 1001) {
+            setSlideNumber(3)
+        }
+    }, [slideNumber])
 	return (
 		<div className="ltn__testimonial-area section-bg-1--- bg-image-top pt-115 pb-70" data-bs-bg={publicUrl + "assets/img/bg/20.jpg"}>
 			<div className="container">
