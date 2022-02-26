@@ -25,7 +25,7 @@ const BannerV6 = ({ property_type, location }) => {
   useEffect(() => {
     setLogin_id(JSON.parse(localStorage.getItem("user_id")));
   }, []);
-
+// fdfhdhf
   const handleChange = (data, key) => {
 	
     setSearchValues({
