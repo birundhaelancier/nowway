@@ -3687,7 +3687,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
       font-family: var(--ltn__heading-font); }
       .ltn__tagcloud-widget ul li a:hover {
         background-color: var(--ltn__secondary-color);
-        color: var(--white); }
+        color: var(--white) !important; }
 
 /* ----------------------------------------------------
     Color Widget

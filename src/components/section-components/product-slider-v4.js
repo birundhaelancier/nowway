@@ -2,9 +2,15 @@ import React, { Component, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import parse from 'html-react-parser';
 import Slider from "react-slick";
-
-const ProductSliderV4 = ({ list }) => {
+import { notification, Popconfirm } from 'antd'
+import { Add_WishList, GetWishlist, RemoveWishlist } from '../apiActions'
+import Swal from "sweetalert2";
+import { useHistory } from 'react-router-dom'
+const ProductSliderV4 = ({ list, callWish }) => {
+	let history = useHistory()
 	const [slideNumber, setSlideNumber] = useState(3)
+	const [wish_list, setWish_list] = useState([])
+
 	let publicUrl = process.env.PUBLIC_URL + '/'
 	var settings = {
 		dots: false,
@@ -22,6 +28,18 @@ const ProductSliderV4 = ({ list }) => {
 			setSlideNumber(3)
 		}
 	}, [slideNumber])
+
+	useEffect(() => {
+		GetWishlist().then((response) => {
+			let arrVal = []
+			response.Response.forEach((data) => {
+				arrVal.push(data.id)
+			})
+			setWish_list(arrVal)
+		})
+	}, [])
+
+	console.log(wish_list, "wish_list")
 
 	const Images = [
 		{ img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg" },
@@ -41,7 +59,39 @@ const ProductSliderV4 = ({ list }) => {
 		{ img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg" },
 		{ img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg" }
 	]
-console.log(list,"list")
+	const AddWishlist = (id) => {
+		if (JSON.parse(localStorage.getItem("user_id"))) {
+			Add_WishList(id).then((res) => {
+				if (res.Status === "Success") {
+					notification.success({
+						message: "Wishlist Added Successfully"
+					})
+					callWish("success")
+				} else {
+					notification.success({
+						message: "Something went wrong not added in your wishlist"
+					})
+				}
+			})
+		}
+		else {
+			history.push('/login')
+		}
+	}
+	const removeWishlist = (id) => {
+		RemoveWishlist(id).then((data) => {
+			if (data.Status == "Success") {
+				notification.success({
+					message:"Removed Successfully"
+				})
+				window.location.reload();
+			} else {
+				notification.error({
+					message: data.Message
+				})
+			}
+		})
+	}
 	return (
 
 		<div>
@@ -64,9 +114,9 @@ console.log(list,"list")
 									return (
 										<div className="col-xl-4 col-sm-6 col-12">
 											<div className="ltn__product-item ltn__product-item-4 text-center---">
-											{/* product-details?product_id=${item.id} */}
+												{/* product-details?product_id=${item.id} */}
 												<div className="product-img go-top">
-													<Link to={`/#`}><img src={item.image} alt="#" /></Link>
+													<Link to={`/product-details?product_id=${item.id}`}><img src={item.image} alt="#" /></Link>
 													<div className="product-badge">
 														<ul>
 															<li className={item.type === "Rent" ? "sale-badge bg-green" : "sale-badge bg-pink"}>{item.type === "Rent" ? "For Rent" : "For Sell"}</li>
@@ -115,7 +165,7 @@ console.log(list,"list")
 												<div className="product-info-bottom">
 													<div className="real-estate-agent">
 														<div className="agent-img go-top">
-															<Link to={`/#`}><img src={publicUrl + "assets/img/blog/author.jpg"} alt="#" /></Link>
+															<Link to={`/product-details?product_id=${item.id}`}><img src={publicUrl + "assets/img/blog/author.jpg"} alt="#" /></Link>
 														</div>
 														<div className="agent-brief go-top">
 															<h6><Link to={`/#`}>{item.user_name}</Link></h6>
@@ -131,13 +181,39 @@ console.log(list,"list")
 																</a>
 															</li>
 															<li>
-																<a href="#" title="Wishlist">
-																	<i className="flaticon-heart-1" /></a>
+																{wish_list.includes(item.id) ? <Popconfirm
+																	title="Are you sure to delete this task?"
+																	onConfirm={()=>removeWishlist(item.id)}
+																	// onCancel={()=>removeWishlist(item.id)}
+																	okText="Yes"
+																	cancelText="No"
+																>
+																	<a
+																		href="#"
+																		title="Wishlist"
+																	>
+																		<i
+																			className="flaticon-heart-1" style={{ color: "red" }}
+																		/>
+																	</a>
+																</Popconfirm>
+																	:
+																	<a
+																		href="#"
+																		title="Wishlist"
+																	>
+																		<i
+																			className="flaticon-heart-1"
+																			onClick={() =>
+																				AddWishlist(item.id)
+																			}
+																		/>
+																	</a>}
 															</li>
 															{/* data-bs-toggle="modal" data-bs-target="#liton_wishlist_modal" */}
 															<li>
 																<span className="go-top">
-																	<Link to={`/#`} title="Product Details">
+																	<Link to={`/`} title="Product Details">
 																		<i className="flaticon-add" />
 																	</Link>
 																</span>

@@ -6,7 +6,7 @@ import { GetWishlist } from "../apiActions/index";
 import Modal from '../Model';
 
 
-const NavbarV3 = ({ user }) => {
+const NavbarV3 = ({ user, Wish_list }) => {
 	const [login_id, setLogin_id] = useState();
 	let publicUrl = process.env.PUBLIC_URL + '/'
 	let imgattr = 'logo'
@@ -22,7 +22,7 @@ const NavbarV3 = ({ user }) => {
 		GetWishlist().then((response) => {
 			setWish_list(response.Response)
 		})
-	}, [])
+	}, [Wish_list])
 
 	useEffect(() => {
 		axios({
@@ -147,7 +147,7 @@ const NavbarV3 = ({ user }) => {
 												<li><Link to="/service"> Services</Link></li>
 												{login_id && <li><Link to="/my-account"> My Bookings</Link>
 												</li>}
-												{login_id && <li><Link to="/wallet"> My Wallet</Link>
+												{login_id && <li><Link to="/#"> My Wallet</Link>
 												</li>}
 												{!login_id && <li className='signbtn'><Link to="/login"> Sign in</Link>
 												</li>}
@@ -172,12 +172,12 @@ const NavbarV3 = ({ user }) => {
 									</nav>
 								</div>
 							</div>
-							<div className='col-lg-1 d-flex wish-web' onClick={openWishlist}>
+							{login_id && <div className='col-lg-1 d-flex wish-web' onClick={openWishlist}>
 								<div className='wishlistShow'>
 									<i class="fa fa-heart" />
 								</div>
 								{wish_list.length > 0 && <div className='count_view'>{wish_list && wish_list.length}</div>}
-							</div>
+							</div>}
 
 						</div>
 					</div>
@@ -210,7 +210,7 @@ const NavbarV3 = ({ user }) => {
 								<li><Link to="/service"> Services</Link></li>
 								{login_id && <li><Link to="/my-account"> My Bookings</Link>
 								</li>}
-								{login_id && <li><Link to="/wallet"> My Wallet</Link>
+								{login_id && <li><Link to="/#"> My Wallet</Link>
 								</li>}
 								{!login_id && <li className='signbtn'><Link to="/login"> Sign in</Link>
 								</li>}

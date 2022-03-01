@@ -23,6 +23,8 @@ const Home_V7 = (props) => {
     const [amenities_val, setAmenities_val] = useState([])
     const [home_offers, setHome_offer] = useState([])
     const [home_list, setHome_list] = useState([])
+    const [Wish_list, setWish_list] = useState([])
+
 
     useEffect(() => {
         myRef.current.scrollIntoView()
@@ -42,17 +44,16 @@ const Home_V7 = (props) => {
             setHome_list(data.Response)
         })
     }, [])
-    console.log(home_list, "test")
 
     return <div>
-        <Navbar CustomClass="ltn__header-transparent gradient-color-2" />
+        <Navbar CustomClass="ltn__header-transparent gradient-color-2" Wish_list={Wish_list} />
         <BannerV6 property_type={property_type} location={location} />
         <Featuresv1 customClass="ltn__feature-area section-bg-1" home_offers={home_offers} />
         {/* <Aboutv2 /> */}
         <div ref={myRef}>
             <Advertisement home_offers={home_offers} />
         </div>
-        <ProSlider list={home_list} />
+        <ProSlider list={home_list} callWish={(data)=>setWish_list(data)}/>
         <Category amenities_val={amenities_val} />
         <Testimonial />
         <CallToActionV1 />

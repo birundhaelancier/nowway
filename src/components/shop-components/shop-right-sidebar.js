@@ -4,16 +4,24 @@ import parse from "html-react-parser";
 import { connect, useDispatch } from "react-redux";
 import Sidebar from "./shop-sidebar";
 import { useEffect } from "react";
+import { notification,Popconfirm } from "antd";
 import { GetPropertyType_Search } from "../../Redux/Action/allActions";
+import { Add_WishList } from "../apiActions";
 import {
   GetAmenities,
   GetPropertyType,
+  GetWishlist
 } from "../../components/apiActions/index";
+import Swal from "sweetalert2";
+import { useHistory } from "react-router-dom";
 const ShopGridV1 = (props) => {
   let dispatch = useDispatch();
+  let history = useHistory();
   const [Amenities, setAmenities] = useState([]);
   const [Search, setSearch] = useState("");
   const [Property_type, setProperty_type] = useState([]);
+  const [Wish_list,setWish_list]=useState([])
+  const [enable,setenable]=useState(false)
   useEffect(() => {
     //   dispatch(GetPropertyType_Search())
     GetAmenities().then((data) => {
@@ -22,6 +30,9 @@ const ShopGridV1 = (props) => {
     GetPropertyType().then((data) => {
       setProperty_type(data.Response);
     });
+    GetWishlist().then((response) => {
+      setWish_list(response.Response)
+    })
   }, []);
 
   useEffect(() => {}, [props.Property_Detail]);
@@ -32,7 +43,33 @@ const ShopGridV1 = (props) => {
   }, [Search]);
 
   let publicUrl = process.env.PUBLIC_URL + "/";
-
+  const AddWishlist = (id) => {
+    if (JSON.parse(localStorage.getItem("user_id"))) {
+      Add_WishList(id).then((res) => {
+        if (res.Status === "Success") {
+          notification.success({
+            message: "Wishlist Added Successfully",
+          });
+        } else {
+          notification.success({
+            message: "Something went wrong not added in your wishlist",
+          });
+        }
+      });
+    } else {
+      history.push("/login");
+    }
+  };
+  useEffect(()=>{
+    Wish_list.filter((data)=>{
+      if(data.id===props.Property_Detail?.find(item=>item.id)){
+        setenable(false)
+      }
+      else{
+        setenable(true)
+      }
+    })
+  },[Wish_list,props.Property_Detail])
   return (
     <div>
       <div className="ltn__product-area ltn__product-gutter">
@@ -59,9 +96,7 @@ const ShopGridV1 = (props) => {
                       <span>Showing 1–12 of 18 results</span>
                     </div>
                   </li>
-                  <li>
-           
-                  </li>
+                  <li></li>
                 </ul>
               </div>
               <div className="tab-content">
@@ -89,7 +124,7 @@ const ShopGridV1 = (props) => {
                       {/* ltn__product-item */}
                       {props.Property_Detail.length > 0 ? (
                         props.Property_Detail.map((data) => (
-                          <div className="col-xl-6 col-sm-6 col-12">
+                          <div className="col-xl-6 col-sm-6 col-12" key={data.id}>
                             <div className="ltn__product-item ltn__product-item-4 ltn__product-item-5 text-center---">
                               <div className="product-img go-top">
                                 <Link to="/product-details">
@@ -157,9 +192,42 @@ const ShopGridV1 = (props) => {
                                       </a>
                                     </li>
                                     <li>
-                                      <a href="#" title="Wishlist">
-                                        <i className="flaticon-heart-1" />
-                                      </a>
+                                      {enable ? (
+                                        <Popconfirm
+                                          title="Are you sure to delete this task?"
+                                          onConfirm={""}
+                                          onCancel={""}
+                                          okText="Yes"
+                                          cancelText="No"
+                                        >
+                                          <a
+                                            href="#"
+                                            title="Wishlist"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#liton_wishlist_modal"
+                                          >
+                                            <i
+                                              className="flaticon-heart-1"
+                                              style={{ color: "red" }}
+                                            />
+                                          </a>
+                                        </Popconfirm>
+                                      ) : (
+                                        <a
+                                          href="#"
+                                          title="Wishlist"
+                                          data-bs-toggle="modal"
+                                          data-bs-target="#liton_wishlist_modal"
+                                        >
+                                          <i
+                                            className="flaticon-heart-1"
+                                            onClick={() => AddWishlist(data.id)}
+                                          />
+                                        </a>
+                                      )}
+                                      {/* <a  title="Wishlist">
+                                        <i className="flaticon-heart-1" onClick={()=>AddWishlist(data.id)}/>
+                                      </a> */}
                                     </li>
                                     <li className="go-top">
                                       <Link
@@ -236,7 +304,7 @@ const ShopGridV1 = (props) => {
         </div>
       </div>
 
-      <div className="ltn__modal-area ltn__add-to-cart-modal-area">
+      {/* <div className="ltn__modal-area ltn__add-to-cart-modal-area">
         <div className="modal fade" id="liton_wishlist_modal" tabIndex={-1}>
           <div className="modal-dialog modal-md" role="document">
             <div className="modal-content">
@@ -280,7 +348,6 @@ const ShopGridV1 = (props) => {
                             </Link>
                           </div>
                         </div>
-                        {/* additional-info */}
                         <div className="additional-info d-none">
                           <p>
                             We want to give you <b>10% discount</b> for your
@@ -301,7 +368,7 @@ const ShopGridV1 = (props) => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div className="ltn__modal-area ltn__quick-view-modal-area">
         <div className="modal fade" id="quick_view_modal" tabIndex={-1}>

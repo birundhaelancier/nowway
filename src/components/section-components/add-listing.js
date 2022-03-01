@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import parse from 'html-react-parser';
 import { Select, Checkbox } from 'antd';
@@ -175,13 +175,11 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
     }
     const test = () => {
         const formData = new FormData();
-        for (let i = 0; i < listValues.images.length; i++) {
-            console.log(listValues.images[i].name)
-            formData.append("images" + i, listValues.images[i])
-        }
+      
         console.log(formData, listValues.images, listValues.images.name, "li")
     }
 
+console.log("cfghjk",checkList)
     return (
         <div className="ltn__appointment-area pb-120">
             <div className="container">
@@ -247,7 +245,7 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
                                 </div>
                                 <h2>2. Media</h2>
                                 <h6>Listing Media</h6>
-                                <input type="file" id="myFile" name="images" className="btn theme-btn-3 mb-10"
+                                <input type="file" id="myFile" multiple name="images" className="btn theme-btn-3 mb-10"
                                     // value={selectedFile}
                                     onChange={(e) => handleChange(e, "files", "images")}
                                 /><br />

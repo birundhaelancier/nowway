@@ -45,7 +45,7 @@ const Advertisement = ({ home_offers }) => {
                                         <div className="col-xl-4 col-sm-6 col-12">
                                             <div className="ltn__product-item ltn__product-item-4 text-center---">
                                                 <div className="product-img go-top">
-                                                    <Link to="/product-details"><img src={item.image} alt="#" /></Link>
+                                                    <Link to="/#"><img src={item.image} alt="#" /></Link>
                                                 </div>
                                             </div>
                                         </div>
