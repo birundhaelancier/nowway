@@ -198,7 +198,7 @@ const MyAccount = ({ wishnumber }) => {
 												<a data-bs-toggle="tab" href="#liton_tab_1_0">Contacted <i className="fas fa-phone" /></a>
 												<a data-bs-toggle="tab" href="#liton_tab_1_4">My Property <i className="fas fa-list" /></a>
 												<a data-bs-toggle="tab" href="#liton_tab_1_5">Account Details <i className="fas fa-user" /></a>
-												<Link className="go-top" to="/login">Logout <i className="fas fa-sign-out-alt" /></Link>
+												<Link className="go-top" to={`/login?edit=${"user_id"}`}>Logout <i className="fas fa-sign-out-alt" /></Link>
 											</div>
 										</div>
 									</div>

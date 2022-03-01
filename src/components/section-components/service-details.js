@@ -41,6 +41,7 @@ const ServiceDetails = ({ sub_services, ser_image }) => {
 				notification.success({
 					message: data.Message
 				})
+				handleCancel()
 				setIsModalVisible(false)
 			} else {
 				notification.error({

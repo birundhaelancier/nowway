@@ -41,7 +41,7 @@ const ProductSliderV4 = ({ list }) => {
 		{ img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg" },
 		{ img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg" }
 	]
-
+console.log(list,"list")
 	return (
 
 		<div>
@@ -66,7 +66,7 @@ const ProductSliderV4 = ({ list }) => {
 											<div className="ltn__product-item ltn__product-item-4 text-center---">
 											{/* product-details?product_id=${item.id} */}
 												<div className="product-img go-top">
-													<Link to={`/#`}><img src={Images[index]?.img} alt="#" /></Link>
+													<Link to={`/#`}><img src={item.image} alt="#" /></Link>
 													<div className="product-badge">
 														<ul>
 															<li className={item.type === "Rent" ? "sale-badge bg-green" : "sale-badge bg-pink"}>{item.type === "Rent" ? "For Rent" : "For Sell"}</li>

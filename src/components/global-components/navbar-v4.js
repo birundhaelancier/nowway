@@ -178,21 +178,6 @@ const NavbarV3 = ({ user }) => {
 								</div>
 								{wish_list.length > 0 && <div className='count_view'>{wish_list && wish_list.length}</div>}
 							</div>
-							<Modal show={isModalVisible} handleClose={closeModal}>
-								<div className="ltn__quick-view-modal-inner">
-									<div className="col-lg-12 text-center modalHeading">WishList</div>
-									<div className="container">
-										<div className="row">
-											<div className="col-lg-4 text-center">
-												<div className="account-create text-start ">
-													test
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-
-							</Modal>
 
 						</div>
 					</div>
