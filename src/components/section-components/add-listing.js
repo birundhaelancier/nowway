@@ -88,14 +88,12 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
             let arrValues = []
             if (e.target.checked === true) {
                 arrValues = [...listValues[name], String(e.target.value)]
-                // setCheckList([...checkList, String(e.target.value)])
             } else {
                 const selectedAcc = listValues[name].filter(a => {
                     if (a === String(e.target.value)) return false;
                     return true;
                 });
                 arrValues = [...selectedAcc]
-                // setCheckList([...selectedAcc])
             }
             setListValues({
                 ...listValues,
@@ -136,7 +134,7 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
             });
         }
     }
-    console.log(checkList, listValues.images)
+    console.log("checkList", listValues.amenities)
 
     const submitForm = async (e) => {
         e.preventDefault();
@@ -188,7 +186,7 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
         <div className="ltn__appointment-area pb-120">
             <div className="container">
                 <div className="row">
-                    
+
                     <div className="col-lg-12">
                         <div className="ltn__appointment-inner">
                             <form onSubmit={(e) => submitForm(e)}>
@@ -493,7 +491,7 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
                                     Please note that the date and time you requested may not be available. We will contact you to confirm your actual appointment details.
                                 </div>
                                 <div className="btn-wrapper text-center mt-30 mb-15">
-                                    <button className="btn theme-btn-1 btn-effect-1 text-uppercase" type="submit">Submit Property</button>
+                                    <button className="theme-btn-1 btn btn-block text-uppercase" type="submit">Submit Property</button>
                                 </div>
                             </form>
                         </div>

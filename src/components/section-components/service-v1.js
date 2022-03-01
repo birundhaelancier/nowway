@@ -18,7 +18,6 @@ const ServiceV5 = ({ service }) => {
 				</div>
 				<div className="row  justify-content-center">
 					{service?.map((data) => {
-						console.log(data,"te")
 						return (
 							<div className="col-lg-4 col-sm-6 col-12">
 								<div className="ltn__feature-item ltn__feature-item-6 text-center bg-white  box-shadow-1">

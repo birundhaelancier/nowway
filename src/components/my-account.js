@@ -5,11 +5,13 @@ import MyAccount from './shop-components/my-account';
 import CallToActionV1 from './section-components/call-to-action-v1';
 import Footer from './global-components/footer';
 
-const MyaccountV1 = () => {
+const MyaccountV1 = (props) => {
+    const params = new URLSearchParams(props.location.search);
+    const wish = params.get('wish');
     return <div>
         <Navbar />
         <PageHeader headertitle="My Account" />
-        <MyAccount />
+        <MyAccount wishnumber={wish} />
         <CallToActionV1 />
         <Footer />
     </div>
