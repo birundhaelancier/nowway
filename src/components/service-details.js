@@ -11,7 +11,7 @@ const Service_Details = (props) => {
     const EditText = params.get('edit');
     const ser_image = params.get('image');
     const ser_name = params.get('ser_name');
-// console.log(Details)
+    console.log(EditText, "EditText")
     const [sub_services, setSub_services] = useState();
     useEffect(() => {
         GetSubService(EditText).then((data) => {

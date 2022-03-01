@@ -127,11 +127,13 @@ const ShopGridV1 = (props) => {
                           <div className="col-xl-6 col-sm-6 col-12" key={data.id}>
                             <div className="ltn__product-item ltn__product-item-4 ltn__product-item-5 text-center---">
                               <div className="product-img go-top">
+                                {console.log("dddddddddddd",data)}
                                 <Link to="/product-details">
                                   <img
                                     src={
-                                      publicUrl + "assets/img/product-3/1.jpg"
+                                      data?.image[0] ||  publicUrl + "assets/img/product-3/1.jpg" 
                                     }
+                                    style={{width:"100%"}}
                                     alt="#"
                                   />
                                 </Link>
@@ -140,7 +142,7 @@ const ShopGridV1 = (props) => {
                                     <Link to="/shop">
                                       <img
                                         src={
-                                          publicUrl +
+                                          data?.image[0] ||   publicUrl +
                                           "assets/img/blog/author.jpg"
                                         }
                                         alt="#"

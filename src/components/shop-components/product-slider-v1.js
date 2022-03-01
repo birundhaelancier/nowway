@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom';
 import parse from 'html-react-parser';
 import Slider from "react-slick";
 
-const ProductSliderV1 = () => {
+const ProductSliderV1 = ({ProductInfo}) => {
 	let publicUrl = process.env.PUBLIC_URL + '/'
     const [slideNumber, setSlideNumber] = useState(3)
 
 	var settings = {
 		dots: false,
-		infinite: true,
+		infinite: false,
 		speed: 500,
 		slidesToShow: slideNumber,
 		slidesToScroll: 1,
@@ -29,14 +29,16 @@ const ProductSliderV1 = () => {
 				<div className="row">
 					<div className="col-lg-12 product-slider-container">
 						<Slider {...settings}>
-							{["A", "B", "c", "d", "r"].map((data, index) => {
+							{ProductInfo?.map((data, index) => {
 								return (
 									<div className="col-lg-12">
+                                        {data?.image?.map((item)=>
 										<div className="ltn__img-slide-item-4">
-											<a href={publicUrl + `assets/img/img-slide/3${index + 1}.jpg`} data-rel="lightcase:myCollection">
-												<img src={publicUrl + `assets/img/img-slide/3${index + 1}.jpg`} alt="Image" />
+											<a  data-rel="lightcase:myCollection">
+												<img src={item || publicUrl + `assets/img/img-slide/3.jpg`} alt="Image" />
 											</a>
 										</div>
+										)}
 									</div>
 								)
 							})}

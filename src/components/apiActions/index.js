@@ -429,9 +429,14 @@ export const GetHomeOffer = () => {
 
 export const GetHomeList = () => {
     try {
+        const Encription = CryptoJS.AES.encrypt(JSON.stringify({
+            "user_id": JSON.parse(localStorage.getItem("user_id")) ? JSON.parse(localStorage.getItem("user_id")) : 0
+        }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
+
         const requestOptions = {
             method: 'POST',
             headers: REQUEST_HEADERS,
+            body: JSON.stringify({ encrypted: Encription }),
         };
         return fetch(APIURL + "home_listing", requestOptions)
             .then((response) => response.json())
@@ -596,8 +601,26 @@ export const GetWishlist = () => {
             headers: REQUEST_HEADERS,
             body: JSON.stringify({ encrypted: Encription }),
         };
-        console.log(decryptValue(Encription),"yy")
         return fetch(APIURL + "wish_list", requestOptions)
+            .then((response) => response.json())
+            .then((response) => {
+                return decryptValue(response.encrypted)
+            });
+    } catch (err) { }
+}
+
+
+export const RemoveWishlist = (id) => {
+    try {
+        const Encription = CryptoJS.AES.encrypt(JSON.stringify({
+            "user_id": JSON.parse(localStorage.getItem("user_id")), "property_id": id
+        }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
+        const requestOptions = {
+            method: 'POST',
+            headers: REQUEST_HEADERS,
+            body: JSON.stringify({ encrypted: Encription }),
+        };
+        return fetch(APIURL + "remove_wishlist", requestOptions)
             .then((response) => response.json())
             .then((response) => {
                 return decryptValue(response.encrypted)

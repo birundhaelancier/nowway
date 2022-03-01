@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import parse from 'html-react-parser';
-import { GetUserDetails, UpdateUserDetails, GetContachDetails, GetMyList, GetWishlist } from '../apiActions/index';
+import { GetUserDetails, UpdateUserDetails, GetContachDetails, GetMyList, GetWishlist, RemoveWishlist } from '../apiActions/index';
 import { notification } from 'antd';
 import Modal from '../Model';
 import Error from "../section-components/error";
 
-
-const MyAccount = () => {
+const MyAccount = ({ wishnumber }) => {
 	let publicUrl = process.env.PUBLIC_URL + '/';
 	const initialValues = {
 		fname: "",
@@ -29,6 +28,9 @@ const MyAccount = () => {
 	const [wish_list, setWish_list] = useState([])
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [userInfo, setUserInfo] = useState(false);
+	const [refresh, setRefresh] = useState(false);
+
+
 
 	const Images = [
 		{ img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg" },
@@ -72,7 +74,6 @@ const MyAccount = () => {
 			setUserDetails({
 				...userDetails,
 			});
-
 			// Object.keys(initialValues).map((data) => {
 			// 	return Object.keys(response).map((item) => {
 			// 		console.log(item, "response.item")
@@ -163,7 +164,22 @@ const MyAccount = () => {
 		setUserInfo(data)
 	}
 
-	console.log(home_list, "home_list")
+	const removeWishlist = (id) => {
+		RemoveWishlist(id).then((data) => {
+			if (data.Status == "Success") {
+				notification.success({
+					message:"Removed Successfully"
+				})
+				window.location.reload();
+			} else {
+				notification.error({
+					message: data.Message
+				})
+			}
+		})
+		setRefresh(true);
+	}
+
 
 	return (
 		<div className="liton__wishlist-area pb-70">
@@ -177,10 +193,9 @@ const MyAccount = () => {
 									<div className="col-lg-4">
 										<div className="ltn__tab-menu-list mb-50">
 											<div className="nav">
-												<a data-bs-toggle="tab" className="active show" href="#liton_tab_1_1">Dashboard <i className="fas fa-home" /></a>
-												<a data-bs-toggle="tab" href="#liton_tab_1_2">Wishlist <i className="fas fa-heart" /></a>
+												<a data-bs-toggle="tab" className={wishnumber != 1 && "active show"} href="#liton_tab_1_1">Dashboard <i className="fas fa-home" /></a>
+												<a data-bs-toggle="tab" className={wishnumber == 1 && "active show"} href="#liton_tab_1_2">Wishlist <i className="fas fa-heart" /></a>
 												<a data-bs-toggle="tab" href="#liton_tab_1_0">Contacted <i className="fas fa-phone" /></a>
-												<a data-bs-toggle="tab" href="#liton_tab_1_3">Downloads <i className="fas fa-arrow-down" /></a>
 												<a data-bs-toggle="tab" href="#liton_tab_1_4">My Property <i className="fas fa-list" /></a>
 												<a data-bs-toggle="tab" href="#liton_tab_1_5">Account Details <i className="fas fa-user" /></a>
 												<Link className="go-top" to="/login">Logout <i className="fas fa-sign-out-alt" /></Link>
@@ -189,13 +204,13 @@ const MyAccount = () => {
 									</div>
 									<div className="col-lg-8">
 										<div className="tab-content">
-											<div className="tab-pane fade active show" id="liton_tab_1_1">
+											<div className={`tab-pane fade ${wishnumber != 1 && "active show"}`} id="liton_tab_1_1">
 												<div className="ltn__myaccount-tab-content-inner">
 													<p>Hello <strong>UserName</strong> (not <strong>UserName</strong>? <small><a href="login-register.html">Log out</a></small> )</p>
 													<p>From your account dashboard you can view your <span>recent orders</span>, manage your <span>shipping and billing addresses</span>, and <span>edit your password and account details</span>.</p>
 												</div>
 											</div>
-											<div className="tab-pane fade" id="liton_tab_1_2">
+											<div className={`tab-pane fade ${wishnumber == 1 && "active show"}`} id="liton_tab_1_2">
 												<div className="ltn__myaccount-tab-content-inner">
 													<div className="table-responsive">
 														<div className='contact-container'>
@@ -205,7 +220,7 @@ const MyAccount = () => {
 																		wish_list.map((list, index) => {
 																			return (
 																				<div className='grid-Shows'>
-																					<div className='up-cross'><i class="far fa-window-close"></i></div>
+																					<div className='up-cross' onClick={() => removeWishlist(list.id)}><i class="far fa-window-close"></i></div>
 																					<div className="product-img go-top">
 																						<Link to="/product-details"><img src={Images[index]?.img} alt="#" /></Link>
 																						<div className="product-badge re-content">
@@ -219,7 +234,8 @@ const MyAccount = () => {
 																						<div className='lisu_number'>{list.city + ", " + list.state + " - " + list.zip}</div>
 																					</div>
 																					<div></div>
-																					<div className='low-cross'><i class="far fa-window-close"></i></div>
+																					<div className='low-cross'
+																						onClick={() => removeWishlist(list.id)}><i class="far fa-window-close"></i></div>
 
 																				</div>
 																			)
@@ -267,42 +283,6 @@ const MyAccount = () => {
 																<Error />
 															}
 														</div>
-													</div>
-												</div>
-											</div>
-											<div className="tab-pane fade" id="liton_tab_1_3">
-												<div className="ltn__myaccount-tab-content-inner">
-													<div className="table-responsive">
-														<table className="table">
-															<thead>
-																<tr>
-																	<th>Product</th>
-																	<th>Date</th>
-																	<th>Expire</th>
-																	<th>Download</th>
-																</tr>
-															</thead>
-															<tbody>
-																<tr>
-																	<td>Carsafe - Car Service PSD Template</td>
-																	<td>Nov 22, 2020</td>
-																	<td>Yes</td>
-																	<td><a href="#"><i className="far fa-arrow-to-bottom mr-1" /> Download File</a></td>
-																</tr>
-																<tr>
-																	<td>Carsafe - Car Service HTML Template</td>
-																	<td>Nov 10, 2020</td>
-																	<td>Yes</td>
-																	<td><a href="#"><i className="far fa-arrow-to-bottom mr-1" /> Download File</a></td>
-																</tr>
-																<tr>
-																	<td>Carsafe - Car Service WordPress Theme</td>
-																	<td>Nov 12, 2020</td>
-																	<td>Yes</td>
-																	<td><a href="#"><i className="far fa-arrow-to-bottom mr-1" /> Download File</a></td>
-																</tr>
-															</tbody>
-														</table>
 													</div>
 												</div>
 											</div>
@@ -471,9 +451,6 @@ const MyAccount = () => {
 													</div>
 												</div>
 											</div>
-											{/* <div className="tab-pane fade" id="liton_tab_1_6">
-
-											</div> */}
 										</div>
 									</div>
 								</div>

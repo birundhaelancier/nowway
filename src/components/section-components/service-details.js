@@ -36,8 +36,7 @@ const ServiceDetails = ({ sub_services, ser_image }) => {
 	}
 	const submitForm = async (e) => {
 		e.preventDefault();
-		AddSubServiceEnquiry(values, sub_serv?.name).then((data) => {
-			console.log(data.Response,)
+		AddSubServiceEnquiry(values, sub_serv?.id).then((data) => {
 			if (data.Status == "Success") {
 				notification.success({
 					message: data.Message
@@ -51,13 +50,26 @@ const ServiceDetails = ({ sub_services, ser_image }) => {
 		})
 	}
 
+
+	const handleCancel = () => {
+		Object.keys(initialValues).map((data) => {
+			values[data] = ""
+		})
+		setValues((prevState) => ({
+			...prevState,
+		}));
+	}
+
 	const selectSubserivce = (data) => {
 		setIsModalVisible(true)
 		setSub_serv(data)
-		// selectSubserivce(data)
 	}
 
-	console.log(sub_services, "sub_services")
+	const closeModal = () => {
+		setIsModalVisible(false)
+		handleCancel()
+	}
+
 	return (
 		<div className="ltn__page-details-area ltn__service-details-area">
 			<div className="container">
@@ -176,7 +188,7 @@ const ServiceDetails = ({ sub_services, ser_image }) => {
 					</div>
 				</div>
 			</div>
-			<Modal show={isModalVisible} handleClose={() => setIsModalVisible(false)}>
+			<Modal show={isModalVisible} handleClose={closeModal}>
 				<div className="ltn__quick-view-modal-inner">
 					<div className="col-lg-12 text-center modalHeading">{sub_serv?.name}</div>
 					<div className="container">
@@ -197,10 +209,10 @@ const ServiceDetails = ({ sub_services, ser_image }) => {
 							<div className="col-lg-8 text-center formShow">
 								<div className="account-login-inner">
 									<form className="form-input-box" onSubmit={(e) => submitForm(e)}>
-										<input type="text" name="name" onChange={(e) => handleChange(e)} required placeholder="Name*" />
-										<input type="number" name="mobile" onChange={(e) => handleChange(e)} required placeholder="Mobile Number*" />
+										<input type="text" name="name" value={values.name} onChange={(e) => handleChange(e)} required placeholder="Name*" />
+										<input type="number" name="mobile" value={values.mobile} onChange={(e) => handleChange(e)} required placeholder="Mobile Number*" />
 										{mobileErr && <div className='errMsgmodel'>Mobile Number should be 10 digit only</div>}
-										<input type="text" name="place" onChange={(e) => handleChange(e)} required placeholder="Place*" />
+										<input type="text" name="place" value={values.place} onChange={(e) => handleChange(e)} required placeholder="Place*" />
 										<div className="btn-wrapper mt-0">
 											<button className="theme-btn-1 btn btn-block">save</button>
 										</div>

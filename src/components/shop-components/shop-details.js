@@ -83,14 +83,31 @@ const FilterData=(id)=>{
 }
 
 useEffect(()=>{
-	Wish_list.filter((data)=>{
-		if(data.id===RelatedProducts?.find(item=>item.id)){
+
+    let Data= Wish_list.filter(f => !RelatedProducts?.includes(f.id))
+	let Users = Wish_list?.filter((itemA)=> {
+		return !RelatedProducts?.find((itemB)=> {
+			return itemA.id === itemB.id;
+		})
+	  })
+	console.log(  Wish_list.includes(x => x.id === RelatedProducts?.map(item => item.id))
+	,"ffffffffffff")
+	// Wish_list.map((data)=>{
+		Users.map((data)=>{
+          if(data.id){
 			setenable(false)
-		}
-		else{
+		  }
+		  else{
 			setenable(true)
-		}
-	})
+
+		  }
+		})
+		// if(Wish_list.filter(f => !RelatedProducts?.includes(f.id))){
+		
+		// }
+		// else{
+		// }
+	// })
 },[Wish_list,RelatedProducts])
 
 useEffect(()=>{
@@ -348,10 +365,11 @@ useEffect(()=>{
                                     <Link to="/product-details">
                                       <img
                                         src={
-                                          publicUrl +
+                                         data?.image[0] || publicUrl +
                                           "assets/img/product-3/1.jpg"
                                         }
                                         alt="#"
+										style={{width:"100%"}}
                                       />
                                     </Link>
                                     <div className="real-estate-agent">
@@ -359,7 +377,7 @@ useEffect(()=>{
                                         <Link to="/product-details">
                                           <img
                                             src={
-                                              publicUrl +
+												data?.image[0] || publicUrl +
                                               "assets/img/blog/author.jpg"
                                             }
                                             alt="#"
@@ -421,7 +439,7 @@ useEffect(()=>{
                                         
                                         <li>
 											
-										{enable?<Popconfirm
+										{!enable?<Popconfirm
                                           title="Are you sure to delete this task?"
                                           onConfirm={""}
                                           onCancel={cancel}

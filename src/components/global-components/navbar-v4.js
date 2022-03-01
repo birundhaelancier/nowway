@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Social from '../section-components/social';
 import axios from 'axios';
+import { GetWishlist } from "../apiActions/index";
+import Modal from '../Model';
 
 
 const NavbarV3 = ({ user }) => {
@@ -9,10 +11,17 @@ const NavbarV3 = ({ user }) => {
 	let publicUrl = process.env.PUBLIC_URL + '/'
 	let imgattr = 'logo'
 	let anchor = '#'
+	let history = useHistory()
+	const [wish_list, setWish_list] = useState([])
+	const [isModalVisible, setIsModalVisible] = useState(false);
+
 	useEffect(() => {
 		if (user === "user_id") {
 			localStorage.removeItem("user_id")
 		}
+		GetWishlist().then((response) => {
+			setWish_list(response.Response)
+		})
 	}, [])
 
 	useEffect(() => {
@@ -29,6 +38,17 @@ const NavbarV3 = ({ user }) => {
 			})
 		setLogin_id(JSON.parse(localStorage.getItem("user_id")))
 	}, [])
+
+
+	const closeModal = () => {
+		setIsModalVisible(false)
+	}
+
+	const openWishlist = () => {
+		history.push(`/my-account?wish=${1}`)
+	}
+
+	console.log(wish_list, "wish_list")
 
 	return (
 		<div>
@@ -89,7 +109,7 @@ const NavbarV3 = ({ user }) => {
 				<div className="ltn__header-middle-area ltn__header-sticky ltn__sticky-bg-black">
 					<div className="container">
 						<div className="row">
-							<div className="col-lg-4">
+							<div className="col-lg-5">
 								<div className="site-logo-wrap">
 									<div className="col--- ltn__header-options ltn__header-options-2 ">
 										<div className="mobile-menu-toggle d-xl-none">
@@ -110,10 +130,16 @@ const NavbarV3 = ({ user }) => {
 											𝖭𝖮𝖶 𝖶𝖠𝖸
 										</div>
 									</div>
+									<div className='col-lg-1 d-flex wish-mobile' onClick={openWishlist}>
+										<div className='wishlistShow'>
+											<i class="fa fa-heart" />
+										</div>
+										{wish_list.length > 0 && <div className='count_view'>{wish_list && wish_list.length}</div>}
+									</div>
 									<Link to={`/#?edit=${"offer"}`} className='bolt-icon'> <i class="fas fa-bolt"></i></Link>
 								</div>
 							</div>
-							<div className="col header-menu-column menu-color-white">
+							<div className="col-lg-6 header-menu-column menu-color-white">
 								<div className="header-menu d-none d-xl-block go-top">
 									<nav>
 										<div className="ltn__main-menu">
@@ -140,11 +166,34 @@ const NavbarV3 = ({ user }) => {
 												<li className="special-link">
 													<Link to={login_id ? "/add-listing" : "/login"}>Add Listing</Link>
 												</li>
+
 											</ul>
 										</div>
 									</nav>
 								</div>
 							</div>
+							<div className='col-lg-1 d-flex wish-web' onClick={openWishlist}>
+								<div className='wishlistShow'>
+									<i class="fa fa-heart" />
+								</div>
+								{wish_list.length > 0 && <div className='count_view'>{wish_list && wish_list.length}</div>}
+							</div>
+							<Modal show={isModalVisible} handleClose={closeModal}>
+								<div className="ltn__quick-view-modal-inner">
+									<div className="col-lg-12 text-center modalHeading">WishList</div>
+									<div className="container">
+										<div className="row">
+											<div className="col-lg-4 text-center">
+												<div className="account-create text-start ">
+													test
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</Modal>
+
 						</div>
 					</div>
 				</div>
@@ -194,6 +243,7 @@ const NavbarV3 = ({ user }) => {
 								<li className="special-link">
 									<Link to={login_id ? "/add-listing" : "/login"}>Add Listing</Link>
 								</li>
+
 							</ul>
 						</div>
 						<div className="ltn__social-media-2">
