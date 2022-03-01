@@ -19,11 +19,11 @@ const NavbarV3 = ({ user }) => {
 		axios({
 			method: 'POST',
 			url: "https://elancier.in/nowway/api/auth_login",
-			data: {
+			data:{
 				"email": "nowway",
 				"password": "12345678",
 			}
-		})
+		  })
 			.then((response) => {
 				localStorage.setItem("Token", JSON.stringify(response.data.Response.token));
 			})

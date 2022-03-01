@@ -2,16 +2,19 @@ import React, { Component, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import parse from 'html-react-parser';
 import Slider from "react-slick";
+import { notification } from 'antd'
 import { Add_WishList } from '../apiActions'
 import Swal from "sweetalert2";
+import { useHistory } from 'react-router-dom'
 const ProductSliderV4 = ({ list }) => {
+	let history=useHistory()
 	const [slideNumber, setSlideNumber] = useState(3)
 	let publicUrl = process.env.PUBLIC_URL + '/'
 	var settings = {
 		dots: false,
 		infinite: true,
 		speed: 500,
-		slidesToShow: 3,
+		slidesToShow: slideNumber,
 		slidesToScroll: 1,
 	};
 	useEffect(() => {
@@ -34,17 +37,31 @@ const ProductSliderV4 = ({ list }) => {
 		{ img: "https://elancier.in/nowway/public/upload/offer/16456040931180807696.jpg" },
 		{ img: "https://elancier.in/nowway/public/upload/offer/1645604156917821097.jpg" },
 		{ img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg" },
+		{ img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg" },
+		{ img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg" },
+		{ img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg" },
+		{ img: "https://elancier.in/nowway/public/upload/offer/16456040931180807696.jpg" },
+		{ img: "https://elancier.in/nowway/public/upload/offer/1645604156917821097.jpg" },
+		{ img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg" },
 		{ img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg" }
 	]
 	const AddWishlist=(id)=>{
-		alert("fghj")
+		if(JSON.parse(localStorage.getItem("user_id"))){
 		Add_WishList(id).then((res)=>{
 			if(res.Status==="Success"){
-				Swal.fire('Success', "Wishlist Added Successfully ", 'success') 
+				notification.success({
+					message:"Wishlist Added Successfully"
+				})
 			}else{
-				Swal.fire('Success', "Something went wrong not added in your wishlist ", 'success') 
+				notification.success({
+					message:"Something went wrong not added in your wishlist"
+				})
 			}	
 		})
+	  }
+	  else{
+		history.push('/login')
+	  }
 	}
 	return (
 

@@ -20,8 +20,7 @@ const AddListing_V1 = () => {
     const [available, setAvailable] = useState([])
     const [property_type, setProperty_type] = useState([])
     const [amenities, setAmenities] = useState([])
-
-
+    
     useEffect(() => {
         GetStructureType().then((data) => {
             setStructure_type(data.Response)

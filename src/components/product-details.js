@@ -5,7 +5,7 @@ import ProductSlider from './shop-components/product-slider-v1';
 import ProductDetails from './shop-components/shop-details';
 import CallToActionV1 from './section-components/call-to-action-v1';
 import Footer from './global-components/footer';
-import { GetProductDetails,GetRelatedProducts,Top_Categories } from '../components/apiActions/index';
+import { GetProductDetails,GetRelatedProducts,Top_Categories,AddPropertyview } from '../components/apiActions/index';
 
 
 const Product_Details = (props) => {
@@ -24,6 +24,10 @@ const Product_Details = (props) => {
         Top_Categories().then((data)=>{
             setTopCategory(data.Response)
         })
+        Top_Categories(Product_id).then((data)=>{
+            // setTopCategory(data.Response)
+        })
+       
     }, [])
     return <div>
         <Navbar />
