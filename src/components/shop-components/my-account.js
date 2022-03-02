@@ -198,6 +198,7 @@ const MyAccount = ({ wishnumber }) => {
 												<a data-bs-toggle="tab" className={wishnumber == 1 && "active show"} href="#liton_tab_1_2">Wishlist <i className="fas fa-heart" /></a>
 												<a data-bs-toggle="tab" href="#liton_tab_1_0">Contacted <i className="fas fa-phone" /></a>
 												<a data-bs-toggle="tab" href="#liton_tab_1_4">My Property <i className="fas fa-list" /></a>
+												<a data-bs-toggle="tab" href="#liton_tab_1_5">NW Cash<i className="fas fa-list" /></a>
 												<Link className="go-top" to={`/login?edit=${"user_id"}`}>Logout <i className="fas fa-sign-out-alt" /></Link>
 											</div>
 										</div>
@@ -301,8 +302,8 @@ const MyAccount = ({ wishnumber }) => {
 																					<div className='lisu_number'>{data.property_type}</div>
 																					<div className='lisu_number'>₹{data.price}</div>
 																					<div className='lisu_number'>Viewers: {data.views}</div>
-																					<div 
-																					className='lisu_number'>{data.city + ", " + data.state + " - " + data.zip}</div>
+																					<div
+																						className='lisu_number'>{data.city + ", " + data.state + " - " + data.zip}</div>
 																				</div>
 																				<div className='list_more'>
 																					<button className='more_btn' onClick={() => selectSubserivce(data)}>More Details</button>
@@ -320,7 +321,7 @@ const MyAccount = ({ wishnumber }) => {
 												</div>
 												<Modal show={isModalVisible} handleClose={() => setIsModalVisible(false)}>
 													<div className="ltn__quick-view-modal-inner ">
-														<div className="col-lg-12 text-center modalHeading">User Details</div>
+														<div className="col-lg-12 text-center modalHeading">Property Details</div>
 														<div className='modal_content-view'>
 															<div className="container">
 																<div className="row">
@@ -376,6 +377,31 @@ const MyAccount = ({ wishnumber }) => {
 													</div>
 
 												</Modal>
+											</div>
+
+											<div className="tab-pane fade" id="liton_tab_1_5">
+												<div className="ltn__myaccount-tab-content-inner">
+													<div className="table-responsive">
+														<div className='contact-container'>
+															<div className='col-lg-12'>
+																<div className='my-heading'>My Recent Transactions </div>
+																<div className='nb__1S0gN'>Total Balance</div>
+																<div className='col-lg-12 nb__U6FD_'>
+																	{/* <img src={img3} /> */}
+																	<div className='nb__U6FD_'>
+																		<div className='col-lg-9 nb__8kQ5D'>
+																			<div>Welcome Bonus</div>
+																			<button>success</button>
+																			<div className='nb__1ip5'>  sale available on the website, we can match you with a house you will want to call home</div>
+																		</div>
+																		<div className='col-lg-3 nb__ykf7e'>+₹2,000</div>
+
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
 											</div>
 											<div className={`tab-pane fade ${wishnumber != 1 && "active show"}`} id="liton_tab_1_1">
 												<div className="ltn__myaccount-tab-content-inner">
