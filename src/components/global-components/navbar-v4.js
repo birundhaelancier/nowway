@@ -149,6 +149,14 @@ const NavbarV3 = ({ user, Wish_list }) => {
 												<li className="special-link">
 													<Link to={login_id ? "/add-listing" : "/login"}>Add Listing</Link>
 												</li>
+												<li>
+													{login_id && <div className='col-lg-1 d-flex wish-web' onClick={openWishlist}>
+														<div className='wishlistShow'>
+															<i class="fa fa-heart" />
+														</div>
+														{wish_list.length > 0 && <div className='count_view'>{wish_list && wish_list.length}</div>}
+													</div>}
+												</li>
 												{login_id && <li><Link to="/my-account"> My Profile</Link>
 												</li>}
 												{!login_id && <li className='signbtn'><Link to="/login"> Sign in</Link>
@@ -162,12 +170,7 @@ const NavbarV3 = ({ user, Wish_list }) => {
 									</nav>
 								</div>
 							</div>
-							{login_id && <div className='col-lg-1 d-flex wish-web' onClick={openWishlist}>
-								<div className='wishlistShow'>
-									<i class="fa fa-heart" />
-								</div>
-								{wish_list.length > 0 && <div className='count_view'>{wish_list && wish_list.length}</div>}
-							</div>}
+
 
 						</div>
 					</div>
