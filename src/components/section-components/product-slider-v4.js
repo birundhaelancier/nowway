@@ -67,6 +67,9 @@ const ProductSliderV4 = ({ list, callWish }) => {
 						message: "Wishlist Added Successfully"
 					})
 					callWish("success")
+          setTimeout(()=>{
+            window.location.reload();
+          },2000)
 				} else {
 					notification.success({
 						message: "Something went wrong not added in your wishlist"
@@ -84,7 +87,9 @@ const ProductSliderV4 = ({ list, callWish }) => {
 				notification.success({
 					message:"Removed Successfully"
 				})
-				window.location.reload();
+        setTimeout(()=>{
+          window.location.reload();
+        },2000)
 			} else {
 				notification.error({
 					message: data.Message

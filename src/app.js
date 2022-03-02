@@ -58,7 +58,7 @@ const App=()=>{
 
     return(
         <HashRouter basename="/">
-              <Router>
+              {/* <Router> */}
             <div>
             <Switch>
                 <Route exact path="/" component={HomeV7} />
@@ -114,7 +114,7 @@ const App=()=>{
                 <Route path="/history" component={ History } />
             </Switch>
             </div>
-            </Router>
+            {/* </Router> */}
         </HashRouter>
 )
 }

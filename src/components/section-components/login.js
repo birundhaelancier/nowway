@@ -39,11 +39,11 @@ const Login = () => {
 				if (data.Status == "Success") {
 					localStorage.setItem("user_id", JSON.stringify(data.Response[0].id));
 					notification.success({
-						message: data.Message
+						message: "Login Successfully"
 					})
 					history.push("/")
 				} else {
-					notification.success({
+					notification.error({
 						message: data.Message
 					})
 				}

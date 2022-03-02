@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import parse from 'html-react-parser';
 import axios from 'axios';
-import { notification } from "antd"; 
+import { notification } from "antd";
 import { onRegister, GetOtp } from '../apiActions/index';
 import Toast from '../toast/index';
 import { ToastContainer, toast } from 'react-toastify';
@@ -11,7 +11,6 @@ import Modal from '../Model';
 
 const Register = () => {
 	let history = useHistory()
-
 	const initialValues = {
 		email: "",
 		password: "",
@@ -40,7 +39,7 @@ const Register = () => {
 
 			if (!pattern.test(value)) {
 				setEmailErr(true)
-			}else{
+			} else {
 				setEmailErr(false)
 			}
 		}
@@ -56,14 +55,14 @@ const Register = () => {
 			onRegister(values).then((data) => {
 				if (data.Status == "Success") {
 					notification.success({
-						message: data.Message
+						message: "Register Successfully"
 					})
 					setShowOtp(true)
 					GetOtp(values).then((data) => {
 						setOtpnumber(data.Response[0].otp)
 					})
 				} else {
-					notification.success({
+					notification.error({
 						message: data.Message
 					})
 				}
@@ -74,15 +73,13 @@ const Register = () => {
 
 	const onOtp = () => {
 		if (values.otp == otpnumber || values.otp == "1234") {
-			// onRegister(values).then((data) => {
 			notification.success({
-				message: "OTP Successfully"
+				message: "OTP Register Successfully"
 			})
 			history.push("/login")
-			// })
 		} else {
 			notification.error({
-				message: "Otp Faild"
+				message: "Invalid OTP"
 			})
 			setShowOtp(false)
 		}
@@ -118,14 +115,15 @@ const Register = () => {
 							</form>
 						</div>
 					</div>
-					<Modal show={showOtp} handleClose={() => setShowOtp(false)}>
+					<Modal show={showOtp} width={35} handleClose={() => setShowOtp(false)}>
 						<div className="ltn__quick-view-modal-inner">
+						<div className="col-lg-12 text-center modalHeading">Enter Your OTP</div>
 							<div className="container">
 								<div className="row text-center">
-									<form className="ltn__form-box contact-form-box" onSubmit={(e) => onOtp(e)}>
+									<form className="ltn__form-box" onSubmit={(e) => onOtp(e)}>
 										<input type="number" name="otp" placeholder="OTP*" value={values.otp} onChange={(e) => handleChange(e)} required />
-										<div className="btn-wrapper go-top">
-											<button className="theme-btn-1 btn black-btn">SUBMIT OTP</button>
+										<div className="go-top">
+											<button className="theme-btn-1 btn btn-block postBtn">SUBMIT OTP</button>
 										</div>
 									</form>
 								</div>

@@ -112,7 +112,9 @@ useEffect(()=>{
 const GetContact=(id)=>{
  
   if(JSON.parse(localStorage.getItem("user_id"))){
-    Contact_list.includes(id)?setIsModalVisible(false):setIsModalVisible(true)
+    if(Contact_list.includes(id)){
+      setIsModalVisible(false)
+    }else{setIsModalVisible(true)}
   }else{
      history.push("/login")
   }
@@ -120,6 +122,8 @@ const GetContact=(id)=>{
 const GoToProduct=(Product_id)=>{
 GetProductDetails(Product_id).then((data) => {
   setPro_details(data.Response)
+  history.push({pathname:`/product-details?product_id=${Product_id}`})
+  window.location.reload()
 })
 }
   return (
@@ -168,7 +172,7 @@ GetProductDetails(Product_id).then((data) => {
                               onClick={()=>GetContact(data.id)}
                               className="postBtn"
                             >
-                               {Contact_list.includes(data.id)?"Contacted":"Get Owner Details"}
+                               {Contact_list.includes(data.id)?"Contacted":JSON.parse(localStorage.getItem("user_id"))?"Get Owner Details":"SIGN IN (Get Owner Details)"}
                             </button>
                             {/* <Link to="#">Get Owner Details</Link> */}
                           </div>
@@ -360,18 +364,18 @@ GetProductDetails(Product_id).then((data) => {
                               <div className="col-xl-6 col-sm-6 col-12 go-top" key={item.id}>
                                 <div className="ltn__product-item ltn__product-item-4 ltn__product-item-5 text-center---">
                                   <div className="product-img">
-                                    {item.image.length>0?item?.image.map((img)=>
-                                    <Link to={`/product-details?product_id=${item.id}`}>
+                                    {/* {item.image.length>0?item?.image.map((img)=> */}
+                                    <a  onClick={()=>GoToProduct(item.id)}>
                                       <img
                                         src={
-                                        img || publicUrl +
+                                          item?.image[0] || publicUrl +
                                           "assets/img/product-3/1.jpg"
                                         }
                                         alt="#"
 										                    style={{width:"100%",height:"300px",objectFit:"cover"}}
                                       />
-                                    </Link>
-                                    ):
+                                    </a>
+                                    {/* ):
                                       <img
                                         src={
                                           publicUrl +
@@ -380,10 +384,10 @@ GetProductDetails(Product_id).then((data) => {
                                         alt="#"
 										                    style={{width:"100%",height:"300px",objectFit:"cover"}}
                                       />
-                                   }
+                                   } */}
                                     <div className="real-estate-agent">
                                       <div className="agent-img">
-                                        <Link to={`/product-details?product_id=${item.id}`}>
+                                        <a onClick={()=>GoToProduct(item.id)}> 
                                           <img
                                             src={
 												                      item?.user_image || publicUrl +
@@ -393,7 +397,7 @@ GetProductDetails(Product_id).then((data) => {
 
                                             alt="#"
                                           />
-                                        </Link>
+                                        </a>
                                       </div>
                                     </div>
                                   </div>
@@ -442,6 +446,7 @@ GetProductDetails(Product_id).then((data) => {
                                             title="Quick View"
                                             data-bs-toggle="modal"
                                             data-bs-target="#quick_view_modal"
+                                            onClick={()=>GoToProduct(item.id)}
                                           >
                                             <i className="flaticon-expand" />
                                           </a>

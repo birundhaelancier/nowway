@@ -55,7 +55,9 @@ const ShopGridV1 = (props) => {
           notification.success({
             message: "Wishlist Added Successfully",
           });
-          window.location.reload()
+          setTimeout(()=>{
+            window.location.reload();
+            },2000)
         } else {
           notification.success({
             message: "Something went wrong not added in your wishlist",
@@ -73,7 +75,9 @@ const ShopGridV1 = (props) => {
         notification.success({
           message:"Removed Successfully"
         })
+        setTimeout(()=>{
         window.location.reload();
+        },2000)
       } else {
         notification.error({
           message: data.Message
@@ -173,10 +177,10 @@ const ShopGridV1 = (props) => {
                                 <div className="product-img-location go-top">
                                   <ul>
                                     <li>
-                                      <Link to="/contact">
+                                      <a>
                                         <i className="flaticon-pin" />{" "}
                                         {data.address} , {data.city}
-                                      </Link>
+                                      </a>
                                     </li>
                                   </ul>
                                 </div>
@@ -197,9 +201,9 @@ const ShopGridV1 = (props) => {
                                 <div className="product-hover-action">
                                   <ul>
                                     <li>
-                                      <a href="#" title="Quick View">
+                                      <Link to={`/product-details?product_id=${data.id}`}>
                                         <i className="flaticon-expand" />
-                                      </a>
+                                      </Link>
                                     </li>
                                     <li>
                                       {Wish_list.includes(data.id) ? (
@@ -223,15 +227,12 @@ const ShopGridV1 = (props) => {
                                           </a>
                                         </Popconfirm>
                                       ) : (
-                                        <Link
-                                        to={`/product-details?product_id=${data.id}`}
-                                        title="Product Details"
-                                        >
+                                        <a  title="Wishlist">
                                           <i
                                             className="flaticon-heart-1"
                                             onClick={() => AddWishlist(data.id)}
                                           />
-                                        </Link>
+                                          </a>
                                       )}
                                       {/* <a  title="Wishlist">
                                         <i className="flaticon-heart-1" onClick={()=>AddWishlist(data.id)}/>

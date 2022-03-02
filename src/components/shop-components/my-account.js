@@ -168,7 +168,7 @@ const MyAccount = ({ wishnumber }) => {
 		RemoveWishlist(id).then((data) => {
 			if (data.Status == "Success") {
 				notification.success({
-					message:"Removed Successfully"
+					message: "Removed Successfully"
 				})
 				window.location.reload();
 			} else {
@@ -180,6 +180,7 @@ const MyAccount = ({ wishnumber }) => {
 		setRefresh(true);
 	}
 
+	console.log(home_list, "home_list")
 
 	return (
 		<div className="liton__wishlist-area pb-70">
@@ -193,23 +194,17 @@ const MyAccount = ({ wishnumber }) => {
 									<div className="col-lg-4">
 										<div className="ltn__tab-menu-list mb-50">
 											<div className="nav">
-												<a data-bs-toggle="tab" className={wishnumber != 1 && "active show"} href="#liton_tab_1_1">Dashboard <i className="fas fa-home" /></a>
+												<a data-bs-toggle="tab" className={wishnumber != 1 && "active show"} href="#liton_tab_1_1">Account Details <i className="fas fa-home" /></a>
 												<a data-bs-toggle="tab" className={wishnumber == 1 && "active show"} href="#liton_tab_1_2">Wishlist <i className="fas fa-heart" /></a>
 												<a data-bs-toggle="tab" href="#liton_tab_1_0">Contacted <i className="fas fa-phone" /></a>
 												<a data-bs-toggle="tab" href="#liton_tab_1_4">My Property <i className="fas fa-list" /></a>
-												<a data-bs-toggle="tab" href="#liton_tab_1_5">Account Details <i className="fas fa-user" /></a>
+												<a data-bs-toggle="tab" href="#liton_tab_1_5">NW Cash<i className="fas fa-list" /></a>
 												<Link className="go-top" to={`/login?edit=${"user_id"}`}>Logout <i className="fas fa-sign-out-alt" /></Link>
 											</div>
 										</div>
 									</div>
 									<div className="col-lg-8">
 										<div className="tab-content">
-											<div className={`tab-pane fade ${wishnumber != 1 && "active show"}`} id="liton_tab_1_1">
-												<div className="ltn__myaccount-tab-content-inner">
-													<p>Hello <strong>UserName</strong> (not <strong>UserName</strong>? <small><a href="login-register.html">Log out</a></small> )</p>
-													<p>From your account dashboard you can view your <span>recent orders</span>, manage your <span>shipping and billing addresses</span>, and <span>edit your password and account details</span>.</p>
-												</div>
-											</div>
 											<div className={`tab-pane fade ${wishnumber == 1 && "active show"}`} id="liton_tab_1_2">
 												<div className="ltn__myaccount-tab-content-inner">
 													<div className="table-responsive">
@@ -306,10 +301,14 @@ const MyAccount = ({ wishnumber }) => {
 																					<div className='lisu_number'>{data.user_mobile}</div>
 																					<div className='lisu_number'>{data.property_type}</div>
 																					<div className='lisu_number'>₹{data.price}</div>
-																					<div className='lisu_number'>{data.city + ", " + data.state + " - " + data.zip}</div>
+																					<div className='lisu_number'>Viewers: {data.views}</div>
+																					<div className='lisu_number'>Contacted: {data.contacted}</div>
+																					<div
+																						className='lisu_number'>{data.city + ", " + data.state + " - " + data.zip}</div>
 																				</div>
 																				<div className='list_more'>
 																					<button className='more_btn' onClick={() => selectSubserivce(data)}>More Details</button>
+																					<button className='edit_btn' >Edit</button>
 																				</div>
 																			</div>
 																		)
@@ -323,7 +322,7 @@ const MyAccount = ({ wishnumber }) => {
 												</div>
 												<Modal show={isModalVisible} handleClose={() => setIsModalVisible(false)}>
 													<div className="ltn__quick-view-modal-inner ">
-														<div className="col-lg-12 text-center modalHeading">User Details</div>
+														<div className="col-lg-12 text-center modalHeading">Property Details</div>
 														<div className='modal_content-view'>
 															<div className="container">
 																<div className="row">
@@ -380,7 +379,32 @@ const MyAccount = ({ wishnumber }) => {
 
 												</Modal>
 											</div>
+
 											<div className="tab-pane fade" id="liton_tab_1_5">
+												<div className="ltn__myaccount-tab-content-inner">
+													<div className="table-responsive">
+														<div className='contact-container'>
+															<div className='col-lg-12'>
+																<div className='my-heading'>My Recent Transactions </div>
+																<div className='nb__1S0gN'>Total Balance</div>
+																<div className='col-lg-12 nb__U6FD_'>
+																	{/* <img src={img3} /> */}
+																	<div className='nb__U6FD_'>
+																		<div className='col-lg-9 nb__8kQ5D'>
+																			<div>Welcome Bonus</div>
+																			<button>success</button>
+																			<div className='nb__1ip5'>  sale available on the website, we can match you with a house you will want to call home</div>
+																		</div>
+																		<div className='col-lg-3 nb__ykf7e'>+₹2,000</div>
+
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div className={`tab-pane fade ${wishnumber != 1 && "active show"}`} id="liton_tab_1_1">
 												<div className="ltn__myaccount-tab-content-inner">
 													<div className="ltn__form-box">
 														<form onSubmit={(e) => submitForm(e)}>
