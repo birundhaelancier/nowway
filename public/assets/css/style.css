@@ -9716,7 +9716,7 @@ height: 325px;}
     }
 
     @media (max-width: 443px) {
-      .modal-container {
+      /* .modal-container {
         position: absolute;
         width: 100% !important;
         background: #ffffff;
@@ -9725,7 +9725,7 @@ height: 325px;}
         padding: 15px !important;
         height: 700px !important;
         overflow: auto;
-    }
+    } */
     .showUpload{
       width: 28% !important;
     }
@@ -15722,6 +15722,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: white;
   padding: 2px 16px;
   border-radius: 5px;
+  margin: 0px 5px;
+}
+.edit_btn{
+  background: #008000;
+  color: white;
+  padding: 2px 10px;
+  border-radius: 5px;
+  margin: 0px 5px;
 }
 .sale-badge-sell{
   background: #ec4249;

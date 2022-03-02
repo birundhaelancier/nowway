@@ -39,12 +39,12 @@ import { OmitProps } from "antd/lib/transfer/ListBody";
 import React from "react";
 import "./model.css";
 
-const Modal = ({ handleClose, show, children,width }) => {
+const Modal = ({ handleClose, show, children, width }) => {
     const showHideClassName = show ? "modal d-block" : "modal d-none";
 
     return (
         <div className={showHideClassName}>
-            <div className="modal-container" style={{width:width&&width+"%"}}>
+            <div className="modal-container" style={{ width: width && width + "%" }}>
                 <div className="hederModel">
                     <button className="closebtn" onClick={handleClose}>
                         <i class="fas fa-times"></i>

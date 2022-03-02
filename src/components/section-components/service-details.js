@@ -62,8 +62,13 @@ const ServiceDetails = ({ sub_services, ser_image }) => {
 	}
 
 	const selectSubserivce = (data) => {
-		setIsModalVisible(true)
-		setSub_serv(data)
+		if (JSON.parse(localStorage.getItem("user_id"))) {
+			setIsModalVisible(true)
+			setSub_serv(data)
+		} else {
+			history.push("/login")
+		}
+
 	}
 
 	const closeModal = () => {

@@ -145,9 +145,11 @@ const NavbarV3 = ({ user, Wish_list }) => {
 										<div className="ltn__main-menu">
 											<ul>
 												<li><Link to="/service"> Services</Link></li>
-												{login_id && <li><Link to="/my-account"> My Bookings</Link>
-												</li>}
-												{login_id && <li><Link to="/#"> My Wallet</Link>
+												<li><Link to="/faq"> FAQ</Link></li>
+												<li className="special-link">
+													<Link to={login_id ? "/add-listing" : "/login"}>Add Listing</Link>
+												</li>
+												{login_id && <li><Link to="/my-account"> My Profile</Link>
 												</li>}
 												{!login_id && <li className='signbtn'><Link to="/login"> Sign in</Link>
 												</li>}
@@ -155,18 +157,6 @@ const NavbarV3 = ({ user, Wish_list }) => {
 												</li>}
 												{login_id && <li><Link to={`/login?edit=${"user_id"}`}> Sign out</Link>
 												</li>}
-												<li><Link to="/faq"> FAQ</Link></li>
-												{/* <li><Link to="/">Menu</Link>
-												<ul className="sub-menu">
-													<li><Link to="/service">Services</Link></li>
-													<li><Link to="/faq">FAQ</Link></li>
-												</ul>
-											</li> */}
-												{/* <li><Link to="/contact">Contact</Link></li> */}
-												<li className="special-link">
-													<Link to={login_id ? "/add-listing" : "/login"}>Add Listing</Link>
-												</li>
-
 											</ul>
 										</div>
 									</nav>
@@ -208,9 +198,7 @@ const NavbarV3 = ({ user, Wish_list }) => {
 								<li><Link to="/#">Home</Link>
 								</li>
 								<li><Link to="/service"> Services</Link></li>
-								{login_id && <li><Link to="/my-account"> My Bookings</Link>
-								</li>}
-								{login_id && <li><Link to="/#"> My Wallet</Link>
+								{login_id && <li><Link to="/my-account"> My Profile</Link>
 								</li>}
 								{!login_id && <li className='signbtn'><Link to="/login"> Sign in</Link>
 								</li>}
