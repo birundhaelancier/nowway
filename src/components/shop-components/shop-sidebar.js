@@ -18,7 +18,7 @@ const Sidebar = (props) => {
 	let dispatch = useDispatch()
 	const PriceRange = [{ heading: "Low Price", from: 5000, to: 10000 }, { heading: "Medium", from: 10000, to: 30000 }, { heading: "High Price", from: 30000, to: 50000 }]
 	const Bed_Rooms = [{ heading: "Single", label: "1" }, { heading: "Double", label: "1 or more" }, { heading: "Up To 3", label: "2 or more" }, { heading: "Up To 5", label: "3 or more" }]
-	const Category = [{ heading: "Renting", label: "Rent" }, { heading: "Selling / Buying", label: "Sell" }]
+	const Category = [{ heading: "Renting", label: "Rent" }, { heading: "Buying", label: "Sell" }]
 	const [CheckValues, setCheckValues] = useState({
 		Amenities: "",
 		property: [id && id],

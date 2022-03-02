@@ -10,7 +10,8 @@ import { Add_WishList } from "../apiActions";
 import {
   GetAmenities,
   GetPropertyType,
-  GetWishlist
+  GetWishlist,
+  RemoveWishlist
 } from "../../components/apiActions/index";
 import Swal from "sweetalert2";
 import { useHistory } from "react-router-dom";
@@ -31,7 +32,11 @@ const ShopGridV1 = (props) => {
       setProperty_type(data.Response);
     });
     GetWishlist().then((response) => {
-      setWish_list(response.Response)
+      let arrVal = []
+      response.Response.forEach((data) => {
+        arrVal.push(data.id)
+      })
+      setWish_list(arrVal)
     })
   }, []);
 
@@ -50,6 +55,7 @@ const ShopGridV1 = (props) => {
           notification.success({
             message: "Wishlist Added Successfully",
           });
+          window.location.reload()
         } else {
           notification.success({
             message: "Something went wrong not added in your wishlist",
@@ -60,16 +66,21 @@ const ShopGridV1 = (props) => {
       history.push("/login");
     }
   };
-  useEffect(()=>{
-    Wish_list.filter((data)=>{
-      if(data.id===props.Property_Detail?.find(item=>item.id)){
-        setenable(false)
-      }
-      else{
-        setenable(true)
+
+  const removeWishlist = (id) => {
+    RemoveWishlist(id).then((data) => {
+      if (data.Status == "Success") {
+        notification.success({
+          message:"Removed Successfully"
+        })
+        window.location.reload();
+      } else {
+        notification.error({
+          message: data.Message
+        })
       }
     })
-  },[Wish_list,props.Property_Detail])
+  }
   return (
     <div>
       <div className="ltn__product-area ltn__product-gutter">
@@ -127,27 +138,24 @@ const ShopGridV1 = (props) => {
                           <div className="col-xl-6 col-sm-6 col-12" key={data.id}>
                             <div className="ltn__product-item ltn__product-item-4 ltn__product-item-5 text-center---">
                               <div className="product-img go-top">
-                                {console.log("dddddddddddd",data)}
-                                <Link to="/product-details">
+                                <Link to={`/product-details?product_id=${data.id}`}>
                                   <img
                                     src={
                                       data?.image[0] ||  publicUrl + "assets/img/product-3/1.jpg" 
                                     }
-                                    style={{width:"100%"}}
+                                    style={{width:"100%",height:"250px",objectFit:"cover"}}
                                     alt="#"
                                   />
                                 </Link>
                                 <div className="real-estate-agent">
                                   <div className="agent-img">
-                                    <Link to="/shop">
                                       <img
                                         src={
-                                          data?.image[0] ||   publicUrl +
+                                          data?.user_image ||   publicUrl +
                                           "assets/img/blog/author.jpg"
                                         }
                                         alt="#"
                                       />
-                                    </Link>
                                   </div>
                                 </div>
                               </div>
@@ -158,7 +166,7 @@ const ShopGridV1 = (props) => {
                                   </ul>
                                 </div>
                                 <h2 className="product-title go-top">
-                                  <Link to="/product-details">
+                                  <Link to={`/product-details?product_id=${data.id}`}>
                                     {data.title}
                                   </Link>
                                 </h2>
@@ -194,10 +202,10 @@ const ShopGridV1 = (props) => {
                                       </a>
                                     </li>
                                     <li>
-                                      {enable ? (
+                                      {Wish_list.includes(data.id) ? (
                                         <Popconfirm
                                           title="Are you sure to delete this task?"
-                                          onConfirm={""}
+                                          onConfirm={()=>removeWishlist(data.id)}
                                           onCancel={""}
                                           okText="Yes"
                                           cancelText="No"
@@ -215,30 +223,28 @@ const ShopGridV1 = (props) => {
                                           </a>
                                         </Popconfirm>
                                       ) : (
-                                        <a
-                                          href="#"
-                                          title="Wishlist"
-                                          data-bs-toggle="modal"
-                                          data-bs-target="#liton_wishlist_modal"
+                                        <Link
+                                        to={`/product-details?product_id=${data.id}`}
+                                        title="Product Details"
                                         >
                                           <i
                                             className="flaticon-heart-1"
                                             onClick={() => AddWishlist(data.id)}
                                           />
-                                        </a>
+                                        </Link>
                                       )}
                                       {/* <a  title="Wishlist">
                                         <i className="flaticon-heart-1" onClick={()=>AddWishlist(data.id)}/>
                                       </a> */}
                                     </li>
-                                    <li className="go-top">
+                                    {/* <li className="go-top">
                                       <Link
                                         to={`/product-details?product_id=${data.id}`}
                                         title="Product Details"
                                       >
                                         <i className="flaticon-add" />
                                       </Link>
-                                    </li>
+                                    </li> */}
                                   </ul>
                                 </div>
                               </div>

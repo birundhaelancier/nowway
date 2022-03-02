@@ -106,8 +106,8 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
             });
         } else if (key === "files") {
             let reader = new FileReader();
-            let file = e.target.files[0];
-            setCheckList(file)
+            let file = e.target.files;
+            setCheckList({...checkList,FileLst:[...file]})
 
             // reader.onload = function (upload) {
             //     setCheckList(upload.target.result);
@@ -179,7 +179,7 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
         console.log(formData, listValues.images, listValues.images.name, "li")
     }
 
-console.log("cfghjk",checkList)
+console.log("cfghjk", checkList)
     return (
         <div className="ltn__appointment-area pb-120">
             <div className="container">

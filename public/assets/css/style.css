@@ -3347,7 +3347,8 @@ ul.wp-block-latest-posts.is-grid.alignwide {
     background: rgb(243, 243, 243);
     padding: 10px;
     display: flex;
-    justify-content: space-between;
+    justify-content:center;
+    align-items: center;
     border: 1px solid rgb(228, 228, 228);
     /* text-align: center; */
   }
@@ -3384,6 +3385,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
     /* margin-top: 2px; */
     color: #185e27;
     font-size: 17px;
+    padding-right: 20px;
   }
 
   .ltn_list{
@@ -15576,15 +15578,16 @@ justify-content: center;}
   color: gray;
   font-size: 17px;
 }.owner-btn-show{
-  display: grid;
+  /* display: grid; */
   grid-template-columns: 40% 40%;
-  justify-content: space-evenly;
+  justify-content: center;
   margin: 20px 0px;
+  text-align: center;
 }.messegeBtn{
   color: white;
   background: #ec4249;
   font-weight: 600;
-  padding: 6px;
+  padding: 6px 10px;
   border-radius: 5px;
 }.propertyBtn{
   color: white;
@@ -15806,3 +15809,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 /*# sourceMappingURL=style.css.map */
 
+iframe{
+  z-index: 0 !important;
+  position: static !important;
+}

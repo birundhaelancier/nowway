@@ -646,3 +646,4 @@ export const AddPropertyview = (property_id) => {
             });
     } catch (err) { }
 }
+

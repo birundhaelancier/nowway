@@ -36,11 +36,13 @@ const ServiceDetails = ({ sub_services, ser_image }) => {
 	}
 	const submitForm = async (e) => {
 		e.preventDefault();
+		if(JSON.parse(localStorage.getItem("user_id"))){
 		AddSubServiceEnquiry(values, sub_serv?.id).then((data) => {
 			if (data.Status == "Success") {
 				notification.success({
 					message: data.Message
 				})
+				handleCancel()
 				setIsModalVisible(false)
 			} else {
 				notification.error({
@@ -48,6 +50,9 @@ const ServiceDetails = ({ sub_services, ser_image }) => {
 				})
 			}
 		})
+	}else{
+		history.push("/login")
+	}
 	}
 
 

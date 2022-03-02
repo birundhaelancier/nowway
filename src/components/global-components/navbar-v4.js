@@ -6,7 +6,7 @@ import { GetWishlist } from "../apiActions/index";
 import Modal from '../Model';
 
 
-const NavbarV3 = ({ user }) => {
+const NavbarV3 = ({ user, Wish_list }) => {
 	const [login_id, setLogin_id] = useState();
 	let publicUrl = process.env.PUBLIC_URL + '/'
 	let imgattr = 'logo'
@@ -22,17 +22,17 @@ const NavbarV3 = ({ user }) => {
 		GetWishlist().then((response) => {
 			setWish_list(response.Response)
 		})
-	}, [])
+	}, [Wish_list])
 
 	useEffect(() => {
 		axios({
 			method: 'POST',
 			url: "https://elancier.in/nowway/api/auth_login",
-			data:{
+			data: {
 				"email": "nowway",
 				"password": "12345678",
 			}
-		  })
+		})
 			.then((response) => {
 				localStorage.setItem("Token", JSON.stringify(response.data.Response.token));
 			})
@@ -147,8 +147,8 @@ const NavbarV3 = ({ user }) => {
 												<li><Link to="/service"> Services</Link></li>
 												{login_id && <li><Link to="/my-account"> My Bookings</Link>
 												</li>}
-												{login_id && <li><Link to="/wallet"> My Wallet</Link>
-												</li>}
+												{/* {login_id && <li><Link to="/#"> My Wallet</Link>
+												</li>} */}
 												{!login_id && <li className='signbtn'><Link to="/login"> Sign in</Link>
 												</li>}
 												{!login_id && <li className='signup'><Link to="/register">/ Sign up</Link>
@@ -172,27 +172,12 @@ const NavbarV3 = ({ user }) => {
 									</nav>
 								</div>
 							</div>
-							<div className='col-lg-1 d-flex wish-web' onClick={openWishlist}>
+							{login_id && <div className='col-lg-1 d-flex wish-web' onClick={openWishlist}>
 								<div className='wishlistShow'>
 									<i class="fa fa-heart" />
 								</div>
 								{wish_list.length > 0 && <div className='count_view'>{wish_list && wish_list.length}</div>}
-							</div>
-							<Modal show={isModalVisible} handleClose={closeModal}>
-								<div className="ltn__quick-view-modal-inner">
-									<div className="col-lg-12 text-center modalHeading">WishList</div>
-									<div className="container">
-										<div className="row">
-											<div className="col-lg-4 text-center">
-												<div className="account-create text-start ">
-													test
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-
-							</Modal>
+							</div>}
 
 						</div>
 					</div>
@@ -225,7 +210,7 @@ const NavbarV3 = ({ user }) => {
 								<li><Link to="/service"> Services</Link></li>
 								{login_id && <li><Link to="/my-account"> My Bookings</Link>
 								</li>}
-								{login_id && <li><Link to="/wallet"> My Wallet</Link>
+								{login_id && <li><Link to="/#"> My Wallet</Link>
 								</li>}
 								{!login_id && <li className='signbtn'><Link to="/login"> Sign in</Link>
 								</li>}

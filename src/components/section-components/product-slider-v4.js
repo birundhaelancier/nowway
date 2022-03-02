@@ -2,131 +2,98 @@ import React, { Component, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import parse from "html-react-parser";
 import Slider from "react-slick";
-import { notification,Popconfirm } from "antd";
-import { Add_WishList, GetWishlist,RemoveWishlist } from "../apiActions";
+import { notification, Popconfirm } from 'antd'
+import { Add_WishList, GetWishlist, RemoveWishlist } from '../apiActions'
 import Swal from "sweetalert2";
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom'
+const ProductSliderV4 = ({ list, callWish }) => {
+	let history = useHistory()
+	const [slideNumber, setSlideNumber] = useState(3)
+	const [wish_list, setWish_list] = useState([])
 
-const ProductSliderV4 = ({ list }) => {
-  let history = useHistory();
-  const [slideNumber, setSlideNumber] = useState(3);
-  const [Wish_list, setWish_list] = useState([]);
-  const [enable,setenable]=useState(false)
-  let publicUrl = process.env.PUBLIC_URL + "/";
-  var settings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: slideNumber,
-    slidesToScroll: 1,
-  };
-  useEffect(() => {
-    GetWishlist().then((response) => {
-      setWish_list(response.Response);
-    });
-  }, []);
-  useEffect(() => {
-    if (window.innerWidth >= 550 && window.innerWidth <= 1000) {
-      setSlideNumber(2);
-    } else if (window.innerWidth < 549) {
-      setSlideNumber(1);
-    } else if (window.innerWidth >= 1001) {
-      setSlideNumber(3);
-    }
-  }, [slideNumber]);
+	let publicUrl = process.env.PUBLIC_URL + '/'
+	var settings = {
+		dots: false,
+		infinite: true,
+		speed: 500,
+		slidesToShow: slideNumber,
+		slidesToScroll: 1,
+	};
+	useEffect(() => {
+		if (window.innerWidth >= 550 && window.innerWidth <= 1000) {
+			setSlideNumber(2)
+		} else if (window.innerWidth < 549) {
+			setSlideNumber(1)
+		} else if (window.innerWidth >= 1001) {
+			setSlideNumber(3)
+		}
+	}, [slideNumber])
 
-  const Images = [
-    {
-      img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg",
-    },
-    {
-      img: "https://elancier.in/nowway/public/upload/offer/16456040931180807696.jpg",
-    },
-    {
-      img: "https://elancier.in/nowway/public/upload/offer/1645604156917821097.jpg",
-    },
-    {
-      img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg",
-    },
-    {
-      img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg",
-    },
-    {
-      img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg",
-    },
-    {
-      img: "https://elancier.in/nowway/public/upload/offer/16456040931180807696.jpg",
-    },
-    {
-      img: "https://elancier.in/nowway/public/upload/offer/1645604156917821097.jpg",
-    },
-    {
-      img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg",
-    },
-    {
-      img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg",
-    },
-    {
-      img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg",
-    },
-    {
-      img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg",
-    },
-    {
-      img: "https://elancier.in/nowway/public/upload/offer/16456040931180807696.jpg",
-    },
-    {
-      img: "https://elancier.in/nowway/public/upload/offer/1645604156917821097.jpg",
-    },
-    {
-      img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg",
-    },
-    {
-      img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg",
-    },
-  ];
-  const AddWishlist = (id) => {
-    if (JSON.parse(localStorage.getItem("user_id"))) {
-      Add_WishList(id).then((res) => {
-        if (res.Status === "Success") {
-          notification.success({
-            message: "Wishlist Added Successfully",
-          });
-        } else {
-          notification.success({
-            message: "Something went wrong not added in your wishlist",
-          });
-        }
-      });
-    } else {
-      history.push("/login");
-    }
-  };
-  useEffect(() => {
-    Wish_list.filter((data) => {
-      if (data.id === list?.find((item) => item.id)) {
-        setenable(false);
-      } else {
-        setenable(true);
-      }
-    });
-  }, [Wish_list,list]);
-  const removeWishlist = (id) => {
-	RemoveWishlist(id).then((data) => {
-		if (data.Status == "Success") {
-			notification.success({
-				message:"Removed Successfully"
+	useEffect(() => {
+		GetWishlist().then((response) => {
+			let arrVal = []
+			response.Response.forEach((data) => {
+				arrVal.push(data.id)
 			})
-			window.location.reload();
-		} else {
-			notification.error({
-				message: data.Message
+			setWish_list(arrVal)
+		})
+	}, [])
+
+	console.log(wish_list, "wish_list")
+
+	const Images = [
+		{ img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg" },
+		{ img: "https://elancier.in/nowway/public/upload/offer/16456040931180807696.jpg" },
+		{ img: "https://elancier.in/nowway/public/upload/offer/1645604156917821097.jpg" },
+		{ img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg" },
+		{ img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg" },
+		{ img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg" },
+		{ img: "https://elancier.in/nowway/public/upload/offer/16456040931180807696.jpg" },
+		{ img: "https://elancier.in/nowway/public/upload/offer/1645604156917821097.jpg" },
+		{ img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg" },
+		{ img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg" },
+		{ img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg" },
+		{ img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg" },
+		{ img: "https://elancier.in/nowway/public/upload/offer/16456040931180807696.jpg" },
+		{ img: "https://elancier.in/nowway/public/upload/offer/1645604156917821097.jpg" },
+		{ img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg" },
+		{ img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg" }
+	]
+	const AddWishlist = (id) => {
+		if (JSON.parse(localStorage.getItem("user_id"))) {
+			Add_WishList(id).then((res) => {
+				if (res.Status === "Success") {
+					notification.success({
+						message: "Wishlist Added Successfully"
+					})
+					callWish("success")
+				} else {
+					notification.success({
+						message: "Something went wrong not added in your wishlist"
+					})
+				}
 			})
 		}
-	})
-}
+		else {
+			history.push('/login')
+		}
+	}
+	const removeWishlist = (id) => {
+		RemoveWishlist(id).then((data) => {
+			if (data.Status == "Success") {
+				notification.success({
+					message:"Removed Successfully"
+				})
+				window.location.reload();
+			} else {
+				notification.error({
+					message: data.Message
+				})
+			}
+		})
+	}
+	return (
 
-  return (
     <div>
       <div className="ltn__product-slider-area ltn__product-gutter pt-115 pb-70">
         <div className="container">
@@ -141,514 +108,129 @@ const ProductSliderV4 = ({ list }) => {
             </div>
           </div>
 
-          <div className="row">
-            <div className="col-lg-12 product-slider-container">
-              {}
-              <Slider {...settings} arrows={true}>
-                {list?.map((item, index) => {
-                  return (
-                    <div className="col-xl-4 col-sm-6 col-12">
-                      <div className="ltn__product-item ltn__product-item-4 text-center---">
-                        {/* product-details?product_id=${item.id} */}
-                        <div className="product-img go-top">
-                          <Link to={`/#`}>
-                            <img
-                              src={item.image[0]}
-                              alt="#"
-                              style={{ width: "100%" }}
-                            />
-                          </Link>
-                          <div className="product-badge">
-                            <ul>
-                              <li
-                                className={
-                                  item.type === "Rent"
-                                    ? "sale-badge bg-green"
-                                    : "sale-badge bg-pink"
-                                }
-                              >
-                                {item.type === "Rent" ? "For Rent" : "For Sell"}
-                              </li>
-                            </ul>
-                          </div>
-                          <div className="product-img-location-gallery">
-                            <div className="product-img-location">
-                              <ul>
-                                <li>
-                                  <Link to={`/#`}>
-                                    <i className="flaticon-pin" />{" "}
-                                    {item.state + ", " + item.city}
-                                  </Link>
-                                </li>
-                              </ul>
-                            </div>
-                            <div className="product-img-gallery go-top">
-                              <ul>
-                                <li>
-                                  <Link to={`/#`}>
-                                    <i className="fas fa-camera" /> 4
-                                  </Link>
-                                </li>
-                                <li>
-                                  <Link to={`/#`}>
-                                    <i className="fas fa-film" /> 2
-                                  </Link>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="product-info">
-                          <div className="product-price">
-                            <span>
-                              ₹{item.price}
-                              <label>/Month</label>
-                            </span>
-                          </div>
-                          <h2 className="product-title go-top">
-                            <Link to={`/#`}>{item.tit}</Link>
-                          </h2>
-                          <div className="product-description">
-                            <p>{item.description}</p>
-                          </div>
-                          <ul className="ltn__list-item-2 ltn__list-item-2-before">
-                            <li>
-                              <span>
-                                {item.bedrooms} <i className="flaticon-bed" />
-                              </span>
-                              Bedrooms
-                            </li>
-                            <li>
-                              <span>
-                                {item.bathroom} <i className="flaticon-clean" />
-                              </span>
-                              Bathrooms
-                            </li>
-                            <li>
-                              <span>
-                                {item.size}{" "}
-                                <i className="flaticon-square-shape-design-interface-tool-symbol" />
-                              </span>
-                              square Ft
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="product-info-bottom">
-                          <div className="real-estate-agent">
-                            <div className="agent-img go-top">
-                              <Link to={`/#`}>
-                                <img
-                                  src={publicUrl + "assets/img/blog/author.jpg"}
-                                  alt="#"
-                                />
-                              </Link>
-                            </div>
-                            <div className="agent-brief go-top">
-                              <h6>
-                                <Link to={`/#`}>{item.user_name}</Link>
-                              </h6>
-                              {/* <small>Estate Agents</small> */}
-                            </div>
-                          </div>
-                          <div className="product-hover-action">
-                            <ul>
-                              <li>
-                                <a href="#" title="Quick View">
-                                  {/* data-bs-toggle="modal" data-bs-target="#quick_view_modal" */}
-                                  <i className="flaticon-expand" />
-                                </a>
-                              </li>
-                              <li>
-                                {/* <a  title="Wishlist">
-																	<i className="flaticon-heart-1" onClick={()=>AddWishlist(item.id)}/></a> */}
-                                {enable ? (
-                                  <Popconfirm
-                                    title="Are you sure to delete this task?"
-                                    onConfirm={removeWishlist}
-                                    onCancel={""}
-                                    okText="Yes"
-                                    cancelText="No"
-                                  >
-                                    <a
-                                      href="#"
-                                      title="Wishlist"
-                                      data-bs-toggle="modal"
-                                      data-bs-target="#liton_wishlist_modal"
-                                    >
-                                      <i
-                                        className="flaticon-heart-1"
-                                        style={{ color: "red" }}
-                                      />
-                                    </a>
-                                  </Popconfirm>
-                                ) : (
-                                  <a
-                                    href="#"
-                                    title="Wishlist"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#liton_wishlist_modal"
-                                  >
-                                    <i
-                                      className="flaticon-heart-1"
-                                      onClick={() => AddWishlist(item.id)}
-                                    />
-                                  </a>
-                                )}
-                              </li>
-                              {/* data-bs-toggle="modal" data-bs-target="#liton_wishlist_modal" */}
-                              <li>
-                                <span className="go-top">
-                                  <Link
-                                    to={`/product-details?product_id=${item.id}`}
-                                    title="Product Details"
-                                  >
-                                    <i className="flaticon-add" />
-                                  </Link>
-                                </span>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </Slider>
-            </div>
+					<div className="row">
+						<div className="col-lg-12 product-slider-container">
+							{ }
+							<Slider {...settings} arrows={true}>
+								{list?.map((item, index) => {
+									return (
+										<div className="col-xl-4 col-sm-6 col-12">
+											<div className="ltn__product-item ltn__product-item-4 text-center---">
+												{/* product-details?product_id=${item.id} */}
+												<div className="product-img go-top">
+													<Link to={`/product-details?product_id=${item.id}`}><img src={item.image} alt="#" /></Link>
+													<div className="product-badge">
+														<ul>
+															<li className={item.type === "Rent" ? "sale-badge bg-green" : "sale-badge bg-pink"}>{item.type === "Rent" ? "For Rent" : "For Sell"}</li>
+														</ul>
+													</div>
+													<div className="product-img-location-gallery">
+														<div className="product-img-location">
+															<ul>
+																<li>
+																	<Link to={`/#`}><i className="flaticon-pin" /> {item.state + ", " + item.city}</Link>
+																</li>
+															</ul>
+														</div>
+														<div className="product-img-gallery go-top">
+															<ul>
+																<li>
+																	<Link to={`/#`}><i className="fas fa-camera" /> 4</Link>
+																</li>
+																<li>
+																	<Link to={`/#`}><i className="fas fa-film" /> 2</Link>
+																</li>
+															</ul>
+														</div>
+													</div>
+												</div>
+												<div className="product-info">
+													<div className="product-price">
+														<span>₹{item.price}<label>/Month</label></span>
+													</div>
+													<h2 className="product-title go-top"><Link to={`/#`}>{item.tit}</Link></h2>
+													<div className="product-description">
+														<p>{item.description}</p>
+													</div>
+													<ul className="ltn__list-item-2 ltn__list-item-2-before">
+														<li><span>{item.bedrooms} <i className="flaticon-bed" /></span>
+															Bedrooms
+														</li>
+														<li><span>{item.bathroom} <i className="flaticon-clean" /></span>
+															Bathrooms
+														</li>
+														<li><span>{item.size} <i className="flaticon-square-shape-design-interface-tool-symbol" /></span>
+															square Ft
+														</li>
+													</ul>
+												</div>
+												<div className="product-info-bottom">
+													<div className="real-estate-agent">
+														<div className="agent-img go-top">
+															<Link to={`/product-details?product_id=${item.id}`}><img src={item?.user_image || publicUrl + "assets/img/blog/author.jpg"} alt="#" /></Link>
+														</div>
+														<div className="agent-brief go-top">
+															<h6>{item.user_name}</h6>
+															{/* <small>Estate Agents</small> */}
+														</div>
+													</div>
+													<div className="product-hover-action">
+														<ul>
+															<li>
+																<Link to={`/product-details?product_id=${item.id}`} title="Quick View">
+																	{/* data-bs-toggle="modal" data-bs-target="#quick_view_modal" */}
+																	<i className="flaticon-expand" />
+																</Link>
+															</li>
+															<li>
+																{wish_list.includes(item.id) ? <Popconfirm
+																	title="Are you sure to delete this task?"
+																	onConfirm={()=>removeWishlist(item.id)}
+																	// onCancel={()=>removeWishlist(item.id)}
+																	okText="Yes"
+																	cancelText="No"
+																>
+																	<a
+																		href="#"
+																		title="Wishlist"
+																	>
+																		<i
+																			className="flaticon-heart-1" style={{ color: "red" }}
+																		/>
+																	</a>
+																</Popconfirm>
+																	:
+																	<a
+																		href="#"
+																		title="Wishlist"
+																	>
+																		<i
+																			className="flaticon-heart-1"
+																			onClick={() =>
+																				AddWishlist(item.id)
+																			}
+																		/>
+																	</a>}
+															</li>
+															{/* data-bs-toggle="modal" data-bs-target="#liton_wishlist_modal" */}
+															{/* <li>
+																<span className="go-top">
+																	<Link to={`/`} title="Product Details">
+																		<i className="flaticon-add" />
+																	</Link>
+																</span>
+															</li> */}
+														</ul>
+													</div>
+												</div>
+											</div>
+										</div>
+									)
+								})}
+							</Slider>
+						</div>
 
-            {/* <div className="col-xl-4 col-sm-6 col-12">
-							<div className="ltn__product-item ltn__product-item-4 text-center---">
-								<div className="product-img go-top">
-									<Link to="/product-details"><img src={publicUrl + "assets/img/product-3/2.jpg"} alt="#" /></Link>
-									<div className="product-badge">
-										<ul>
-											<li className="sale-badge bg-green---">For Sale</li>
-										</ul>
-									</div>
-									<div className="product-img-location-gallery">
-										<div className="product-img-location">
-											<ul>
-												<li>
-													<Link to="/#"><i className="flaticon-pin" /> Belmont Gardens, Chicago</Link>
-												</li>
-											</ul>
-										</div>
-										<div className="product-img-gallery go-top">
-											<ul>
-												<li>
-													<Link to="/product-details"><i className="fas fa-camera" /> 4</Link>
-												</li>
-												<li>
-													<Link to="/product-details"><i className="fas fa-film" /> 2</Link>
-												</li>
-											</ul>
-										</div>
-									</div>
-								</div>
-								<div className="product-info">
-									<div className="product-price">
-										<span>₹34,900<label>/Month</label></span>
-									</div>
-									<h2 className="product-title go-top"><Link to="/product-details">Modern Apartments</Link></h2>
-									<div className="product-description">
-										<p>Beautiful Huge 1 Family House In Heart Of <br />
-											Westbury. Newly Renovated With New Wood</p>
-									</div>
-									<ul className="ltn__list-item-2 ltn__list-item-2-before">
-										<li><span>3 <i className="flaticon-bed" /></span>
-											Bedrooms
-										</li>
-										<li><span>2 <i className="flaticon-clean" /></span>
-											Bathrooms
-										</li>
-										<li><span>3450 <i className="flaticon-square-shape-design-interface-tool-symbol" /></span>
-											square Ft
-										</li>
-									</ul>
-								</div>
-								<div className="product-info-bottom">
-									<div className="real-estate-agent">
-										<div className="agent-img go-top">
-											<Link to="/#"><img src={publicUrl + "assets/img/blog/author.jpg"} alt="#" /></Link>
-										</div>
-										<div className="agent-brief go-top">
-											<h6><Link to="/#">William Seklo</Link></h6>
-											<small>Estate Agents</small>
-										</div>
-									</div>
-									<div className="product-hover-action">
-										<ul>
-											<li>
-												<a href="#" title="Quick View">
-													<i className="flaticon-expand" />
-												</a>
-											</li>
-											<li>
-												<a href="#" title="Wishlist">
-													<i className="flaticon-heart-1" /></a>
-											</li>
-											<li>
-												<span className="go-top">
-													<Link to="/product-details" title="Product Details">
-														<i className="flaticon-add" />
-													</Link>
-												</span>
-											</li>
-										</ul>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div className="col-xl-4 col-sm-6 col-12">
-							<div className="ltn__product-item ltn__product-item-4 text-center---">
-								<div className="product-img go-top">
-									<Link to="/product-details"><img src={publicUrl + "assets/img/product-3/3.jpg"} alt="#" /></Link>
-									<div className="product-badge">
-										<ul>
-											<li className="sale-badge bg-green">For Rent</li>
-										</ul>
-									</div>
-									<div className="product-img-location-gallery">
-										<div className="product-img-location">
-											<ul>
-												<li>
-													<Link to="/#"><i className="flaticon-pin" /> Belmont Gardens, Chicago</Link>
-												</li>
-											</ul>
-										</div>
-										<div className="product-img-gallery go-top">
-											<ul>
-												<li>
-													<Link to="/product-details"><i className="fas fa-camera" /> 4</Link>
-												</li>
-												<li>
-													<Link to="/product-details"><i className="fas fa-film" /> 2</Link>
-												</li>
-											</ul>
-										</div>
-									</div>
-								</div>
-								<div className="product-info">
-									<div className="product-price">
-										<span>₹34,900<label>/Month</label></span>
-									</div>
-									<h2 className="product-title go-top"><Link to="/product-details">Comfortable Apartment</Link></h2>
-									<div className="product-description">
-										<p>Beautiful Huge 1 Family House In Heart Of <br />
-											Westbury. Newly Renovated With New Wood</p>
-									</div>
-									<ul className="ltn__list-item-2 ltn__list-item-2-before">
-										<li><span>3 <i className="flaticon-bed" /></span>
-											Bedrooms
-										</li>
-										<li><span>2 <i className="flaticon-clean" /></span>
-											Bathrooms
-										</li>
-										<li><span>3450 <i className="flaticon-square-shape-design-interface-tool-symbol" /></span>
-											square Ft
-										</li>
-									</ul>
-								</div>
-								<div className="product-info-bottom">
-									<div className="real-estate-agent">
-										<div className="agent-img go-top">
-											<Link to="/#"><img src={publicUrl + "assets/img/blog/author.jpg"} alt="#" /></Link>
-										</div>
-										<div className="agent-brief go-top">
-											<h6><Link to="/#">William Seklo</Link></h6>
-											<small>Estate Agents</small>
-										</div>
-									</div>
-									<div className="product-hover-action">
-										<ul>
-											<li>
-												<a href="#" title="Quick View">
-													<i className="flaticon-expand" />
-												</a>
-											</li>
-											<li>
-												<a href="#" title="Wishlist">
-													<i className="flaticon-heart-1" /></a>
-											</li>
-											<li>
-												<span className="go-top">
-													<Link to="/product-details" title="Product Details">
-														<i className="flaticon-add" />
-													</Link>
-												</span>
-											</li>
-										</ul>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div className="col-xl-4 col-sm-6 col-12">
-							<div className="ltn__product-item ltn__product-item-4 text-center---">
-								<div className="product-img go-top">
-									<Link to="/product-details"><img src={publicUrl + "assets/img/product-3/4.jpg"} alt="#" /></Link>
-									<div className="product-badge">
-										<ul>
-											<li className="sale-badge bg-green">For Rent</li>
-										</ul>
-									</div>
-									<div className="product-img-location-gallery">
-										<div className="product-img-location">
-											<ul>
-												<li>
-													<Link to="/#"><i className="flaticon-pin" /> Belmont Gardens, Chicago</Link>
-												</li>
-											</ul>
-										</div>
-										<div className="product-img-gallery go-top">
-											<ul>
-												<li>
-													<Link to="/product-details"><i className="fas fa-camera" /> 4</Link>
-												</li>
-												<li>
-													<Link to="/product-details"><i className="fas fa-film" /> 2</Link>
-												</li>
-											</ul>
-										</div>
-									</div>
-								</div>
-								<div className="product-info">
-									<div className="product-price">
-										<span>₹34,900<label>/Month</label></span>
-									</div>
-									<h2 className="product-title go-top"><Link to="/product-details">Luxury villa in Rego Park </Link></h2>
-									<div className="product-description">
-										<p>Beautiful Huge 1 Family House In Heart Of <br />
-											Westbury. Newly Renovated With New Wood</p>
-									</div>
-									<ul className="ltn__list-item-2 ltn__list-item-2-before">
-										<li><span>3 <i className="flaticon-bed" /></span>
-											Bedrooms
-										</li>
-										<li><span>2 <i className="flaticon-clean" /></span>
-											Bathrooms
-										</li>
-										<li><span>3450 <i className="flaticon-square-shape-design-interface-tool-symbol" /></span>
-											square Ft
-										</li>
-									</ul>
-								</div>
-								<div className="product-info-bottom">
-									<div className="real-estate-agent">
-										<div className="agent-img go-top">
-											<Link to="/#"><img src={publicUrl + "assets/img/blog/author.jpg"} alt="#" /></Link>
-										</div>
-										<div className="agent-brief go-top">
-											<h6><Link to="/#">William Seklo</Link></h6>
-											<small>Estate Agents</small>
-										</div>
-									</div>
-									<div className="product-hover-action">
-										<ul>
-											<li>
-												<a href="#" title="Quick View">
-													<i className="flaticon-expand" />
-												</a>
-											</li>
-											<li>
-												<a href="#" title="Wishlist">
-													<i className="flaticon-heart-1" /></a>
-											</li>
-											<li>
-												<span className="go-top">
-													<Link to="/product-details" title="Product Details">
-														<i className="flaticon-add" />
-													</Link>
-												</span>
-											</li>
-										</ul>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div className="col-xl-4 col-sm-6 col-12">
-							<div className="ltn__product-item ltn__product-item-4 text-center---">
-								<div className="product-img go-top">
-									<Link to="/product-details"><img src={publicUrl + "assets/img/product-3/5.jpg"} alt="#" /></Link>
-									<div className="product-badge">
-										<ul>
-											<li className="sale-badge bg-green">For Rent</li>
-										</ul>
-									</div>
-									<div className="product-img-location-gallery">
-										<div className="product-img-location">
-											<ul>
-												<li>
-													<Link to="/#"><i className="flaticon-pin" /> Belmont Gardens, Chicago</Link>
-												</li>
-											</ul>
-										</div>
-										<div className="product-img-gallery go-top">
-											<ul>
-												<li>
-													<Link to="/product-details"><i className="fas fa-camera" /> 4</Link>
-												</li>
-												<li>
-													<Link to="/product-details"><i className="fas fa-film" /> 2</Link>
-												</li>
-											</ul>
-										</div>
-									</div>
-								</div>
-								<div className="product-info">
-									<div className="product-price">
-										<span>₹34,900<label>/Month</label></span>
-									</div>
-									<h2 className="product-title go-top"><Link to="/product-details">Beautiful Flat in Manhattan </Link></h2>
-									<div className="product-description">
-										<p>Beautiful Huge 1 Family House In Heart Of <br />
-											Westbury. Newly Renovated With New Wood</p>
-									</div>
-									<ul className="ltn__list-item-2 ltn__list-item-2-before">
-										<li><span>3 <i className="flaticon-bed" /></span>
-											Bedrooms
-										</li>
-										<li><span>2 <i className="flaticon-clean" /></span>
-											Bathrooms
-										</li>
-										<li><span>3450 <i className="flaticon-square-shape-design-interface-tool-symbol" /></span>
-											square Ft
-										</li>
-									</ul>
-								</div>
-								<div className="product-info-bottom">
-									<div className="real-estate-agent">
-										<div className="agent-img go-top">
-											<Link to="/#"><img src={publicUrl + "assets/img/blog/author.jpg"} alt="#" /></Link>
-										</div>
-										<div className="agent-brief go-top">
-											<h6><Link to="/#">William Seklo</Link></h6>
-											<small>Estate Agents</small>
-										</div>
-									</div>
-									<div className="product-hover-action">
-										<ul>
-											<li>
-												<a href="#" title="Quick View">
-													<i className="flaticon-expand" />
-												</a>
-											</li>
-											<li>
-												<a href="#" title="Wishlist">
-													<i className="flaticon-heart-1" /></a>
-											</li>
-											<li>
-												<span className="go-top">
-													<Link to="/product-details" title="Product Details">
-														<i className="flaticon-add" />
-													</Link>
-												</span>
-											</li>
-										</ul>
-									</div>
-								</div>
-							</div>
-						</div>  */}
-            {/*  */}
+         
           </div>
         </div>
       </div>
