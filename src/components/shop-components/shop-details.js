@@ -136,7 +136,7 @@ GetProductDetails(Product_id).then((data) => {
 }
 const PropertyIssue=(id,value,report)=>{
   if(JSON.parse(localStorage.getItem("user_id"))){
-    if(report===value){
+    if(report!=""){
       notification.success({
 				message:"Already Reported"
 			})
@@ -429,7 +429,7 @@ const PropertyIssue=(id,value,report)=>{
 												                      item?.user_image || publicUrl +
                                               "assets/img/blog/author.jpg"
                                             }
-                                            style={{width:"100%"}}
+                                            style={{width:"50px",height:"50px"}}
 
                                             alt="#"
                                           />
@@ -557,6 +557,7 @@ const PropertyIssue=(id,value,report)=>{
                             <img
                               src={data?.user_image || publicUrl + "assets/img/team/4.jpg"}
                               alt="Image"
+                              style={{width:"90px",height:"90px"}}
                             />
                             <h5>{data.user_name}</h5>
                             <small>{data.user_profession}</small>

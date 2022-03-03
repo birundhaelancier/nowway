@@ -57,7 +57,7 @@ import { FooterTags } from '../apiActions'
 											<Link to="/"><img src={publicUrl + "assets/img/logonow.png"} alt="Logo" /></Link>
 										</div>
 										<div className='nameShow'>
-										𝖭𝖮𝖶 𝖶𝖠𝖸
+											𝖭𝖮𝖶 𝖶𝖠𝖸
 										</div>
 									</div>
 
@@ -141,7 +141,7 @@ import { FooterTags } from '../apiActions'
 									<div className="footer-menu go-top">
 										<ul>
 											<li><Link to="/login">Login</Link></li>
-											<li><Link to="/my-account">My account</Link></li>
+											<li><Link to="/my-account">My Booking</Link></li>
 											<li><Link to="/#">Wish List</Link></li>
 											{/* <li><Link to="/add-listing">Add listing</Link></li>
 				                <li><Link to="/faq">FAQ</Link></li>

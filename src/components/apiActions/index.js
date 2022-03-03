@@ -360,23 +360,23 @@ export const InsertListing = (list, checkList) => {
     formData.set("furnishing",list.furnishing.toString())
     formData.set("parking",list.parking.toString())
     formData.set("bathroom", list.bathroom)
-    formData.set("availability",  list.availability)
+    formData.set("availability", list.availability)
     formData.set("amenities", list.amenities.toString())
-    
+
     try {
         const requestOptions = {
             method: 'POST',
             headers: REQUEST_HEADERS,
-            body:formData,
+            body: formData,
         };
         return fetch(APIURL + "add_listing", requestOptions)
             .then((response) => response.json())
             .then((response) => {
-                console.log("reeeee",decryptValue(response.encrypted))
+                console.log("reeeee", decryptValue(response.encrypted))
                 return decryptValue(response.encrypted)
             });
     } catch (err) { }
-    
+
 }
 
 
@@ -385,7 +385,7 @@ export const InsertListing = (list, checkList) => {
 export const GetProductDetails = (values) => {
     try {
         const Encription = CryptoJS.AES.encrypt(JSON.stringify({
-            "property_id": values,"user_id":JSON.parse(localStorage.getItem("user_id")) || 0
+            "property_id": values, "user_id": JSON.parse(localStorage.getItem("user_id")) || 0
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
         const requestOptions = {
             method: 'POST',
@@ -506,7 +506,7 @@ export const Top_Categories = () => {
 export const Add_ContactDetails = (property_id) => {
     try {
         const Encription = CryptoJS.AES.encrypt(JSON.stringify({
-            "user_id": JSON.parse(localStorage.getItem("user_id")),"property_id":property_id
+            "user_id": JSON.parse(localStorage.getItem("user_id")), "property_id": property_id
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
         const requestOptions = {
             method: 'POST',
@@ -524,7 +524,7 @@ export const Add_ContactDetails = (property_id) => {
 
 export const Add_WishList = (property_id) => {
     const Encription = CryptoJS.AES.encrypt(JSON.stringify({
-        "user_id": JSON.parse(localStorage.getItem("user_id")),"property_id":property_id
+        "user_id": JSON.parse(localStorage.getItem("user_id")), "property_id": property_id
     }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
     try {
         const requestOptions = {
@@ -618,15 +618,65 @@ export const RemoveWishlist = (id) => {
 export const AddPropertyview = (property_id) => {
     try {
         const Encription = CryptoJS.AES.encrypt(JSON.stringify({
-            "user_id": JSON.parse(localStorage.getItem("user_id")) || 0,"property_id":property_id
+            "user_id": JSON.parse(localStorage.getItem("user_id")) || 0, "property_id": property_id
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
         const requestOptions = {
             method: 'POST',
             headers: REQUEST_HEADERS,
             body: JSON.stringify({ encrypted: Encription }),
         };
-        console.log(decryptValue(Encription),"yy")
+        console.log(decryptValue(Encription), "yy")
         return fetch(APIURL + "add_view_property", requestOptions)
+            .then((response) => response.json())
+            .then((response) => {
+                return decryptValue(response.encrypted)
+            });
+    } catch (err) { }
+}
+
+
+export const GetPolicy = () => {
+    try {
+        const requestOptions = {
+            method: 'POST',
+            headers: REQUEST_HEADERS,
+        };
+        return fetch(APIURL + "policy", requestOptions)
+            .then((response) => response.json())
+            .then((response) => {
+                return decryptValue(response.encrypted)
+            });
+    } catch (err) { }
+}
+
+
+export const GetTerms = () => {
+    try {
+        const requestOptions = {
+            method: 'POST',
+            headers: REQUEST_HEADERS,
+        };
+        return fetch(APIURL + "terms", requestOptions)
+            .then((response) => response.json())
+            .then((response) => {
+                return decryptValue(response.encrypted)
+            });
+    } catch (err) { }
+}
+
+
+export const GetWalletList = () => {
+    try {
+        const Encription = CryptoJS.AES.encrypt(JSON.stringify({
+            "user_id": JSON.parse(localStorage.getItem("user_id"))
+        }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
+        const requestOptions = {
+            method: 'POST',
+            headers: REQUEST_HEADERS,
+            body: JSON.stringify({ encrypted: Encription }),
+        };
+        console.log(decryptValue(Encription), "Encription")
+        return fetch(APIURL + "wallet_list", requestOptions)
             .then((response) => response.json())
             .then((response) => {
                 return decryptValue(response.encrypted)
@@ -655,7 +705,6 @@ export const PropertyReportIssue = (id,value) => {
         const Encription = CryptoJS.AES.encrypt(JSON.stringify({
             "user_id":JSON.parse(localStorage.getItem("user_id")),"property_id":id,"issue":value
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
-        {console.log(decryptValue(Encription),"yyyyyyyyyyyyyyy")}
         const requestOptions = {
 
             method: 'POST',

@@ -48,8 +48,6 @@ const NavbarV3 = ({ user, Wish_list }) => {
     history.push(`/my-account?wish=${1}`);
   };
 
-  console.log(wish_list, "wish_list");
-
   return (
     <div>
       <header className="ltn__header-area ltn__header-5 ltn__header-logo-and-mobile-menu-in-mobile ltn__header-logo-and-mobile-menu ltn__header-transparent gradient-color-2">
@@ -217,23 +215,23 @@ const NavbarV3 = ({ user, Wish_list }) => {
                             Add Listing
                           </Link>
                         </li>
-						<li>
-                        {login_id && (
-                          <div
-                            className="col-lg-1 d-flex wish-web"
-                            onClick={openWishlist}
-                          >
-                            <div className="wishlistShow">
-                              <i class="fa fa-heart" />
-                            </div>
-                            {wish_list.length > 0 && (
-                              <div className="count_view">
-                                {wish_list && wish_list.length}
+                        <li>
+                          {login_id && (
+                            <div
+                              className="col-lg-1 d-flex wish-web"
+                              onClick={openWishlist}
+                            >
+                              <div className="wishlistShow">
+                                <i class="fa fa-heart" />
                               </div>
-                            )}
-                          </div>
-                        )}
-						</li>
+                              {wish_list.length > 0 && (
+                                <div className="count_view">
+                                  {wish_list && wish_list.length}
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </li>
                         {login_id && (
                           <li>
                             <Link to="/my-account"> My Profile</Link>

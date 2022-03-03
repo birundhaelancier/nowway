@@ -159,6 +159,7 @@ const ShopGridV1 = (props) => {
                                           "assets/img/blog/author.jpg"
                                         }
                                         alt="#"
+                                        style={{width:"50px",height:"50px"}}
                                       />
                                   </div>
 

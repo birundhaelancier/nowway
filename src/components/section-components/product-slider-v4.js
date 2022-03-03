@@ -39,8 +39,6 @@ const ProductSliderV4 = ({ list, callWish }) => {
 		})
 	}, [])
 
-	console.log(wish_list, "wish_list")
-
 	const Images = [
 		{ img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg" },
 		{ img: "https://elancier.in/nowway/public/upload/offer/16456040931180807696.jpg" },
@@ -123,7 +121,7 @@ const ProductSliderV4 = ({ list, callWish }) => {
 											<div className="ltn__product-item ltn__product-item-4 text-center---">
 												{/* product-details?product_id=${item.id} */}
 												<div className="product-img go-top">
-													<Link to={`/product-details?product_id=${item.id}`}><img src={item.image} alt="#" /></Link>
+													<Link to={`/product-details?product_id=${item.id}`}><img src={item.image[0]} alt="#" /></Link>
 													<div className="product-badge">
 														<ul>
 															<li className={item.type === "Rent" ? "sale-badge bg-green" : "sale-badge bg-pink"}>{item.type === "Rent" ? "For Rent" : "For Sell"}</li>
@@ -172,7 +170,7 @@ const ProductSliderV4 = ({ list, callWish }) => {
 												<div className="product-info-bottom">
 													<div className="real-estate-agent">
 														<div className="agent-img go-top">
-															<Link to={`/product-details?product_id=${item.id}`}><img src={item?.user_image || publicUrl + "assets/img/blog/author.jpg"} alt="#" /></Link>
+															<Link to={`/product-details?product_id=${item.id}`}><img src={item?.user_image || publicUrl + "assets/img/blog/author.jpg"} alt="#" style={{width:"40px",height:"40px"}}/></Link>
 														</div>
 														<div className="agent-brief go-top">
 															<h6>{item.user_name}</h6>

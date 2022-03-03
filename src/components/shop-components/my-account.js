@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import parse from 'html-react-parser';
-import { GetUserDetails, UpdateUserDetails, GetContachDetails, GetMyList, GetWishlist, RemoveWishlist } from '../apiActions/index';
+import { GetUserDetails, UpdateUserDetails, GetContachDetails, GetMyList, GetWishlist, RemoveWishlist, GetWalletList } from '../apiActions/index';
 import { notification } from 'antd';
 import Modal from '../Model';
 import Error from "../section-components/error";
 
 const MyAccount = ({ wishnumber }) => {
-	let publicUrl = process.env.PUBLIC_URL + '/';
 	const initialValues = {
 		fname: "",
 		lname: "",
@@ -21,7 +20,7 @@ const MyAccount = ({ wishnumber }) => {
 	};
 	const [userDetails, setUserDetails] = useState(initialValues);
 	const [show_PasswordInput, setShow_PasswordInput] = useState(false)
-	const [picture, setPicture] = useState("https://thumbs.dreamstime.com/b/aster-flowers-art-design-26968847.jpg");
+	const [picture, setPicture] = useState(null);
 	const inputElement = useRef(null);
 	const [home_list, setHome_list] = useState([])
 	const [contact_list, setContact_list] = useState([])
@@ -29,8 +28,9 @@ const MyAccount = ({ wishnumber }) => {
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [userInfo, setUserInfo] = useState(false);
 	const [refresh, setRefresh] = useState(false);
+	const [tranaction, setTransaction] = useState(false);
 
-
+	const proImg = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAM1BMVEXk5ueutLeqsbTn6eqpr7PJzc/j5ebf4eLZ3N2wtrnBxsjN0NLGysy6v8HT1tissra8wMNxTKO9AAAFDklEQVR4nO2d3XqDIAxAlfivoO//tEOZWzvbVTEpic252W3PF0gAIcsyRVEURVEURVEURVEURVEURVEURVEURVEURVEURflgAFL/AirAqzXO9R7XNBVcy9TbuMHmxjN6lr92cNVVLKEurVfK/zCORVvW8iUBnC02dj+Wpu0z0Y6QlaN5phcwZqjkOkK5HZyPAjkIjSO4fIdfcOwFKkJlX4zPu7Ha1tIcwR3wWxyFhRG6g4Je0YpSPDJCV8a2Sv2zd1O1x/2WMDZCwljH+clRrHfWCLGK8REMiql//2si5+DKWKcWeAGcFMzzNrXC/0TUwQ2s6+LhlcwjTMlYsUIQzPOCb7YBiyHopyLXIEKPEkI/TgeuiidK/R9FniUDOjRDpvm0RhqjMyyXNjDhCfIMYl1gGjIMIuYsnGEYRMRZOMMunaLVwpWRW008v6fYKDIzxCwVAeNSO90BJW6emelYBRF/kHpYGVaoxTDAaxOFsfP9y8hpJ4xd7gOcij7JNGQ1EYFgkPJa1jQEiYZXRaRINKxSDUW9n+FT82lSKadkiru9/4XPqSLWOekGPoY05TAvLm9orm+YWuwHoBHkZKijNBJGmeb61eL6Ff/6q7bLr7yvv3vKGhpDRjvgjGaPz+gUg6YgcvpyAR2FIZ9U6nEEyZRTovmEU32KichpGn7C17XrfyH9gK/c0CMP05HZIM2uf9sEveizKveBy9/6Qt7o89ne33D525cfcIMW6ab+TMEukQbQbu+xu7X3A9bChmWaCeAkG17bpntwXgWxHaMzGPmUaR5dQZiKqRVeUZ3047fi3nAu28h4CHxCsZAgmEH8Y27jJAhm8c+5RQzRQNVGhVFSfxOYIjp/pP7RxzjevYXVGf4eLt+BJ1vCuLuLkrgABgCGXZ2wik5uty+oBvNirI6mkzhAf4Gsb58Hcm67Jzd+KwD10BYPLL3e0MjvKrgAULnOfveF/O4N2Xb9BZom3gJes3F9X5Zze8/6Yt09b4CrqsEjUv8oFBaR2rl+6CZr2xVrp24o/WitBKuGrrpl1+bFkmK2qXTON4VpbdfLa7o7y/WdLxG7lm2Lqh2clOwTegbvc/vj2U78CwhA87Bn8G5Nk3eOb0Nsr9flz3sG78UUtue4kpv1xvjg3TMay62BMlTlP+vrOMnJsRmt/ze0jsfkPPYdAH57hK+34PeOyc8XIXu5xT2HsUkdZz+adwg8HGFfQ3K5jtDvbUiO4Di9/ywHGrL88pDizZ++oTp+an+SMX/ndymUCwmHMdO7yuOx83pUx/eEMU0AvxWndwgidAqOZ8ypCwdEfvvEo6D9HwpA8wzvmOJEqAg9ySu8g4x0Hb9hSB/BANEKJ+LbPBU0lzbAJs4xt1AoshKkUGQmiH8/jJ0gdhTTLmSegHlPE0oOdXALnqDjKYh3px//fSgSWG8UqfrrIICzYYSJXRr9BSPbpNzw7gBjKjKOYI7ReIGqQRIap5+5MdjyvuDkExvGeXSlONWZAP3/AZBwJohU7QJRGU+cTVH18ELmRPNBmibW6MT/k1b0XhdkRBvyT6SB6EYv/GvhSmRNpGngRULsAlxMCGNXp7w3FfdEbTEEDdLI9TdIKRUzUesa3I461ER8cpNT7gMRhpKmYVS9ELOgCUQsa4SsulciKiLbY+AnHD8cpuhISsnxpamI84sbDq9qYJgf8wiiOBrC7Ml7M7ZECCqKoiiKoiiKoiiKoijv5AvJxlZRyNWWLwAAAABJRU5ErkJggg=="
 
 	const Images = [
 		{ img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg" },
@@ -50,7 +50,6 @@ const MyAccount = ({ wishnumber }) => {
 		{ img: "https://elancier.in/nowway/public/upload/offer/16456040931180807696.jpg" },
 		{ img: "https://elancier.in/nowway/public/upload/offer/1645604156917821097.jpg" },
 	]
-
 
 	useEffect(() => {
 		GetMyList().then((data) => {
@@ -86,6 +85,9 @@ const MyAccount = ({ wishnumber }) => {
 			// 	})
 			// })
 
+		})
+		GetWalletList().then((response) => {
+			setTransaction(response.Response)
 		})
 	}, [])
 
@@ -179,8 +181,7 @@ const MyAccount = ({ wishnumber }) => {
 		})
 		setRefresh(true);
 	}
-
-	console.log(home_list, "home_list")
+	console.log(tranaction, "tranaction")
 
 	return (
 		<div className="liton__wishlist-area pb-70">
@@ -198,7 +199,7 @@ const MyAccount = ({ wishnumber }) => {
 												<a data-bs-toggle="tab" className={wishnumber == 1 && "active show"} href="#liton_tab_1_2">Wishlist <i className="fas fa-heart" /></a>
 												<a data-bs-toggle="tab" href="#liton_tab_1_0">Contacted <i className="fas fa-phone" /></a>
 												<a data-bs-toggle="tab" href="#liton_tab_1_4">My Property <i className="fas fa-list" /></a>
-												<a data-bs-toggle="tab" href="#liton_tab_1_5">NW Cash<i className="fas fa-list" /></a>
+												<a data-bs-toggle="tab" href="#liton_tab_1_5">NW Cash <span style={{fontSize:"24px"}}>₹</span></a>
 												<Link className="go-top" to={`/login?edit=${"user_id"}`}>Logout <i className="fas fa-sign-out-alt" /></Link>
 											</div>
 										</div>
@@ -386,19 +387,31 @@ const MyAccount = ({ wishnumber }) => {
 														<div className='contact-container'>
 															<div className='col-lg-12'>
 																<div className='my-heading'>My Recent Transactions </div>
-																<div className='nb__1S0gN'>Total Balance</div>
-																<div className='col-lg-12 nb__U6FD_'>
-																	{/* <img src={img3} /> */}
-																	<div className='nb__U6FD_'>
-																		<div className='col-lg-9 nb__8kQ5D'>
-																			<div>Welcome Bonus</div>
-																			<button>success</button>
-																			<div className='nb__1ip5'>  sale available on the website, we can match you with a house you will want to call home</div>
-																		</div>
-																		<div className='col-lg-3 nb__ykf7e'>+₹2,000</div>
+																{tranaction.length > 0 ?
+																	<>
+																		{tranaction.map((data) => {
+																			return (
+																				<div className='col-lg-12'>
+																					<div className='nb__1S0gN'>Total Balance</div>
+																					<div className='col-lg-12 nb__U6FD_'>
+																						{/* <img src={img3} /> */}
+																						<div className='nb__U6FD_'>
+																							<div className='col-lg-9 nb__8kQ5D'>
+																								<div>{data.type + " - " + data.d_date}</div>
+																								<button className={data.ctype === "Credit" ? "bg-green" : "bg-pink"}>{data.ctype}</button>
+																								<div className='nb__1ip5'>  sale available on the website, we can match you with a house you will want to call home</div>
+																							</div>
+																							<div className='col-lg-3 nb__ykf7e'>+₹{data.amount}</div>
 
-																	</div>
-																</div>
+																						</div>
+																					</div>
+																				</div>
+																			)
+																		})}
+																	</>
+																	:
+																	<Error />
+																}
 															</div>
 														</div>
 													</div>
@@ -413,7 +426,11 @@ const MyAccount = ({ wishnumber }) => {
 																	<div className="filecontainer" onClick={fileclick}>
 																		<div className="uploads">
 																			<input required id="profilePic" type="file" onChange={(e) => onChangePicture(e)} className="fileinput hidden" ref={inputElement} />
-																			<img src={picture} alt=" " className="uploadimage" />
+
+																			<img src={picture == null ? proImg : picture} alt=" " className="uploadimage" />
+																		</div>
+																		<div className='uploadBtn'>
+																			<i class="fa fa-upload" aria-hidden="true"></i>
 																		</div>
 																	</div>
 																</div>
