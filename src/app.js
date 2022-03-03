@@ -52,13 +52,14 @@ import History from './components/history';
 import Advertisement from './components/section-components/advertisement';
 import OwnwerPlan from './components/ownerPlan';
 import Wallet from './components/wallet';
-
+import PrivatePolicy from './components/private-policy';
+import TermCondition from './components/terms-condition';
 
 const App=()=>{
 
     return(
         <HashRouter basename="/">
-              <Router>
+              {/* <Router> */}
             <div>
             <Switch>
                 <Route exact path="/" component={HomeV7} />
@@ -91,7 +92,8 @@ const App=()=>{
                 <Route path="/advertisement" component={ Advertisement } />
                 <Route path="/plan" component={OwnwerPlan} />
                 <Route path="/wallet" component={Wallet} />
-
+                <Route path="/policy" component={PrivatePolicy} />
+                <Route path="/terms" component={TermCondition} />
 
                 <Route path="/product-details" component={ ProdductDetails } />
                 {/* blog */}
@@ -114,7 +116,7 @@ const App=()=>{
                 <Route path="/history" component={ History } />
             </Switch>
             </div>
-            </Router>
+            {/* </Router> */}
         </HashRouter>
 )
 }

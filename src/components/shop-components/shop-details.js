@@ -7,9 +7,11 @@ import {
   Add_WishList,
   GetUserDetails,
   GetWishlist,
-  GetContachDetails
+  GetContachDetails,
+  RemoveWishlist,
+  GetProductDetails
 } from "../apiActions";
-import { DatePicker, notification, TimePicker, Popconfirm } from "antd";
+import { DatePicker, notification, TimePicker,Popconfirm  } from "antd";
 import Swal from "sweetalert2";
 import { useHistory } from "react-router-dom";
 const ShopDetails = ({ ProductInfo, RelatedProducts, TopCategory }) => {
@@ -17,10 +19,10 @@ const ShopDetails = ({ ProductInfo, RelatedProducts, TopCategory }) => {
   const [visitOpen, setvisitOpen] = useState(false);
   const [pro_details, setPro_details] = useState();
   const [profileDetails, setprofileDetails] = useState([]);
-  const [Wish_list, setWish_list] = useState([])
-  const [Contact_list, setContact_list] = useState([])
-  const [contact, setcontact] = useState(false)
-  const [enable, setenable] = useState(false)
+  const [Wish_list,setWish_list]=useState([])
+  const [Contact_list,setContact_list]=useState([])
+  const [contact,setcontact]=useState(false)
+  const [enable,setenable]=useState(false)
   let history = useHistory();
   useEffect(() => {
     setPro_details(ProductInfo);
@@ -34,6 +36,7 @@ const ShopDetails = ({ ProductInfo, RelatedProducts, TopCategory }) => {
           notification.success({
             message: "Successfully added",
           });
+		  window.location.reload()
         }
       });
     } else {
@@ -42,7 +45,6 @@ const ShopDetails = ({ ProductInfo, RelatedProducts, TopCategory }) => {
   };
   const AddWishlist = (id) => {
     if (JSON.parse(localStorage.getItem("user_id"))) {
-      FilterData(id)
       Add_WishList(id).then((res) => {
         if (res.Status === "Success") {
           notification.success({
@@ -62,49 +64,68 @@ const ShopDetails = ({ ProductInfo, RelatedProducts, TopCategory }) => {
     GetUserDetails().then((data) => {
       setprofileDetails(data.Response);
     });
-    GetWishlist().then((response) => {
-      setWish_list(response.Response)
-    })
-    GetContachDetails().then((response) => {
-      setContact_list(response.Response)
-    })
+	GetWishlist().then((response) => {
+		let arrVal = []
+		response.Response.forEach((data) => {
+			arrVal.push(data.id)
+		})
+		setWish_list(arrVal)
+	})
+	GetContachDetails().then((response) => {
+		let arrVal = []
+		response.Response.forEach((data) => {
+			arrVal.push(data.id)
+		})
+		setContact_list(arrVal)
+
+	})
   }, []);
-  function confirm(e) {
-    console.log(e);
-    // message.success('Click on Yes');
+ 
+  const removeWishlist = (id) => {
+	RemoveWishlist(id).then((data) => {
+		if (data.Status == "Success") {
+			notification.success({
+				message:"Removed Successfully"
+			})
+			window.location.reload();
+		} else {
+			notification.error({
+				message: data.Message
+			})
+		}
+	})
+}
+
+
+
+useEffect(()=>{
+	Contact_list.filter((data)=>{
+		if(data.id===pro_details?.find(item=>item.id)){
+			setcontact(false)
+		}
+		else{
+			setcontact(true)
+		}
+	})
+},[Wish_list,Contact_list])
+
+const GetContact=(id)=>{
+ 
+  if(JSON.parse(localStorage.getItem("user_id"))){
+    if(Contact_list.includes(id)){
+      setIsModalVisible(false)
+    }else{setIsModalVisible(true)}
+  }else{
+     history.push("/login")
   }
-
-  function cancel(e) {
-    console.log(e);
-    // message.error('Click on No');
-  }
-  const FilterData = (id) => {
-
-  }
-
-  useEffect(() => {
-    Wish_list.filter((data) => {
-      if (data.id === RelatedProducts?.find(item => item.id)) {
-        setenable(false)
-      }
-      else {
-        setenable(true)
-      }
-    })
-  }, [Wish_list, RelatedProducts])
-
-  useEffect(() => {
-    Contact_list.filter((data) => {
-      if (data.id === pro_details?.find(item => item.id)) {
-        setcontact(false)
-      }
-      else {
-        setcontact(true)
-      }
-    })
-  }, [Wish_list, Contact_list])
-
-
+}
+const GoToProduct=(Product_id)=>{
+GetProductDetails(Product_id).then((data) => {
+  setPro_details(data.Response)
+  history.push({pathname:`/product-details?product_id=${Product_id}`})
+  window.location.reload()
+})
+}
   return (
     <div className="ltn__shop-details-area pb-10">
       <div className="container">
@@ -148,10 +169,10 @@ const ShopDetails = ({ ProductInfo, RelatedProducts, TopCategory }) => {
                         <div className="div1">
                           <div className="ltn__blog-categorys">
                             <button
-                              onClick={() => setIsModalVisible(true)}
+                              onClick={()=>GetContact(data.id)}
                               className="postBtn"
                             >
-                              Get Owner Details
+                               {Contact_list.includes(data.id)?"Contacted":JSON.parse(localStorage.getItem("user_id"))?"Get Owner Details":"SIGN IN (Get Owner Details)"}
                             </button>
                             {/* <Link to="#">Get Owner Details</Link> */}
                           </div>
@@ -207,19 +228,19 @@ const ShopDetails = ({ ProductInfo, RelatedProducts, TopCategory }) => {
                             and {profileDetails[0]?.email}
                           </div>
                           <div className="owner-btn-show">
-                            {contact ?
-                              <button
-                                className="messegeBtn"
-                              >
-                                Contacted
-                              </button> :
-                              <button
-                                className="messegeBtn"
-                                onClick={() => AddContact(data.id)}
-                              >
-                                Messege Owner
-                              </button>}
-                            <button
+                            {Contact_list.includes(data.id)?
+							<button
+							className="messegeBtn"
+						    >
+							Contacted
+						  </button>:
+							<button
+                              className="messegeBtn"
+                              onClick={() => AddContact(data.id)}
+                            >
+                             Messege Owner
+                            </button>}
+                            {/* <button
                               className="propertyBtn"
                               onClick={() => {
                                 setvisitOpen(true);
@@ -227,7 +248,7 @@ const ShopDetails = ({ ProductInfo, RelatedProducts, TopCategory }) => {
                               }}
                             >
                               Shedule Property Visit
-                            </button>
+                            </button> */}
                           </div>
                         </div>
                       </div>
@@ -335,36 +356,48 @@ const ShopDetails = ({ ProductInfo, RelatedProducts, TopCategory }) => {
                           </div>
                         </div>
                         <div className="ltn__shop-details-tab-content-inner--- ltn__shop-details-tab-inner-2 ltn__product-details-review-inner mb-60"></div>
-                        <h4 className="title-2">Related Properties</h4>
+                        {RelatedProducts?.length>0&&<h4 className="title-2">Related Properties</h4>}
                         <div className="row">
                           {/* ltn__product-item */}
                           {RelatedProducts &&
                             RelatedProducts.map((item) => (
                               <div className="col-xl-6 col-sm-6 col-12 go-top" key={item.id}>
-                                {console.log(item, "dfghj")}
-
                                 <div className="ltn__product-item ltn__product-item-4 ltn__product-item-5 text-center---">
                                   <div className="product-img">
-                                    <Link to="/product-details">
+                                    {/* {item.image.length>0?item?.image.map((img)=> */}
+                                    <a  onClick={()=>GoToProduct(item.id)}>
+                                      <img
+                                        src={
+                                          item?.image[0] || publicUrl +
+                                          "assets/img/product-3/1.jpg"
+                                        }
+                                        alt="#"
+										                    style={{width:"100%",height:"300px",objectFit:"cover"}}
+                                      />
+                                    </a>
+                                    {/* ):
                                       <img
                                         src={
                                           publicUrl +
                                           "assets/img/product-3/1.jpg"
                                         }
                                         alt="#"
+										                    style={{width:"100%",height:"300px",objectFit:"cover"}}
                                       />
-                                    </Link>
+                                   } */}
                                     <div className="real-estate-agent">
                                       <div className="agent-img">
-                                        <Link to="/product-details">
+                                        <a onClick={()=>GoToProduct(item.id)}> 
                                           <img
                                             src={
-                                              publicUrl +
+												                      item?.user_image || publicUrl +
                                               "assets/img/blog/author.jpg"
                                             }
+                                            style={{width:"100%"}}
+
                                             alt="#"
                                           />
-                                        </Link>
+                                        </a>
                                       </div>
                                     </div>
                                   </div>
@@ -379,12 +412,12 @@ const ShopDetails = ({ ProductInfo, RelatedProducts, TopCategory }) => {
                                       </ul>
                                     </div>
                                     <h2 className="product-title">
-                                      <Link to="/#">{item.title}</Link>
+                                      <Link to={`/product-details?product_id=${item.id}`}>{item.title}</Link>
                                     </h2>
                                     <div className="product-img-location">
                                       <ul>
                                         <li>
-                                          <Link to="/#">
+                                          <Link to={`/product-details?product_id=${item.id}`}>
                                             <i className="flaticon-pin" />{" "}
                                             {item.address} , {item.city}
                                           </Link>
@@ -413,51 +446,51 @@ const ShopDetails = ({ ProductInfo, RelatedProducts, TopCategory }) => {
                                             title="Quick View"
                                             data-bs-toggle="modal"
                                             data-bs-target="#quick_view_modal"
+                                            onClick={()=>GoToProduct(item.id)}
                                           >
                                             <i className="flaticon-expand" />
                                           </a>
                                         </li>
-
-
+                                     
+                                        
                                         <li>
-
-                                          {enable ? <Popconfirm
-                                            title="Are you sure to delete this task?"
-                                            onConfirm={""}
-                                            onCancel={cancel}
-                                            okText="Yes"
-                                            cancelText="No"
+											
+										{Wish_list.includes(item.id) ?<Popconfirm
+                                          title="Are you sure to delete this task?"
+                                          onConfirm={()=>removeWishlist(data.id)}
+                                          onCancel={""}
+                                          okText="Yes"
+                                          cancelText="No"
+                                        >
+                                          <a
+                                            title="Wishlist"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#liton_wishlist_modal"
                                           >
-                                            <a
-                                              href="#"
-                                              title="Wishlist"
-                                              data-bs-toggle="modal"
-                                              data-bs-target="#liton_wishlist_modal"
-                                            >
-                                              <i
-                                                className="flaticon-heart-1" style={{ color: "red" }}
-                                              />
-                                            </a>
-                                          </Popconfirm> :
-                                            <a
-                                              href="#"
-                                              title="Wishlist"
-                                              data-bs-toggle="modal"
-                                              data-bs-target="#liton_wishlist_modal"
-                                            >
-                                              <i
-                                                className="flaticon-heart-1"
-                                                onClick={() =>
-                                                  AddWishlist(data.id)
-                                                }
-                                              />
-                                            </a>}
+                                            <i
+                                              className="flaticon-heart-1" style={{color:"red"}}
+                                            />
+                                          </a>
+										  </Popconfirm>:
+										    <a
+											  href="#"
+											  title="Wishlist"
+											  data-bs-toggle="modal"
+											  data-bs-target="#liton_wishlist_modal"
+											>
+											  <i
+												className="flaticon-heart-1"
+												onClick={() =>
+												  AddWishlist(data.id)
+												}
+											  />
+											</a>}
                                         </li>
-                                        <li>
+                                        {/* <li>
                                           <Link to="/#" title="Compare">
                                             <i className="flaticon-add" />
                                           </Link>
-                                        </li>
+                                        </li> */}
                                       </ul>
                                     </div>
                                   </div>
@@ -482,15 +515,13 @@ const ShopDetails = ({ ProductInfo, RelatedProducts, TopCategory }) => {
                         <div className="widget ltn__author-widget">
                           <div className="ltn__author-widget-inner text-center">
                             <img
-                              src={publicUrl + "assets/img/team/4.jpg"}
+                              src={data?.user_image || publicUrl + "assets/img/team/4.jpg"}
                               alt="Image"
                             />
                             <h5>{data.user_name}</h5>
-                            <small>Traveller/Photographer</small>
+                            <small>{data.user_profession}</small>
                             <p>
-                              Lorem ipsum dolor sit amet, consectetur
-                              adipisicing elit. Veritatis distinctio, odio,
-                              eligendi suscipit reprehenderit atque.
+                             {data.user_description}
                             </p>
                           </div>
                         </div>

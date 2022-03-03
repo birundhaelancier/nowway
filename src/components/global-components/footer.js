@@ -54,7 +54,7 @@ class Footer_v1 extends Component {
 											<Link to="/"><img src={publicUrl + "assets/img/logonow.png"} alt="Logo" /></Link>
 										</div>
 										<div className='nameShow'>
-										𝖭𝖮𝖶 𝖶𝖠𝖸
+											𝖭𝖮𝖶 𝖶𝖠𝖸
 										</div>
 									</div>
 
@@ -136,7 +136,7 @@ class Footer_v1 extends Component {
 									<div className="footer-menu go-top">
 										<ul>
 											<li><Link to="/login">Login</Link></li>
-											<li><Link to="/my-account">My account</Link></li>
+											<li><Link to="/my-account">My Booking</Link></li>
 											<li><Link to="/#">Wish List</Link></li>
 											{/* <li><Link to="/add-listing">Add listing</Link></li>
 				                <li><Link to="/faq">FAQ</Link></li>

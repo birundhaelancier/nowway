@@ -24,7 +24,7 @@ const Product_Details = (props) => {
         Top_Categories().then((data)=>{
             setTopCategory(data.Response)
         })
-        Top_Categories(Product_id).then((data)=>{
+        AddPropertyview(Product_id).then((data)=>{
             // setTopCategory(data.Response)
         })
        
@@ -32,7 +32,7 @@ const Product_Details = (props) => {
     return <div>
         <Navbar />
         <PageHeader headertitle="Product Details" customclass="mb-0" />
-        <ProductSlider />
+        <ProductSlider ProductInfo={productDetailsInfo}/>
         <ProductDetails ProductInfo={productDetailsInfo} RelatedProducts={RelatedProducts} TopCategory={TopCategory}/>
         <CallToActionV1 />
         <Footer />

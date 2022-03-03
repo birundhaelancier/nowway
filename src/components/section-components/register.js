@@ -19,7 +19,7 @@ const Register = () => {
 		otp: "",
 	};
 	const [values, setValues] = useState(initialValues);
-	const [showOtp, setShowOtp] = useState(true)
+	const [showOtp, setShowOtp] = useState(false)
 	const [otpnumber, setOtpnumber] = useState()
 	const [mobileErr, setMobileErr] = useState(false)
 	const [emailErr, setEmailErr] = useState(false)

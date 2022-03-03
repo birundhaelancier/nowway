@@ -108,13 +108,6 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
             let reader = new FileReader();
             let file = e.target.files[0];
             setCheckList(file)
-
-            // reader.onload = function (upload) {
-            //     setCheckList(upload.target.result);
-            // };
-
-            // reader.readAsDataURL(file)
-
             setListValues({
                 ...listValues,
                 [name]: e.target.files,
@@ -179,7 +172,11 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
         console.log(formData, listValues.images, listValues.images.name, "li")
     }
 
-console.log("cfghjk",checkList)
+for(let i in checkList){
+
+}
+console.log("ddddddddddddd",checkList)
+
     return (
         <div className="ltn__appointment-area pb-120">
             <div className="container">
