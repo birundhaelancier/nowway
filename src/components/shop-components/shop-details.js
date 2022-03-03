@@ -134,18 +134,31 @@ GetProductDetails(Product_id).then((data) => {
   window.location.reload()
 })
 }
-const PropertyIssue=(id,value)=>{
+const PropertyIssue=(id,value,report)=>{
+  if(JSON.parse(localStorage.getItem("user_id"))){
+    if(report===value){
+      notification.success({
+				message:"Already Reported"
+			})
+    }else{
   PropertyReportIssue(id,value).then((data)=>{
     if (data.Status == "Success") {
 			notification.success({
 				message:data.Message
 			})
+      setTimeout(()=>{
+         window.location.reload()
+      },2000)
 		} else {
 			notification.error({
 				message: data.Message
 			})
 		}
   })
+}
+}else{
+  history.push('/login')
+}
 }
   return (
     <div className="ltn__shop-details-area pb-10">
@@ -214,14 +227,14 @@ const PropertyIssue=(id,value)=>{
                             Report what was not correct in this property
                           </div>
                           <div className="property_btn">
-                            <div className="ltn_list">
-                              <a onClick={()=>PropertyIssue(data.id,"Listed by Broker")}>Listed by Broker</a>
+                            <div className={data.report===1?"Change_btn":"ltn_list"}>
+                              <a onClick={()=>PropertyIssue(data.id,"Listed by Broker",data.report_issue)}>Listed by Broker</a>
                             </div>
-                            <div className="ltn_list">
-                              <a onClick={()=>PropertyIssue(data.id,"Sold Out")}>Sold Out</a>
+                            <div className={data.report===2?"Change_btn":"ltn_list"}>
+                              <a onClick={()=>PropertyIssue(data.id,"Sold Out",data.report_issue)}>Sold Out</a>
                             </div>
-                            <div className="ltn_list">
-                              <a onClick={()=>PropertyIssue(data.id,"Wrong Info")}>Wrong Info</a>
+                            <div className={data.report===3?"Change_btn":"ltn_list"}>
+                              <a onClick={()=>PropertyIssue(data.id,"Wrong Info",data.report_issue)}>Wrong Info</a>
                             </div>
                           </div>
                         </div>

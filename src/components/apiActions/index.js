@@ -385,7 +385,7 @@ export const InsertListing = (list, checkList) => {
 export const GetProductDetails = (values) => {
     try {
         const Encription = CryptoJS.AES.encrypt(JSON.stringify({
-            "property_id": values,"user_id":0
+            "property_id": values,"user_id":JSON.parse(localStorage.getItem("user_id")) || 0
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
         const requestOptions = {
             method: 'POST',
@@ -655,7 +655,9 @@ export const PropertyReportIssue = (id,value) => {
         const Encription = CryptoJS.AES.encrypt(JSON.stringify({
             "user_id":JSON.parse(localStorage.getItem("user_id")),"property_id":id,"issue":value
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
+        {console.log(decryptValue(Encription),"yyyyyyyyyyyyyyy")}
         const requestOptions = {
+
             method: 'POST',
             headers: REQUEST_HEADERS,
             body: JSON.stringify({ encrypted: Encription }),
