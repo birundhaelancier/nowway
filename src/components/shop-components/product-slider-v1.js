@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import parse from 'html-react-parser';
 import Slider from "react-slick";
 
 const ProductSliderV1 = ({ProductInfo}) => {
@@ -25,69 +23,33 @@ const ProductSliderV1 = ({ProductInfo}) => {
         }
     }, [slideNumber])
 	useEffect(()=>{
-		// let push()
 		ProductInfo && ProductInfo.map((data)=>{
 			setImageSlider(data.image)
 		})
 	},[ProductInfo])
-	// const Product=ProductInfo[0]
-	console.log(ImageSlider.length<=3,ImageSlider.length,"ddddddddd")
 	return (
 		<div className="ltn__img-slider-area">
 			<div className="container-fluid">
 				<div className="row">
 					<div className="col-lg-12 product-slider-container" style={{margin:"15px 0px"}}>
 
+						
 						<Slider {...settings}>
-							{ImageSlider?.map((item, index) => {
+							{ImageSlider.map((data, index) => {
 								return (
-									// <div className="col-lg-12">
-										<div>
-											{/* <a href={item || publicUrl + `assets/img/img-slide/3.jpg`} data-rel="lightcase:myCollection"> */}
-												<img src={item} style={{height:"270px",width:"100%",objectFit:"cover"}}/>
-											{/* // </a> */}
-										</div> 
-									// </div>
+									<div className="col-lg-12">
+										<div className="ltn__img-slide-item-4">
+											<a href={data} data-rel="lightcase:myCollection">
+												<img src={data} alt="Image" style={{height:"270px",width:"100%",objectFit:"cover"}}/>
+											</a>
+										</div>
+									</div>
 								)
 							})}
 						</Slider>
 					</div>
 
-					{/* <div className="col-lg-12">
-						<div className="ltn__img-slide-item-4">
-							<a href={publicUrl + "assets/img/img-slide/31.jpg"} data-rel="lightcase:myCollection">
-								<img src={publicUrl + "assets/img/img-slide/31.jpg"} alt="Image" />
-							</a>
-						</div>
-					</div>
-					<div className="col-lg-12">
-						<div className="ltn__img-slide-item-4">
-							<a href={publicUrl + "assets/img/img-slide/32.jpg"} data-rel="lightcase:myCollection">
-								<img src={publicUrl + "assets/img/img-slide/32.jpg"} alt="Image" />
-							</a>
-						</div>
-					</div>
-					<div className="col-lg-12">
-						<div className="ltn__img-slide-item-4">
-							<a href={publicUrl + "assets/img/img-slide/33.jpg"} data-rel="lightcase:myCollection">
-								<img src={publicUrl + "assets/img/img-slide/33.jpg"} alt="Image" />
-							</a>
-						</div>
-					</div>
-					<div className="col-lg-12">
-						<div className="ltn__img-slide-item-4">
-							<a href={publicUrl + "assets/img/img-slide/34.jpg"} data-rel="lightcase:myCollection">
-								<img src={publicUrl + "assets/img/img-slide/34.jpg"} alt="Image" />
-							</a>
-						</div>
-					</div>
-					<div className="col-lg-12">
-						<div className="ltn__img-slide-item-4">
-							<a href={publicUrl + "assets/img/img-slide/35.jpg"} data-rel="lightcase:myCollection">
-								<img src={publicUrl + "assets/img/img-slide/35.jpg"} alt="Image" />
-							</a>
-						</div>
-					</div> */}
+				
 				</div>
 			</div>
 		</div>
@@ -96,3 +58,4 @@ const ProductSliderV1 = ({ProductInfo}) => {
 
 
 export default ProductSliderV1
+

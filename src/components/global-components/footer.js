@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect,useState } from 'react';
 import { Link } from 'react-router-dom';
 import Social from '../section-components/social';
 import Copyright from './copyright';
-
-class Footer_v1 extends Component {
-
-	componentDidMount() {
+import { FooterTags } from '../apiActions'
+ const Footer_v1=()=>{
+  const [FooterTag,setFooterTag]=useState([])
+	useEffect(()=>{
 
 		const $ = window.$;
 
@@ -25,7 +25,6 @@ class Footer_v1 extends Component {
 			setTimeout(function () {
 				$(".quarter-overlay").fadeOut(300);
 			}, 800);
-
 		});
 
 
@@ -35,9 +34,13 @@ class Footer_v1 extends Component {
 			$('div').removeClass('fade');
 			$('body').attr("style", "");
 		});
-	}
 
-	render() {
+		FooterTags().then((data)=>{
+		   setFooterTag(data.Response)
+		})
+
+	},[])
+
 
 		let publicUrl = process.env.PUBLIC_URL + '/'
 		let imgattr = "Footer logo"
@@ -120,9 +123,11 @@ class Footer_v1 extends Component {
 									<h4 className="footer-title">Services</h4>
 									<div className="footer-menu go-top">
 										<ul>
-											<li><Link to="/#">Cart</Link></li>
-											<li><Link to="/contact">Contact Us</Link></li>
-											<li><Link to="/login">Login</Link></li>
+										  {FooterTag.map((data)=>{
+											  return(
+												<li><a href={data.url}>{data.tag}</a></li>
+											  )
+										  })}
 											{/* <li><Link to="/checkout">Checkout</Link></li>
 				                <li><Link to="/about">Terms &amp; Conditions</Link></li>
 				                <li><Link to="/shop">Promotional Offers</Link></li> */}
@@ -168,7 +173,6 @@ class Footer_v1 extends Component {
 			</footer>
 		)
 	}
-}
 
 
 export default Footer_v1

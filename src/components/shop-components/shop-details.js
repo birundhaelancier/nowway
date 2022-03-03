@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import moment from 'moment'
 import parse from "html-react-parser";
 import Modal from "../Model";
 import {
@@ -9,11 +10,13 @@ import {
   GetWishlist,
   GetContachDetails,
   RemoveWishlist,
-  GetProductDetails
+  GetProductDetails,
+  PropertyReportIssue
 } from "../apiActions";
 import { DatePicker, notification, TimePicker,Popconfirm  } from "antd";
 import Swal from "sweetalert2";
 import { useHistory } from "react-router-dom";
+import { data } from "jquery";
 const ShopDetails = ({ ProductInfo, RelatedProducts, TopCategory }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [visitOpen, setvisitOpen] = useState(false);
@@ -50,6 +53,9 @@ const ShopDetails = ({ ProductInfo, RelatedProducts, TopCategory }) => {
           notification.success({
             message: "Wishlist Added Successfully",
           });
+          setTimeout(()=>{
+            window.location.reload();
+          },2000)
         } else {
           notification.success({
             message: "Something went wrong not added in your wishlist",
@@ -87,7 +93,9 @@ const ShopDetails = ({ ProductInfo, RelatedProducts, TopCategory }) => {
 			notification.success({
 				message:"Removed Successfully"
 			})
-			window.location.reload();
+      setTimeout(()=>{
+        window.location.reload();
+      },2000)
 		} else {
 			notification.error({
 				message: data.Message
@@ -126,6 +134,19 @@ GetProductDetails(Product_id).then((data) => {
   window.location.reload()
 })
 }
+const PropertyIssue=(id,value)=>{
+  PropertyReportIssue(id,value).then((data)=>{
+    if (data.Status == "Success") {
+			notification.success({
+				message:data.Message
+			})
+		} else {
+			notification.error({
+				message: data.Message
+			})
+		}
+  })
+}
   return (
     <div className="ltn__shop-details-area pb-10">
       <div className="container">
@@ -136,6 +157,8 @@ GetProductDetails(Product_id).then((data) => {
                 <div className="col-lg-7 col-md-12">
                   <div className="ltn__shop-details-inner ltn__page-details-inner">
                     <div className="ltn__blog-meta">
+                    {console.log(data,"tttttttttttt")}
+
                       <ul>
                         <li className="ltn__blog-category">
                           <Link className="bg-orange" to="#">
@@ -144,7 +167,7 @@ GetProductDetails(Product_id).then((data) => {
                         </li>
                         <li className="ltn__blog-date">
                           <i className="far fa-calendar-alt" />
-                          {data.available_from}
+                          {moment(data.available_from).format("DD-MM-YYYY")}
                         </li>
                       </ul>
                     </div>
@@ -192,13 +215,13 @@ GetProductDetails(Product_id).then((data) => {
                           </div>
                           <div className="property_btn">
                             <div className="ltn_list">
-                              <Link to="#">Listed by Broker</Link>
+                              <a onClick={()=>PropertyIssue(data.id,"Listed by Broker")}>Listed by Broker</a>
                             </div>
                             <div className="ltn_list">
-                              <Link to="#">Sold Out</Link>
+                              <a onClick={()=>PropertyIssue(data.id,"Sold Out")}>Sold Out</a>
                             </div>
                             <div className="ltn_list">
-                              <Link to="#">Wrong Info</Link>
+                              <a onClick={()=>PropertyIssue(data.id,"Wrong Info")}>Wrong Info</a>
                             </div>
                           </div>
                         </div>
@@ -411,7 +434,7 @@ GetProductDetails(Product_id).then((data) => {
                                         </li>
                                       </ul>
                                     </div>
-                                    <h2 className="product-title">
+                                    <h2 className="product-title" style={{marginTop:"10px"}}>
                                       <Link to={`/product-details?product_id=${item.id}`}>{item.title}</Link>
                                     </h2>
                                     <div className="product-img-location">
@@ -438,7 +461,13 @@ GetProductDetails(Product_id).then((data) => {
                                         square Ft
                                       </li>
                                     </ul>
-                                    <div className="product-hover-action">
+                                    <div className="product-hover-action" style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+                                    <div className="product-price">
+                                      <span>
+                                        ₹{item.price}
+                                        <label>/Month</label>
+                                      </span>
+                                    </div>
                                       <ul>
                                         <li>
                                           <a
@@ -457,11 +486,12 @@ GetProductDetails(Product_id).then((data) => {
 											
 										{Wish_list.includes(item.id) ?<Popconfirm
                                           title="Are you sure to delete this task?"
-                                          onConfirm={()=>removeWishlist(data.id)}
+                                          onConfirm={()=>removeWishlist(item.id)}
                                           onCancel={""}
                                           okText="Yes"
                                           cancelText="No"
                                         >
+
                                           <a
                                             title="Wishlist"
                                             data-bs-toggle="modal"
@@ -481,7 +511,7 @@ GetProductDetails(Product_id).then((data) => {
 											  <i
 												className="flaticon-heart-1"
 												onClick={() =>
-												  AddWishlist(data.id)
+												  AddWishlist(item.id)
 												}
 											  />
 											</a>}
@@ -491,17 +521,14 @@ GetProductDetails(Product_id).then((data) => {
                                             <i className="flaticon-add" />
                                           </Link>
                                         </li> */}
+                                        
                                       </ul>
+                                     
                                     </div>
                                   </div>
-                                  <div className="product-info-bottom">
-                                    <div className="product-price">
-                                      <span>
-                                        ₹{data.price}
-                                        <label>/Month</label>
-                                      </span>
-                                    </div>
-                                  </div>
+                                  {/* <div className="product-info-bottom">
+                                    
+                                  </div> */}
                                 </div>
                               </div>
                             ))}

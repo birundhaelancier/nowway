@@ -161,6 +161,7 @@ const ShopGridV1 = (props) => {
                                         alt="#"
                                       />
                                   </div>
+
                                 </div>
                               </div>
                               <div className="product-info">
@@ -169,7 +170,7 @@ const ShopGridV1 = (props) => {
                                     <li className="sale-badg">{data.type}</li>
                                   </ul>
                                 </div>
-                                <h2 className="product-title go-top">
+                                <h2 className="product-title go-top" style={{marginTop:"10px"}}>
                                   <Link to={`/product-details?product_id=${data.id}`}>
                                     {data.title}
                                   </Link>
@@ -198,7 +199,13 @@ const ShopGridV1 = (props) => {
                                     Square Ft
                                   </li>
                                 </ul>
-                                <div className="product-hover-action">
+                                <div className="product-hover-action" style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                                <div className="product-price">
+                                  <span>
+                                    ₹{data.price}
+                                    <label>/Month</label>
+                                  </span>
+                                </div>
                                   <ul>
                                     <li>
                                       <Link to={`/product-details?product_id=${data.id}`}>
@@ -249,14 +256,7 @@ const ShopGridV1 = (props) => {
                                   </ul>
                                 </div>
                               </div>
-                              <div className="product-info-bottom">
-                                <div className="product-price">
-                                  <span>
-                                    ₹{data.price}
-                                    <label>/Month</label>
-                                  </span>
-                                </div>
-                              </div>
+                            
                             </div>
                           </div>
                         ))

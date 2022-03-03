@@ -105,8 +105,7 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
                 [name]: e,
             });
         } else if (key === "files") {
-            let reader = new FileReader();
-            let file = e.target.files[0];
+            let file = e.target.files;
             setCheckList(file)
             setListValues({
                 ...listValues,
@@ -127,7 +126,6 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
             });
         }
     }
-    console.log("checkList", listValues.amenities)
 
     const submitForm = async (e) => {
         e.preventDefault();
@@ -166,16 +164,7 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
             ...prevState,
         }));
     }
-    const test = () => {
-        const formData = new FormData();
-      
-        console.log(formData, listValues.images, listValues.images.name, "li")
-    }
-
-for(let i in checkList){
-
-}
-console.log("ddddddddddddd",checkList)
+  
 
     return (
         <div className="ltn__appointment-area pb-120">
@@ -202,27 +191,27 @@ console.log("ddddddddddddd",checkList)
                                 <div className="row">
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="text" name={"price"} value={listValues.price} onChange={(e) => handleChange(e)} placeholder="Price in ₹ (only numbers)" />
+                                            <input  type="text" required name={"price"} value={listValues.price} onChange={(e) => handleChange(e)} placeholder="Price in ₹ (only numbers)" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="text" name={"afterPrice"} value={listValues.afterPrice} onChange={(e) => handleChange(e)} placeholder="After Price Label (ex: /month)" />
+                                            <input  type="text" required name={"afterPrice"} value={listValues.afterPrice} onChange={(e) => handleChange(e)} placeholder="After Price Label (ex: /month)" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="text" name={"beforePrice"} value={listValues.beforePrice} onChange={(e) => handleChange(e)} placeholder="Before Price Label (ex: from)" />
+                                            <input  type="text" required name={"beforePrice"} value={listValues.beforePrice} onChange={(e) => handleChange(e)} placeholder="Before Price Label (ex: from)" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="text" name={"yearlyTax"} value={listValues.yearlyTax} onChange={(e) => handleChange(e)} placeholder="Yearly Tax Rate" />
+                                            <input  type="text" required name={"yearlyTax"} value={listValues.yearlyTax} onChange={(e) => handleChange(e)} placeholder="Yearly Tax Rate" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="text" name={"ownerFee"} value={listValues.ownerFee} onChange={(e) => handleChange(e)} placeholder="Homeowners Association Fee(monthly)" />
+                                            <input  type="text" required name={"ownerFee"} value={listValues.ownerFee} onChange={(e) => handleChange(e)} placeholder="Homeowners Association Fee(monthly)" />
                                         </div>
                                     </div>
                                 </div>
@@ -230,19 +219,19 @@ console.log("ddddddddddddd",checkList)
                                 <div className="row">
                                     <div className="col-md-6">
                                         <div className="input-item">
-                                            <SelectInput dropdown={property_type} placeholder={"None"} value={listValues.propertyType} changeData={(data) => handleChange(data, "select", "propertyType")} />
+                                            <SelectInput required dropdown={property_type} placeholder={"None"} value={listValues.propertyType} changeData={(data) => handleChange(data, "select", "propertyType")} />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item">
-                                            <SelectInput dropdown={options} placeholder={"None"} value={listValues.types} changeData={(data) => handleChange(data, "select", "types")} />
+                                            <SelectInput required dropdown={options} placeholder={"None"} value={listValues.types} changeData={(data) => handleChange(data, "select", "types")} />
                                         </div>
                                     </div>
 
                                 </div>
                                 <h2>2. Media</h2>
                                 <h6>Listing Media</h6>
-                                <input type="file" id="myFile" multiple name="images" className="btn theme-btn-3 mb-10"
+                                <input type="file" id="myFile" required multiple name="images" className="btn theme-btn-3 mb-10"
                                     // value={selectedFile}
                                     onChange={(e) => handleChange(e, "files", "images")}
                                 /><br />
@@ -256,32 +245,32 @@ console.log("ddddddddddddd",checkList)
                                 <div className="row">
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="text" name={"address"} value={listValues.address} onChange={(e) => handleChange(e)} placeholder="*Address" />
+                                            <input  type="text" required name={"address"} value={listValues.address} onChange={(e) => handleChange(e)} placeholder="*Address" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="text" name={"country"} value={listValues.country} onChange={(e) => handleChange(e)} placeholder="Country" />
+                                            <input  type="text" required name={"country"} value={listValues.country} onChange={(e) => handleChange(e)} placeholder="Country" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="text" name={"state"} value={listValues.state} onChange={(e) => handleChange(e)} placeholder="County / State" />
+                                            <input  type="text" required name={"state"} value={listValues.state} onChange={(e) => handleChange(e)} placeholder="County / State" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="text" name={"city"} value={listValues.city} onChange={(e) => handleChange(e)} placeholder="City" />
+                                            <input  type="text" required name={"city"} value={listValues.city} onChange={(e) => handleChange(e)} placeholder="City" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="text" name={"neighbourhood"} value={listValues.neighbourhood} onChange={(e) => handleChange(e)} placeholder="Neighbourhood" />
+                                            <input  type="text" required name={"neighbourhood"} value={listValues.neighbourhood} onChange={(e) => handleChange(e)} placeholder="Neighbourhood" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="number" name={"zipCode"} value={listValues.zipCode} onChange={(e) => handleChange(e)} placeholder="Zip" />
+                                            <input  type="number" required name={"zipCode"} value={listValues.zipCode} onChange={(e) => handleChange(e)} placeholder="Zip" />
                                             {zipCodeErr && <div className='errMsg'>Zip Code should be 6 digit only</div>}
                                         </div>
                                     </div>
@@ -291,79 +280,79 @@ console.log("ddddddddddddd",checkList)
                                 <div className="row">
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="number" name={"size"} value={listValues.size} onChange={(e) => handleChange(e)} placeholder="Size in ft2 (*only numbers)" />
+                                            <input  type="number" required name={"size"} value={listValues.size} onChange={(e) => handleChange(e)} placeholder="Size in ft2 (*only numbers)" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="number" name={"lotSize"} value={listValues.lotSize} onChange={(e) => handleChange(e)} placeholder="Lot Size in ft2 (*only numbers)" />
+                                            <input  type="number" required name={"lotSize"} value={listValues.lotSize} onChange={(e) => handleChange(e)} placeholder="Lot Size in ft2 (*only numbers)" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="number" name={"rooms"} value={listValues.rooms} onChange={(e) => handleChange(e)} placeholder="Rooms (*only numbers)" />
+                                            <input  type="number" required name={"rooms"} value={listValues.rooms} onChange={(e) => handleChange(e)} placeholder="Rooms (*only numbers)" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="number" name={"bedRooms"} value={listValues.bedRooms} onChange={(e) => handleChange(e)} placeholder="Bedrooms (*only numbers)" />
+                                            <input  type="number" required name={"bedRooms"} value={listValues.bedRooms} onChange={(e) => handleChange(e)} placeholder="Bedrooms (*only numbers)" />
                                         </div>
                                     </div>
                                     {/* <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="number" name={"pathRooms"} value={listValues.pathRooms} onChange={(e) => handleChange(e)} placeholder="Bathrooms (*only numbers)" />
+                                            <input  type="number" name={"pathRooms"} value={listValues.pathRooms} onChange={(e) => handleChange(e)} placeholder="Bathrooms (*only numbers)" />
                                         </div>
                                     </div> */}
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="text" name={"garges"} value={listValues.garges} onChange={(e) => handleChange(e)} placeholder="Garages (*text)" />
+                                            <input  type="text" required name={"garges"} value={listValues.garges} onChange={(e) => handleChange(e)} placeholder="Garages (*text)" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="number" name={"yearBuilt"} value={listValues.yearBuilt} onChange={(e) => handleChange(e)} placeholder="Year Built (*numeric)" />
+                                            <input  type="number" required name={"yearBuilt"} value={listValues.yearBuilt} onChange={(e) => handleChange(e)} placeholder="Year Built (*numeric)" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="text" name={"garageSize"} value={listValues.garageSize} onChange={(e) => handleChange(e)} placeholder="Garage Size (*text)" />
+                                            <input  type="text" required name={"garageSize"} value={listValues.garageSize} onChange={(e) => handleChange(e)} placeholder="Garage Size (*text)" />
+                                        </div>
+                                    </div>
+                                    {/* <div className="col-md-6">
+                                        <div className="input-item input-item-name ltn__custom-icon">
+                                            <input  type="date" required name={"availableFrom"} value={listValues.availableFrom} onChange={(e) => handleChange(e)} placeholder="Available from (*date)" />
+                                        </div>
+                                    </div> */}
+                                    <div className="col-md-6">
+                                        <div className="input-item input-item-name ltn__custom-icon">
+                                            <input  type="text" required name={"basement"} value={listValues.basement} onChange={(e) => handleChange(e)} placeholder="Basement (*text)" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="date" name={"availableFrom"} value={listValues.availableFrom} onChange={(e) => handleChange(e)} placeholder="Available from (*date)" />
+                                            <input  type="text" required name={"extra_details"} value={listValues.extra_details} onChange={(e) => handleChange(e)} placeholder="Extra Details (*text)" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="text" name={"basement"} value={listValues.basement} onChange={(e) => handleChange(e)} placeholder="Basement (*text)" />
+                                            <input  type="text" required name={"roofing"} value={listValues.roofing} onChange={(e) => handleChange(e)} placeholder="Roofing (*text)" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="text" name={"extra_details"} value={listValues.extra_details} onChange={(e) => handleChange(e)} placeholder="Extra Details (*text)" />
-                                        </div>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="text" name={"roofing"} value={listValues.roofing} onChange={(e) => handleChange(e)} placeholder="Roofing (*text)" />
-                                        </div>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <div className="input-item input-item-name ltn__custom-icon">
-                                            <input required type="text" name={"exteriorMaterial"} value={listValues.exteriorMaterial} onChange={(e) => handleChange(e)} placeholder="Exterior Material (*text)" />
+                                            <input  type="text" required name={"exteriorMaterial"} value={listValues.exteriorMaterial} onChange={(e) => handleChange(e)} placeholder="Exterior Material (*text)" />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item">
-                                            <SelectInput dropdown={structure_type} placeholder={"Structure Type"} value={listValues.structureType} changeData={(data) => handleChange(data, "select", "structureType")} />
+                                            <SelectInput required dropdown={structure_type} placeholder={"Structure Type"} value={listValues.structureType} changeData={(data) => handleChange(data, "select", "structureType")} />
 
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="input-item">
-                                            <SelectInput dropdown={floor_type} placeholder={"Floors No"} value={listValues.floors} changeData={(data) => handleChange(data, "select", "floors")} />
-                                        </div>
+                                            <SelectInput required dropdown={floor_type} placeholder={"Floors No"} value={listValues.floors} changeData={(data) => handleChange(data, "select", "floors")} />
+                                        </div> 
                                     </div>
                                     <div className="col-lg-12">
                                         <div className="input-item input-item-textarea ltn__custom-icon">
@@ -378,7 +367,8 @@ console.log("ddddddddddddd",checkList)
                                         return (
                                             <div className="col-lg-4 col-md-6">
                                                 <label className="radio-item" key={index}>
-                                                    <input required
+                                                    <input 
+                                                        required
                                                         type="radio"
                                                         name='bhk_type'
                                                         value={listValues.bhk_type}
@@ -436,7 +426,7 @@ console.log("ddddddddddddd",checkList)
                                         return (
                                             <div className="col-lg-4 col-md-6">
                                                 <label className="radio-item" key={index}>
-                                                    <input required
+                                                    <input 
                                                         type="radio"
                                                         name='bathroom'
                                                         value={listValues.bathroom}
@@ -455,7 +445,7 @@ console.log("ddddddddddddd",checkList)
                                         return (
                                             <div className="col-lg-4 col-md-6">
                                                 <label className="radio-item" key={index}>
-                                                    <input required
+                                                    <input 
                                                         type="radio"
                                                         name='availability'
                                                         value={listValues.availability}

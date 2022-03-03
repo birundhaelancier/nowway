@@ -52,8 +52,7 @@ import History from './components/history';
 import Advertisement from './components/section-components/advertisement';
 import OwnwerPlan from './components/ownerPlan';
 import Wallet from './components/wallet';
-
-
+import RefundPolicy from './components/section-components/RefundPollicy'
 const App=()=>{
 
     return(
@@ -112,6 +111,8 @@ const App=()=>{
                 <Route path="/wishlist" component={ Wishlist } />
                 <Route path="/order-tracking" component={ OrderTracking } />
                 <Route path="/history" component={ History } />
+                <Route path="/refund" component={ RefundPolicy } />
+                
             </Switch>
             </div>
             {/* </Router> */}
