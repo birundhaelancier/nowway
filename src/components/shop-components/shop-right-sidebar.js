@@ -171,12 +171,12 @@ const ShopGridV1 = (props) => {
                                     <li className="sale-badg">{data.type}</li>
                                   </ul>
                                 </div>
-                                <h2 className="product-title go-top" style={{marginTop:"10px"}}>
+                                <h2 className="product-title go-top related_list" style={{marginTop:"10px"}}>
                                   <Link to={`/product-details?product_id=${data.id}`}>
                                     {data.title}
                                   </Link>
                                 </h2>
-                                <div className="product-img-location go-top">
+                                <div className="product-img-location related_list go-top">
                                   <ul>
                                     <li>
                                       <a>
@@ -270,17 +270,14 @@ const ShopGridV1 = (props) => {
                                 <div className="error-404-inner text-center">
                                   <div className="error-img mb-30">
                                     <img
-                                      src={
-                                        publicUrl +
-                                        "assets/img/others/error-1.png"
-                                      }
+                                      src={publicUrl + "assets/img/error.png"}
                                       alt="#"
                                     />
                                   </div>
                                   <h1 className="error-404-title d-none">
-                                    404
+                                    
                                   </h1>
-                                  <h2>Data Not Found!</h2>
+                                  <h2>No Data Found!</h2>
                                   {/* <h3>Oops! Looks like something going rong</h3> */}
                                   <p>
                                     Oops! The page you are looking for does not

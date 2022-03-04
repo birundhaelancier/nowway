@@ -9,8 +9,6 @@ const Testimonial = ({ home_offers }) => {
 	const [feed_list,setFeed_list]=useState([])
 	let imagealt = 'image';
 	const [slideNumber, setSlideNumber] = useState(3)
-
-
 	var settings = {
 		dots: false,
 		infinite: false,

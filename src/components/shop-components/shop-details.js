@@ -274,7 +274,7 @@ const PropertyIssue=(id,value,report)=>{
                               className="messegeBtn"
                               onClick={() => AddContact(data.id)}
                             >
-                             Messege Owner
+                             Got it
                             </button>}
                             {/* <button
                               className="propertyBtn"
