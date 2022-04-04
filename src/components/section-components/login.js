@@ -11,6 +11,7 @@ const Login = () => {
 	let history = useHistory()
 	const [mobileErr, setMobileErr] = useState(false)
 	const [otpnumber, setOtpnumber] = useState()
+	const [showPass,setshowPass]=useState(false)
 	const initialValues = {
 		mobile: "",
 		password: "",
@@ -132,6 +133,9 @@ const onSignInSubmit=()=> {
 		})
     })
 }
+const clickHandler=()=>{
+	setshowPass(!showPass)
+}
 	return (
 		<div className="ltn__login-area">
 			<div className="container">
@@ -156,7 +160,12 @@ const onSignInSubmit=()=> {
 								{mobileErr && <div className='errMsg'>Mobile Number should be 10 digit only</div>}
 								<input required type="radio" value={"otp"} checked={values.type==="otp"?true:false} name='type'  onChange={(e) => handleChange(e,"type")}/><span className="diff_sec">Generate OTP</span>
 								<input required type="radio" value={"password"}  checked={values.type==="password"?true:false} name='type' onChange={(e) => handleChange(e,"type")}/><span className="diff_sec">I've Password</span>
-								{values.type==="password"?<input type="password" name="password" placeholder="Password*" value={values.password} onChange={(e) => handleChange(e)} required autocomplete="off" />:
+								{values.type==="password"?
+								<div className='pass_show_div'>
+								<input type={showPass?"text":"password"} name="password" placeholder="Password*" value={values.password} onChange={(e) => handleChange(e)} required autocomplete="off" />
+								   <i onClick={clickHandler} class={showPass ? 'fas fa-eye' : 'fas fa-eye-slash'}></i>
+								</div>
+								:
 								<input type="password" name="otp" placeholder="Enter OTP*" value={values.otp} onChange={(e) => handleChange(e)} required autocomplete="off" />}
 								{values.type==="otp"&&<div style={{textAlign:"end"}}><button style={{margin:"8px",fontSize:"15px",fontWeight:"bold",color:"#8ab64d",textAlign:"end",cursor:"pointer",textDecoration:"underline",background:"none"}}  type="submit" >Resend Otp</button></div>}
 								<div className="btn-wrapper  mt-0">

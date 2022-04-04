@@ -16092,3 +16092,17 @@ input[type='file'] {
 .property ul li span{
   font-weight: 400 !important;
 }
+
+
+.pass_show_div{
+  position: relative;
+
+}
+.pass_show_div .fas{
+  position: absolute;
+  top: 30%;
+  right: 4%;
+  /* transform: translate(-46%, -46%); */
+  font-size: 16px;
+  /* color: #297ab0; */
+}
