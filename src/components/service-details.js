@@ -11,18 +11,18 @@ const Service_Details = (props) => {
     const EditText = params.get('edit');
     const ser_image = params.get('image');
     const ser_name = params.get('ser_name');
+    const service =params.get('service')
     console.log(EditText, "EditText")
     const [sub_services, setSub_services] = useState();
     useEffect(() => {
         GetSubService(EditText).then((data) => {
-            console.log(data.Response)
             setSub_services(data.Response)
         })
     }, [])
     return <div>
         <Navbar />
         <PageHeader headertitle="Service Details" subheader={ser_name} />
-        <ServiceDetails sub_services={sub_services} ser_image={ser_image} />
+        <ServiceDetails sub_services={sub_services} ser_image={ser_image} service={service} ser_id={EditText}/>
         <CallToActionV1 />
         <Footer />
     </div>

@@ -178,7 +178,7 @@ const NavbarV3 = ({ user, Wish_list }) => {
                         />
                       </Link>
                     </div>
-                    <div className="nameShow">𝖭𝖮𝖶 𝖶𝖠𝖸</div>
+                    <div className="nameShow">NOW WAY</div>
                   </div>
                   <div
                     className="col-lg-1 d-flex wish-mobile"
@@ -204,6 +204,13 @@ const NavbarV3 = ({ user, Wish_list }) => {
                   <nav>
                     <div className="ltn__main-menu">
                       <ul>
+                      {JSON.parse(localStorage.getItem("wallet"))? <li style={{textAlign:"center"}}>
+                        <Link to="/#">
+                       
+                        <div className="cash_style">₹{JSON.parse(localStorage.getItem("wallet"))}</div>
+                       <img src={publicUrl + "assets/img/cash.png"} style={{width:"20px",height:"20px",marginTop:"-12px"}} />
+                      </Link>
+                     </li>:""}
                         <li>
                           <Link to="/service"> Services</Link>
                         </li>
@@ -251,7 +258,7 @@ const NavbarV3 = ({ user, Wish_list }) => {
                           <li>
                             <Link to={`/login?edit=${"user_id"}`}>
                               {" "}
-                              Sign out
+                              <label onClick={()=>localStorage.clear()}>Sign out</label>
                             </Link>
                           </li>
                         )}
@@ -276,7 +283,7 @@ const NavbarV3 = ({ user, Wish_list }) => {
                 <Link to="/">
                   <img src={publicUrl + "assets/img/logonow.png"} alt="Logo" />
                 </Link>
-                <div className="nameShow">𝖭𝖮𝖶 𝖶𝖠𝖸</div>
+                <div className="nameShow">NOW WAY</div>
               </div>
               <button className="ltn__utilize-close">×</button>
             </div>
@@ -288,9 +295,7 @@ const NavbarV3 = ({ user, Wish_list }) => {
 				</div> */}
             <div className="ltn__utilize-menu">
               <ul>
-                <li>
-                  <Link to="/#">Home</Link>
-                </li>
+              
                 <li>
                   <Link to="/service"> Services</Link>
                 </li>
@@ -321,7 +326,8 @@ const NavbarV3 = ({ user, Wish_list }) => {
                 )}
                 {login_id && (
                   <li>
-                    <Link to="/login"> Sign out</Link>
+                    <Link> <label onClick={()=>{localStorage.clear();history.push("/login")}}>Sign out</label></Link>
+
                   </li>
                 )}
               </ul>

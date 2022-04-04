@@ -8,8 +8,8 @@ import Toast from '../toast/index';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Modal from '../Model';
-
-const Register = () => {
+import  firebase from '../../Redux/Utils/firebase'
+function RegisterComp(props) {
 	let history = useHistory()
 	const initialValues = {
 		email: "",
@@ -49,7 +49,14 @@ const Register = () => {
 		});
 	}
 
-	const submitForm = async (e, key) => {
+	useEffect(()=>{
+		window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier("recaptcha",
+		{
+		   size:"invisible"
+		});
+	},[])
+
+	const submitForm = (e, key) => {
 		e.preventDefault();
 		if (!mobileErr && !emailErr) {
 			onRegister(values).then((data) => {
@@ -57,11 +64,21 @@ const Register = () => {
 					notification.success({
 						message: "Register Successfully"
 					})
+					localStorage.setItem("wallet", JSON.stringify(data.Response[0].wallet));
 					setShowOtp(true)
-					GetOtp(values).then((data) => {
-						setOtpnumber(data.Response[0].otp)
+					GetOtp(values,"Register").then((data) => {
+						
+						const appVerifier = window.recaptchaVerifier;
+						firebase.auth().signInWithPhoneNumber("+91"+values.mobile,appVerifier).then(confirmResult => { 
+						setOtpnumber(confirmResult)
+							notification.success({
+								message: "Otp sent your registered mobile number Successfully"
+							})      
+						})
+					
 					})
-				} else {
+				} 
+				else {
 					notification.error({
 						message: data.Message
 					})
@@ -71,18 +88,30 @@ const Register = () => {
 
 	}
 
-	const onOtp = () => {
-		if (values.otp == otpnumber || values.otp == "1234") {
-			notification.success({
-				message: "OTP Register Successfully"
-			})
+	const onOtp = (e) => {
+		// if (values.otp == otpnumber || values.otp == "1234") {
+			// notification.success({
+			// 	message: "OTP Register Successfully"
+			// })
+		// 	history.push("/login")
+		// } else {
+		// 	notification.error({
+		// 		message: "Invalid OTP"
+		// 	})
+		// 	setShowOtp(false)
+		// }
+			e.preventDefault();
+		otpnumber.confirm(values.otp).then(user => {
 			history.push("/login")
-		} else {
-			notification.error({
-				message: "Invalid OTP"
+			notification.success({
+				message: "OTP Verified Successfully"
 			})
-			setShowOtp(false)
-		}
+		})
+		.catch(error => {
+			notification.error({
+				message: "Please Enter Valid Otp"
+			})
+		})
 	}
 
 	return (
@@ -92,8 +121,10 @@ const Register = () => {
 					<div className="col-lg-12 mbl">
 						<div className="section-title-areas text-center">
 							<h1 className="section-title">Register <br />Your Account</h1>
-							<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. <br />
-								Sit aliquid,  Non distinctio vel iste.</p>
+							<p>
+							Create an account to unlock these benefits
+Get latest updates about Properties and Projects.
+							</p>
 						</div>
 					</div>
 				</div>
@@ -109,21 +140,22 @@ const Register = () => {
 								<input type="number" name="mobile" placeholder="Mobile No*" value={values.mobile} onChange={(e) => handleChange(e)} required={showOtp ? false : true} />
 								{mobileErr && <div className='errMsg'>Mobile Number should be 10 digit only</div>}
 								<input type="password" name="password" placeholder="Password*" value={values.password} onChange={(e) => handleChange(e)} required={showOtp ? false : true} />
-								<div className="btn-wrapper go-top">
-									<button className="theme-btn-1 btn black-btn">CREATE ACCOUNT</button>
+								<div className="btn-wrapper   go-top">
+									<button className="theme-btn-1 sign_acc btn black-btn">CREATE ACCOUNT</button>
 								</div>
 							</form>
 						</div>
 					</div>
-					<Modal show={showOtp} width={35} handleClose={() => setShowOtp(false)}>
+					<Modal show={showOtp} modelTitle={"Enter Your OTP"} handleClose={() => setShowOtp(false)}>
 						<div className="ltn__quick-view-modal-inner">
-						<div className="col-lg-12 text-center modalHeading">Enter Your OTP</div>
+						{/* <div className="col-lg-12 text-center modalHeading">Enter Your OTP</div> */}
 							<div className="container">
 								<div className="row text-center">
 									<form className="ltn__form-box" onSubmit={(e) => onOtp(e)}>
-										<input type="number" name="otp" placeholder="OTP*" value={values.otp} onChange={(e) => handleChange(e)} required />
+										<input type="number" name="otp" placeholder="OTP*" value={values.otp} style={{marginBottom:"10px"}} onChange={(e) => handleChange(e)} required />
+										<div style={{margin:"8px",fontSize:"15px",fontWeight:"bold",color:"#8ab64d",textAlign:"end"}} onClick={(e) => submitForm(e)}>Resend Otp</div>
 										<div className="go-top">
-											<button className="theme-btn-1 btn btn-block postBtn">SUBMIT OTP</button>
+											<button className="theme-btn-1 btn btn-block postBtn" id="recaptcha">SUBMIT OTP</button>
 										</div>
 									</form>
 								</div>
@@ -139,12 +171,16 @@ const Register = () => {
 							<div className="btn-wrapper go-top">
 								<Link to="/login" className="theme-btn-1 btn black-btn">SIGN IN</Link>
 							</div>
+
 						</div>
 					</div>
 				</div>
 			</div>
+			<div id="recaptcha"></div>
 		</div>
 	)
 }
 
-export default Register;
+export default RegisterComp;
+{/* <DynModel  handleChangeModel={Modalopen} modelTitle={"View Claimes"}
+                       modalchanges="recruit_modal_css" handleChangeCloseModel={() =>setModalopen(false)} width={600} content={ */}

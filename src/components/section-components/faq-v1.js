@@ -114,9 +114,9 @@ const FaqV1 = ({ faq_details }) => {
                                 </div>
                             </div>
                             {/* Banner Widget */}
-                            <div className="widget ltn__banner-widget go-top">
+                            {/* <div className="widget ltn__banner-widget go-top">
                                 <Link to="/product-details"><img src={publicUrl + "assets/img/banner/banner-3.jpg"} alt="Banner Image" /></Link>
-                            </div>
+                            </div> */}
                         </aside>
                     </div>
                 </div>

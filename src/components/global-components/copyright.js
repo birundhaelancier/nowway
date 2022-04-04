@@ -18,11 +18,11 @@ class CopyRight extends Component {
 				</div>
 				<div className="col-md-6 col-12 align-self-center">
 					<div className="ltn__copyright-menu text-end">
-					<ul className="go-top">
+					{/* <ul className="go-top">
 						<li><Link to="/terms">Terms &amp; Conditions</Link></li>
 						<li><Link to="/refund">Refund Policy</Link></li>
 						<li><Link to="/policy">Privacy &amp; Policy</Link></li>
-					</ul>
+					</ul> */}
 					</div>
 				</div>
 				</div>

@@ -5,6 +5,7 @@ import Slider from "react-slick";
 import { notification, Popconfirm } from 'antd'
 import { Add_WishList, GetWishlist, RemoveWishlist } from '../apiActions'
 import Swal from "sweetalert2";
+import MediaComp from '../section-components/Loading'
 import { useHistory } from 'react-router-dom'
 const ProductSliderV4 = ({ list, callWish }) => {
   let history = useHistory()
@@ -76,8 +77,12 @@ const ProductSliderV4 = ({ list, callWish }) => {
       })
     }
     else {
-      history.push('/login')
+      GoTOLogin()
     }
+  }
+  const GoTOLogin=()=>{
+    history.push({pathname:"/login"})
+
   }
   const removeWishlist = (id) => {
     RemoveWishlist(id).then((data) => {
@@ -111,7 +116,7 @@ const ProductSliderV4 = ({ list, callWish }) => {
               </div>
             </div>
           </div>
-
+        {list.length>0 ?
           <div className="row">
             <div className="col-lg-12 product-slider-container">
               { }
@@ -121,7 +126,7 @@ const ProductSliderV4 = ({ list, callWish }) => {
                     <div className="col-xl-4 col-sm-6 col-12">
                       <div className="ltn__product-item ltn__product-item-4 text-center---">
                         <div className="product-img go-top">
-                          <Link to={`/product-details?product_id=${item.id}`}><img src={item.image[0]} alt="#" /></Link>
+                          <Link to={`/product-details?product_id=${item.id}`}><img src={item.image[0]?item.image[0]:publicUrl+"assets/img/product-3/1.jpg"}/></Link>
                           <div className="product-badge">
                             <ul>
                               <li className={item.type === "Rent" ? "sale-badge bg-green" : "sale-badge bg-pink"}>{item.type === "Rent" ? "For Rent" : "For Sell"}</li>
@@ -149,12 +154,13 @@ const ProductSliderV4 = ({ list, callWish }) => {
                         </div>
                         <div className="product-info">
                           <div className="product-price">
-                            <span>₹{item.price}<label>/Month</label></span>
+                          <Link to={`/product-details?product_id=${item.id}`}>₹{item.price}<label>/Month</label></Link>
                           </div>
                           <h2 className="product-title go-top"><Link to={`/product-details?product_id=${item.id}`}>{item.tit}</Link></h2>
                           <div className="product-description">
                             <p>{item.description}</p>
                           </div>
+                          <Link to={`/product-details?product_id=${item.id}`}>
                           <ul className="ltn__list-item-2 ltn__list-item-2-before">
                             <li><span>{item.bedrooms} <i className="flaticon-bed" /></span>
                               Bedrooms
@@ -166,6 +172,7 @@ const ProductSliderV4 = ({ list, callWish }) => {
                               square Ft
                             </li>
                           </ul>
+                          </Link>
                         </div>
                         <div className="product-info-bottom">
                           <div className="real-estate-agent">
@@ -201,7 +208,7 @@ const ProductSliderV4 = ({ list, callWish }) => {
                                   </a>
                                 </Popconfirm>
                                   :
-                                  <a
+                                  <Link to={JSON.parse(localStorage.getItem("user_id"))?null:"/login"}><a
                                     href="#"
                                     title="Wishlist"
                                   >
@@ -211,7 +218,9 @@ const ProductSliderV4 = ({ list, callWish }) => {
                                         AddWishlist(item.id)
                                       }
                                     />
-                                  </a>}
+                                  </a>
+                                  </Link>
+                                  }
                               </li>
 
                             </ul>
@@ -224,8 +233,17 @@ const ProductSliderV4 = ({ list, callWish }) => {
               </Slider>
             </div>
 
-
           </div>
+          :
+          <div className="row">
+            {[...Array(3)].map((data) => {
+                         return (
+                 <div className="col-lg-4 col-sm-6 col-12">
+                    <MediaComp/>
+                 </div>
+                 )})}
+            </div>
+            }
         </div>
       </div>
     </div>

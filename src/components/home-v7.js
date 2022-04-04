@@ -9,10 +9,11 @@ import Category from './section-components/category-v1';
 import Testimonial from './section-components/testimonial-v1';
 import CallToActionV1 from './section-components/call-to-action-v1';
 import Footer from './global-components/footer';
+import ServiceV1 from './section-components/service-v1';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
-import { GetPropertyType, GetLocations, GetAmenities, GetHomeOffer, GetHomeList } from '../components/apiActions/index';
+import { GetPropertyType, GetLocations, GetAmenities, GetHomeOffer, GetHomeList,GetServiceDetails } from '../components/apiActions/index';
 
 const Home_V7 = (props) => {
     const params = new URLSearchParams(props.location.search);
@@ -24,6 +25,9 @@ const Home_V7 = (props) => {
     const [home_offers, setHome_offer] = useState([])
     const [home_list, setHome_list] = useState([])
     const [Wish_list, setWish_list] = useState([])
+    const [service, setService] = useState([])
+
+
 
 
     useEffect(() => {
@@ -43,16 +47,21 @@ const Home_V7 = (props) => {
         GetHomeList().then((data) => {
             setHome_list(data.Response)
         })
+        GetServiceDetails().then((data) => {
+            setService(data.Response)
+        })
     }, [])
 
     return <div>
         <Navbar CustomClass="ltn__header-transparent gradient-color-2" Wish_list={Wish_list} />
         <BannerV6 property_type={property_type} location={location} />
-        <Featuresv1 customClass="ltn__feature-area section-bg-1" home_offers={home_offers} />
+        <ServiceV1 service={service}/>
         {/* <Aboutv2 /> */}
         <div ref={myRef}>
             <Advertisement home_offers={home_offers} />
         </div>
+        <Featuresv1 customClass="ltn__feature-area section-bg-1" home_offers={home_offers} />
+
         <ProSlider list={home_list} callWish={(data)=>setWish_list(data)}/>
         <Category amenities_val={amenities_val} />
         <Testimonial />

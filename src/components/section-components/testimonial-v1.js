@@ -11,20 +11,21 @@ const Testimonial = ({ home_offers }) => {
 	const [slideNumber, setSlideNumber] = useState(3)
 	var settings = {
 		dots: false,
-		infinite: false,
+		infinite: true,
 		speed: 500,
-		slidesToShow: 3,
-		slidesToScroll: slideNumber,
+		slidesToShow: slideNumber,
+		slidesToScroll: 1,
+		
 	};
 	useEffect(() => {
-        if (window.innerWidth >= 550 && window.innerWidth <= 1000) {
-            setSlideNumber(2)
-        } else if (window.innerWidth < 549) {
-            setSlideNumber(1)
-        } else if (window.innerWidth >= 1001) {
-            setSlideNumber(3)
-        }
-    }, [slideNumber])
+		if (window.innerWidth >= 550 && window.innerWidth <= 1000) {
+		  setSlideNumber(2)
+		} else if (window.innerWidth < 549) {
+		  setSlideNumber(1)
+		} else if (window.innerWidth >= 1001) {
+		  setSlideNumber(3)
+		}
+	  }, [slideNumber])
 	useEffect(()=>{
 		FeedBacklist().then((res)=>{
 			setFeed_list(res.Response)

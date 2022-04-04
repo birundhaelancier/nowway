@@ -57,11 +57,9 @@ import PrivatePolicy from './components/private-policy';
 import TermCondition from './components/terms-condition';
 
 const App=()=>{
-
     return(
-        <HashRouter basename="/">
+        <HashRouter   forceRefresh={true}>
               {/* <Router> */}
-            <div>
             <Switch>
                 <Route exact path="/" component={HomeV7} />
                 <Route path="/home-v2" component={HomeV2} />
@@ -89,7 +87,7 @@ const App=()=>{
                 <Route path="/shop" component={ Shop } />
                 <Route path="/shop-grid" component={ ShopGrid } />
                 <Route path="/shop-left-sidebar" component={ ShopLeftSidebar } />
-                <Route path="/shop-right-sidebar/:id" component={ ShopRightSidebar } />
+                <Route path="/shop-right-sidebar/:apartment?/:city?/:type?" component={ ShopRightSidebar } />
                 <Route path="/advertisement" component={ Advertisement } />
                 <Route path="/plan" component={OwnwerPlan} />
                 <Route path="/wallet" component={Wallet} />
@@ -118,7 +116,6 @@ const App=()=>{
                 <Route path="/refund" component={ RefundPolicy } />
                 
             </Switch>
-            </div>
             {/* </Router> */}
         </HashRouter>
 )

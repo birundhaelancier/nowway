@@ -10,8 +10,28 @@ const ProductSliderV1 = ({ProductInfo}) => {
 		infinite: false,
 		arrows:true,
 		speed: 500,
-		slidesToShow:ImageSlider.length>=3?3:1,
-		slidesToScroll:ImageSlider.length>=3?3:1,
+		slidesToShow:ImageSlider.length>=2?3:1,
+		slidesToScroll:1,
+		responsive: [{
+			breakpoint: 1024,
+			settings: {
+			  slidesToShow: 3,
+			}
+		
+		  },
+		  {
+			breakpoint: 600,
+			settings: {
+			  slidesToShow: 2,
+			}
+		  },
+		  {
+			breakpoint: 480,
+			settings: {
+			  slidesToShow: 1,
+			}
+		  }
+		  ]
 	};
 	useEffect(() => {
         if (window.innerWidth >= 550 && window.innerWidth <= 1000) {

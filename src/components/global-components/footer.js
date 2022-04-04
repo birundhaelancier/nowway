@@ -57,7 +57,7 @@ import { FooterTags } from '../apiActions'
 											<Link to="/"><img src={publicUrl + "assets/img/logonow.png"} alt="Logo" /></Link>
 										</div>
 										<div className='nameShow'>
-											𝖭𝖮𝖶 𝖶𝖠𝖸
+											NOW WAY
 										</div>
 									</div>
 
@@ -69,7 +69,7 @@ import { FooterTags } from '../apiActions'
 											NOW WAY
 										</div>
 									</div> */}
-									<p>Lorem Ipsum is simply dummy text of the and typesetting industry. Lorem Ipsum is dummy text of the printing.</p>
+									{/* <p>Lorem Ipsum is simply dummy text of the and typesetting industry. Lorem Ipsum is dummy text of the printing.</p> */}
 									<div className="footer-address">
 										<ul>
 											<li>
@@ -137,12 +137,12 @@ import { FooterTags } from '../apiActions'
 							</div>
 							<div className="col-xl-2 col-md-6 col-sm-6 col-12">
 								<div className="footer-widget footer-menu-widget clearfix">
-									<h4 className="footer-title">Customer Care</h4>
+									<h4 className="footer-title">My Policies</h4>
 									<div className="footer-menu go-top">
 										<ul>
-											<li><Link to="/login">Login</Link></li>
-											<li><Link to="/my-account">My Booking</Link></li>
-											<li><Link to="/#">Wish List</Link></li>
+										<li><Link to="/terms">Terms &amp; Conditions</Link></li>
+						                <li><Link to="/refund">Refund Policy</Link></li>
+						                <li><Link to="/policy">Privacy &amp; Policy</Link></li>
 											{/* <li><Link to="/add-listing">Add listing</Link></li>
 				                <li><Link to="/faq">FAQ</Link></li>
 				                <li><Link to="/contact">Contact us</Link></li> */}

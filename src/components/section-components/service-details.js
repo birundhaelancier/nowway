@@ -1,27 +1,49 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import parse from 'html-react-parser';
 import Modal from '../Model';
-import { AddSubServiceEnquiry } from '../apiActions/index';
-import { notification } from "antd";
-
-
-const ServiceDetails = ({ sub_services, ser_image }) => {
+import { AddSubServiceEnquiry,GetTime_Slot,GetLocations } from '../apiActions/index';
+import { notification,DatePicker } from "antd";
+import SelectInput from '../Select';
+import moment from 'moment'
+import './service.scss'
+import Checkout from './checkout'
+import FormComp from './form'
+import { connect } from 'react-redux'
+const ServiceDetails = ({ sub_services, ser_image,service,ServiceCart,ser_id }) => {
+	
 	let history = useHistory()
 	let publicUrl = process.env.PUBLIC_URL + '/'
 	const [isModalVisible, setIsModalVisible] = useState(false);
+	const [continuepay,setcontinue]=useState(false)
+	const [location,setLocation]=useState([])
 	const [mobileErr, setMobileErr] = useState(false)
+	const [locatErr,setlocatErr]=useState(false)
 	const [sub_serv, setSub_serv] = useState()
-	
+	const [TimeSlots,setTimeSlots]=useState([])
 	const initialValues = {
 		name: "",
 		mobile: "",
 		place: "",
+		date:"",
+		time:"",
+		email:"",
+		address:"",
+		pincode:""
 	};
 	const [values, setValues] = useState(initialValues);
 
-	const handleChange = (e) => {
-		const { name, value } = e.target;
+	const handleChange = (e,key) => {	
+		if(key==="place"){
+			setlocatErr("")
+		}
+		if(key==="date" || key==="time" || key==="place"){
+			setValues({
+				...values,
+				[key]: e,
+			});	
+		}else{
+			const { name, value } = e.target;
 		if (name === "mobile") {
 			if (value.length !== 10) {
 				setMobileErr(true)
@@ -29,14 +51,16 @@ const ServiceDetails = ({ sub_services, ser_image }) => {
 				setMobileErr(false)
 			}
 		}
-		setValues({
-			...values,
-			[name]: value,
-		});
+			setValues({
+				...values,
+				[name]: value,
+			});
+		}
 	}
 	const submitForm = async (e) => {
 		e.preventDefault();
 		if(JSON.parse(localStorage.getItem("user_id"))){
+		if(values.place){	
 		AddSubServiceEnquiry(values, sub_serv?.id).then((data) => {
 			if (data.Status == "Success") {
 				notification.success({
@@ -50,6 +74,10 @@ const ServiceDetails = ({ sub_services, ser_image }) => {
 				})
 			}
 		})
+	 }
+	 else{
+		 setlocatErr("Please select locaion")
+	 }
 	}else{
 		history.push("/login")
 	}
@@ -66,6 +94,7 @@ const ServiceDetails = ({ sub_services, ser_image }) => {
 	}
 
 	const selectSubserivce = (data) => {
+
 		if (JSON.parse(localStorage.getItem("user_id"))) {
 			setIsModalVisible(true)
 			setSub_serv(data)
@@ -79,28 +108,45 @@ const ServiceDetails = ({ sub_services, ser_image }) => {
 		setIsModalVisible(false)
 		handleCancel()
 	}
-
+	useEffect(()=>{
+		GetLocations().then((res)=>{
+			 setLocation(res.Response)
+		})
+		GetTime_Slot().then((res)=>{
+			let Data=[]
+			res.Response.map((data,index)=>{
+              Data.push({id:index+1,name:data.from+" "+"to"+" "+data.to})
+			})
+			setTimeSlots(Data)
+		})
+	},[])
+	// const [sub_serv, setSub_serv] = useState()
+	console.log(service,ServiceCart && ServiceCart[0]?.nwcash, "serviceddddddddddddd")
 	return (
 		<div className="ltn__page-details-area ltn__service-details-area">
 			<div className="container">
 				<div className="row">
-					<div className="col-lg-8">
+					<div className="col-lg-7">
 						<div className="ltn__page-details-inner ltn__service-details-inner">
 							<div className="ltn__blog-img">
 								<img className='serviceImage' src={ser_image} alt="Image" />
 							</div>
 						</div>
 					</div>
-					<div className="col-lg-4">
+					<div className="col-lg-5">
 						<aside className="sidebar-area ltn__right-sidebar">
-							<div className="widget-2 ltn__menu-widget ltn__menu-widget-2 text-uppercase">
+					
+							<div className="widget-2 ltn__menu-widget ltn__menu-widget-2">
+
 								<ul className="go-top">
 									{sub_services?.map((data) => {
 										return (
 											<li>
 												<button className='side-btn-show' onClick={() => selectSubserivce(data)}>
-													<div>
-														{data.name}</div>
+											     	<div>
+														<img src={data.image} style={{width:"100px",height:"80px"}}/>
+													    <div style={{paddingLeft:"20px"}}>{data.name}</div>
+													</div>
 													<div>
 														<span><i className="fas fa-arrow-right" /></span>
 													</div>
@@ -109,7 +155,8 @@ const ServiceDetails = ({ sub_services, ser_image }) => {
 										)
 									})}
 								</ul>
-							</div>
+							
+								</div>
 						</aside>
 						<div className="ltn__modal-area ltn__quick-view-modal-area">
 							<div className="modal fade" id="quick_view_modal" >
@@ -198,41 +245,21 @@ const ServiceDetails = ({ sub_services, ser_image }) => {
 					</div>
 				</div>
 			</div>
-			<Modal show={isModalVisible} handleClose={closeModal}>
-				<div className="ltn__quick-view-modal-inner">
-					<div className="col-lg-12 text-center modalHeading">{sub_serv?.name}</div>
-					<div className="container">
-						<div className="row">
-							<div className="col-lg-4 text-center">
-								<div className="account-create text-start ">
-									<img className='homeimage' src={sub_serv?.images} />
-									<div className='listed'>
-										<div className="text-start">
-											<h6 className="section-titles">{sub_serv?.name}</h6>
-										</div>
-										<ul>
-											<div dangerouslySetInnerHTML={{ __html: sub_serv?.description }}></div>
-										</ul>
-									</div>
-								</div>
-							</div>
-							<div className="col-lg-8 text-center formShow">
-								<div className="account-login-inner">
-									<form className="form-input-box" onSubmit={(e) => submitForm(e)}>
-										<input type="text" name="name" value={values.name} onChange={(e) => handleChange(e)} required placeholder="Name*" />
-										<input type="number" name="mobile" value={values.mobile} onChange={(e) => handleChange(e)} required placeholder="Mobile Number*" />
-										{mobileErr && <div className='errMsgmodel'>Mobile Number should be 10 digit only</div>}
-										<input type="text" name="place" value={values.place} onChange={(e) => handleChange(e)} required placeholder="Place*" />
-										<div className="btn-wrapper mt-0">
-											<button className="theme-btn-1 btn btn-block">save</button>
-										</div>
-									</form>
-								</div>
-							</div>
-
-						</div>
-					</div>
+			<Modal show={isModalVisible} width={600} modelTitle={
+				<div className='modal_title_div'>
+		         	<span>{sub_serv?.name}</span> 
+					 {service==1&&ServiceCart.length>0 && <span  style={{textAlign:"center",paddingLeft:"20px"}}>
+                       <div className="cash_style">₹{ServiceCart && ServiceCart[0]?.nwcash}</div>
+                       <img src={publicUrl + "assets/img/cash.png"} style={{width:"20px",height:"20px",marginTop:"-12px"}} />
+				    </span>}
 				</div>
+				} handleClose={closeModal}>
+			{service==0?
+			<FormComp sub_serv={sub_serv}  handleClose={closeModal}/>:
+			<div className='cutom_ser_mo'>
+             <Checkout sub_services={sub_services} sub_serv={sub_serv?.id}  handleClose={closeModal} ser_id={sub_serv?.id}/>
+			 </div>}
+			 
 
 			</Modal>
 
@@ -240,4 +267,10 @@ const ServiceDetails = ({ sub_services, ser_image }) => {
 	)
 
 }
-export default ServiceDetails;
+
+
+const mapStateToProps = (state) =>
+({
+    ServiceCart:state.AllReducer.Service_Cart.Response || [],
+});
+export default connect(mapStateToProps)(ServiceDetails);

@@ -5,6 +5,7 @@ import { GetUserDetails, UpdateUserDetails, GetContachDetails, GetMyList, GetWis
 import { notification } from 'antd';
 import Modal from '../Model';
 import Error from "../section-components/error";
+import { useHistory } from 'react-router-dom';
 // import proImg from '../../../public/assets/img/profilenew.jpg';
 
 const MyAccount = ({ wishnumber }) => {
@@ -20,6 +21,7 @@ const MyAccount = ({ wishnumber }) => {
 		conPassword: "",
 		profession: "",
 	};
+	let history=useHistory()
 	const [userDetails, setUserDetails] = useState(initialValues);
 	const [show_PasswordInput, setShow_PasswordInput] = useState(false)
 	const [picture, setPicture] = useState(null);
@@ -31,8 +33,9 @@ const MyAccount = ({ wishnumber }) => {
 	const [userInfo, setUserInfo] = useState(false);
 	const [refresh, setRefresh] = useState(false);
 	const [tranaction, setTransaction] = useState(false);
+	const [servicemodal,setservicemodal]=useState(false)
 	const [service, setService] = useState([]);
-
+    const [serviceDetails, setserviceDetails] = useState([]);
 	const Images = [
 		{ img: "https://elancier.in/nowway/public/upload/offer/1645603970848248301.jpg" },
 		{ img: "https://elancier.in/nowway/public/upload/offer/16456040931180807696.jpg" },
@@ -166,8 +169,15 @@ const MyAccount = ({ wishnumber }) => {
 		inputElement.current.click()
 	}
 
-	const selectSubserivce = (data) => {
+	const selectSubserivce = (data,type) => {
+		if(type==="service"){
+			setservicemodal(true)
+			setIsModalVisible(false)
+		    setserviceDetails(data)
+
+		}else{
 		setIsModalVisible(true)
+		}
 		setUserInfo(data)
 	}
 
@@ -186,7 +196,7 @@ const MyAccount = ({ wishnumber }) => {
 		})
 		setRefresh(true);
 	}
-	console.log(home_list, "tranaction")
+	console.log(serviceDetails, "tranaction")
 
 	return (
 		<div className="liton__wishlist-area pb-70">
@@ -224,7 +234,7 @@ const MyAccount = ({ wishnumber }) => {
 																				<div className='grid-Shows'>
 																					<div className='up-cross' onClick={() => removeWishlist(list.id)}><i class="far fa-window-close"></i></div>
 																					<div className="product-img go-top">
-																						<Link to="/product-details"><img src={list.image[0]} alt="#" /></Link>
+																						<Link to={`/product-details?product_id=${list.id}`}><img src={list.image[0]?list.image[0]:publicUrl+"assets/img/no_image.jpg"} alt="#" style={{width:"100%",height:"180px",objectFit:"cover"}}/></Link>
 																						<div className="product-badge re-content">
 																							<button className={list.type === "Rent" ? "sale-badge bg-green" : "sale-badge-sell"}>{list.type === "Rent" ? "Rent" : "Sell"}</button>
 																						</div>
@@ -262,7 +272,7 @@ const MyAccount = ({ wishnumber }) => {
 																		return (
 																			<div className='grid-Show'>
 																				<div className="product-img go-top">
-																					<Link to="/product-details"><img src={data.image[0]} alt="#" /></Link>
+																					<Link to={`/product-details?product_id=${data.id}`}><img src={data.image[0]?data.image[0]:publicUrl+"assets/img/no_image.jpg"} alt="#" style={{width:"100%",height:"180px",objectFit:"cover"}}/></Link>
 																					<div className="product-badge re-content">
 																						<button className={data.type === "Rent" ? "sale-badge bg-green" : "sale-badge-sell"}>{data.type === "Rent" ? "Rent" : "Sell"}</button>
 																					</div>
@@ -298,7 +308,7 @@ const MyAccount = ({ wishnumber }) => {
 																		return (
 																			<div className='grid-Show'>
 																				<div className="product-img go-top">
-																					<Link to="/product-details"><img src={data.image[0]} alt="#" /></Link>
+																					<Link to={`/product-details?product_id=${data.id}`}><img src={data.image[0]?data.image[0]:publicUrl+"assets/img/no_image.jpg"} alt="#" style={{width:"100%",height:"180px",objectFit:"cover"}}/></Link>
 																					<div className="product-badge re-content">
 																						<button className={data.type === "Rent" ? "sale-badge bg-green" : "sale-badge-sell"}>{data.type === "Rent" ? "Rent" : "Sell"}</button>
 																					</div>
@@ -315,7 +325,7 @@ const MyAccount = ({ wishnumber }) => {
 																				</div>
 																				<div className='list_more'>
 																					<button className='more_btn' onClick={() => selectSubserivce(data)}>More Details</button>
-																					<button className='edit_btn' >Edit</button>
+																					<button className='edit_btn' onClick={()=>history.push("/add-listing")}>Edit</button>
 																				</div>
 																			</div>
 																		)
@@ -327,14 +337,15 @@ const MyAccount = ({ wishnumber }) => {
 														</div>
 													</div>
 												</div>
-												<Modal show={isModalVisible} handleClose={() => setIsModalVisible(false)}>
-													<div className="ltn__quick-view-modal-inner ">
-														<div className="col-lg-12 text-center modalHeading">Property Details</div>
+												<Modal show={isModalVisible || servicemodal} modelTitle={servicemodal?"Service Details":"Property Details"} handleClose={() =>{setIsModalVisible(false);setservicemodal(false)}} width={servicemodal?800:900}>
+
+													{!servicemodal?<div className="ltn__quick-view-modal-inner ">
+														{/* <div className="col-lg-12 text-center modalHeading"></div> */}
 														<div className='modal_content-view'>
 															<div className="container">
 																<div className="row">
 																	<div className="col-md-12 showProfile">
-																		<img src={picture} alt=" " className="showUpload" />
+																		<img src={picture?picture:publicUrl+"assets/img/no_image.jpg"} alt=" " className="showUpload" />
 																		<div className='per_info'>
 																			<div className='u_name'>{userInfo.title}</div>
 																			<div>₹{userInfo.price}</div>
@@ -346,16 +357,16 @@ const MyAccount = ({ wishnumber }) => {
 																		<textarea type="text" name="description"
 																			value={userInfo.description} />
 																	</div>
-																	<h6>Property Details :</h6>
-																	<div className="property-detail-info-list section-bg-1 clearfix mb-10">
+																	<h6>Property Details</h6>
+																	<div className="property-detail-info-list section-bg-1 clearfix mb-10 property">
 																		<ul>
-																			<li><label>Property ID:</label> <span>{userInfo.code}</span></li>
-																			<li><label>Property Type: </label> <span>{userInfo.property_type}</span></li>
-																			<li><label>Structure Type:</label> <span>{userInfo.structure_type}</span></li>
+																			<li><label>Property ID:</label> <span>{userInfo.code || "-"}</span></li>
+																			<li><label>Property Type: </label> <span>{userInfo.property_type || "-"}</span></li>
+																			<li><label>Structure Type:</label> <span>{userInfo.structure_type || "-"}</span></li>
 																			<li><label>Baths:</label> <span>2</span></li>
-																			<li><label>Availabilty: </label> <span>{userInfo.availability}</span></li>
-																			<li><label>Floors: </label> <span>{userInfo.floors}</span></li>
-																			<li><label>Rooms:</label> <span>{userInfo.rooms}</span></li>
+																			<li><label>Availabilty: </label> <span>{userInfo.availability || "-"}</span></li>
+																			<li><label>Floors: </label> <span>{userInfo.floors || "-"}</span></li>
+																			<li><label>Rooms:</label> <span>{userInfo.rooms || "-"}</span></li>
 
 																		</ul>
 																		<ul>
@@ -382,8 +393,44 @@ const MyAccount = ({ wishnumber }) => {
 																</div>
 															</div>
 														</div>
-													</div>
+													</div>:
+													<>
+													{serviceDetails?.service_details.map((data,index)=>{
+                
+               return(
+													<div className="service_pay_parent">
+              <img src={data.image} style={{ width: "100px", height: "100px",objectFit:"cover" }}/>
+              <div>
+                <label>{data.product_name}</label>
+                {/* <label>Apply on next order to get instant discount</label> */}
+                <div className="amt_ch">
+                  {/* <del>₹{data.product_price}</del> */}
+                  <label>{data.qty}x{"₹"+data.price}</label>
+                </div>
+				<label>NWcash:₹{data.nwcash}</label>
+              </div>
+            </div>
+			   )})} 
+			   <div className="property-detail-info-list section-bg-1 clearfix mb-10 property">
+																		<ul>
+																			<li><label>Name</label> <span>{serviceDetails.name || "-"}</span></li>
+																			<li><label>Place </label> <span>{serviceDetails.place || "-"}</span></li>
+																			<li><label>Email</label> <span>{serviceDetails.email || "-"}</span></li>
+																			<li><label>Mobile</label> <span>{serviceDetails.mobile || "-"}</span></li>
+																			<li><label>Pincode</label> <span>{serviceDetails.pincode || "-"}</span></li>
+																			<li><label>Date </label> <span>{serviceDetails.d_date || "-"}</span></li>
+																			<li><label>Time Slot </label> <span>{serviceDetails.time_slot || "-"}</span></li>
+																			
 
+																		</ul>
+																		{/* <>Cart Details</> */}
+																		<ul>
+																		<li><label>Sub Total</label> <span>{serviceDetails.sub_total || "-"}</span></li>
+																			<li><label>Total</label> <span>{serviceDetails.total || "-"}</span></li>
+																			<li><label>NW Cash</label> <span>{serviceDetails.total_nw || "-"}</span></li>
+																		</ul>
+																		</div>
+			   </>}
 												</Modal>
 											</div>
 
@@ -424,9 +471,9 @@ const MyAccount = ({ wishnumber }) => {
 												</div>
 											</div>
 											<div className={`tab-pane fade ${wishnumber != 1 && "active show"}`} id="liton_tab_1_1">
-												<div className="ltn__myaccount-tab-content-inner">
-													<div className="ltn__form-box">
-														<form onSubmit={(e) => submitForm(e)}>
+												<div className="ltn__myaccount-tab-content-inner ">
+													<div className="ltn__form-box acc_details_form">
+														<form onSubmit={(e) => submitForm(e)} >
 															<div className="row mb-50">
 																<div className="col-md-12 profile_show">
 																	<div className="filecontainer" onClick={fileclick}>
@@ -441,37 +488,37 @@ const MyAccount = ({ wishnumber }) => {
 																	</div>
 																</div>
 																<div className="col-md-6">
-																	<label>First name:</label>
+																	<label className='label_ac_name'>First name:</label>
 																	<input required type="text" name="fname" onChange={(e) => handleChange(e)}
 																		value={userDetails.fname} />
 																</div>
 																<div className="col-md-6">
-																	<label>Last name:</label>
+																	<label  className='label_ac_name'>Last name:</label>
 																	<input required type="text" name="lname" onChange={(e) => handleChange(e)}
 																		value={userDetails.lname} />
 																</div>
 																<div className="col-md-6">
-																	<label>Display Name:</label>
+																	<label  className='label_ac_name'>Display Name:</label>
 																	<input required type="text" name="name" onChange={(e) => handleChange(e)} placeholder="display name"
 																		value={userDetails.name} />
 																</div>
 																<div className="col-md-6">
-																	<label>Display Email:</label>
+																	<label  className='label_ac_name'>Display Email:</label>
 																	<input required type="email" name="email" onChange={(e) => handleChange(e)}
 																		value={userDetails.email} />
 																</div>
 																<div className="col-md-12">
-																	<label>Bio:</label>
+																	<label  className='label_ac_name'>Bio:</label>
 																	<textarea type="text" name="description" onChange={(e) => handleChange(e)}
 																		value={userDetails.description} />
 																</div>
 																<div className="col-md-12">
-																	<label> Profession:</label>
-																	<input required required type="text" name="profession" onChange={(e) => handleChange(e)} placeholder="Profession"
+																	<label  className='label_ac_name'> Profession:</label>
+																	<input required  type="text" name="profession" onChange={(e) => handleChange(e)} placeholder="Profession"
 																		value={userDetails.profession} />
 																</div>
 																<div className="col-md-12">
-																	<label>Current password:</label>
+																	<label  className='label_ac_name'>Current password:</label>
 																	<input required type="password" name="curPassword" onChange={(e) => handleChange(e)}
 																		value={userDetails.curPassword} />
 																	<div className='change_pwd_link' onClick={() => setShow_PasswordInput(!show_PasswordInput)}>Change Password</div>
@@ -479,12 +526,12 @@ const MyAccount = ({ wishnumber }) => {
 																{show_PasswordInput &&
 																	<>
 																		<div className="col-md-12">
-																			<label>New password:</label>
+																			<label  className='label_ac_name'>New password:</label>
 																			<input required={show_PasswordInput ? true : false} type="password" name="newPassword" onChange={(e) => handleChange(e)}
 																				value={userDetails.newPassword} />
 																		</div>
 																		<div className="col-md-12">
-																			<label>Confirm new password:</label>
+																			<label  className='label_ac_name'>Confirm new password:</label>
 																			<input required={show_PasswordInput ? true : false} type="password" name="conPassword" onChange={(e) => handleChange(e)}
 																				value={userDetails.conPassword} />
 																		</div>
@@ -515,8 +562,10 @@ const MyAccount = ({ wishnumber }) => {
 																					<div className='lisu_number'>Date: {data.d_date}</div>
 																				</div>
 																				<div className='list_more'>
-																					<button className={data.status == "Pending"? "pendinShow": "edit_btn"} onClick={() => selectSubserivce(data)}>{data.status}</button>
+																				    {data.stype==="Service"?<button className='more_btn' onClick={() => selectSubserivce(data,"service")}>View</button>:""}
+																					<button className={data.status === "Pending"? "pendinShow": "edit_btn"} onClick={() => selectSubserivce(data)}>{data.status}</button>
 																				</div>
+																				
 																			</div>
 																		)
 																	})}

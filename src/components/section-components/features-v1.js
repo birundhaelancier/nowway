@@ -16,7 +16,7 @@ class FeaturesV1 extends Component {
 			      <div className="col-lg-12">
 			        <div className="section-title-area ltn__section-title-2--- text-center">
 			          <h6 className="section-subtitle section-subtitle-2 ltn__secondary-color">Our Services</h6>
-			          <h1 className="section-title">Our Main Focus</h1>
+			          <h1 className="section-title">Our Core Services</h1>
 			        </div>
 			      </div>
 			    </div>
@@ -27,7 +27,7 @@ class FeaturesV1 extends Component {
 			            <img src={publicUrl+"assets/img/icons/icon-img/21.png"} alt="#" />
 			          </div>
 			          <div className="ltn__feature-info">
-			            <h3><Link to="/#">Buy a home</Link></h3>
+					  <Link to="/shop-right-sidebar"><h3 style={{color:"#333"}}>Buy a home</h3></Link>
 			            <p>over 1 million+ homes for sale available on the website, we can match you with a house you will want to call home.</p>
 			            {/* <Link className="ltn__service-btn" to="/#">Find A Home <i className="flaticon-right-arrow" /></Link> */}
 			          </div>
@@ -39,7 +39,7 @@ class FeaturesV1 extends Component {
 			            <img src={publicUrl+"assets/img/icons/icon-img/22.png"} alt="#" />
 			          </div>
 			          <div className="ltn__feature-info">
-			            <h3><Link to="/#">Rent a home</Link></h3>
+					  <Link to="/shop-right-sidebar"><h3 style={{color:"#333"}}>Rent a home</h3></Link>
 			            <p>over 1 million+ homes for sale available on the website, we can match you with a house you will want to call home.</p>
 			            {/* <Link className="ltn__service-btn" to="/#">Find A Home <i className="flaticon-right-arrow" /></Link> */}
 			          </div>
@@ -51,7 +51,7 @@ class FeaturesV1 extends Component {
 			            <img src={publicUrl+"assets/img/icons/icon-img/23.png"} alt="#" />
 			          </div>
 			          <div className="ltn__feature-info">
-			            <h3><Link to="/#">Sell a home</Link></h3>
+					  <Link to="/shop-right-sidebar"><h3 style={{color:"#333"}}>Sell a home</h3></Link>
 			            <p>over 1 million+ homes for sale available on the website, we can match you with a house you will want to call home.</p>
 			            {/* <Link className="ltn__service-btn" to="/#">Find A Home <i className="flaticon-right-arrow" /></Link> */}
 			          </div>

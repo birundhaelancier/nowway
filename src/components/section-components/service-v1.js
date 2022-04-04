@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import parse from 'html-react-parser';
-
+import MediaComp from '../section-components/Loading'
 const ServiceV5 = ({ service }) => {
 	let publicUrl = process.env.PUBLIC_URL + '/'
 	console.log(service,"service")
@@ -12,10 +12,11 @@ const ServiceV5 = ({ service }) => {
 					<div className="col-lg-12">
 						<div className="section-title-area ltn__section-title-2--- text-center">
 							<h6 className="section-subtitle section-subtitle-2 ltn__secondary-color">Our Services</h6>
-							<h1 className="section-title">Our Core Services</h1>
+							<h1 className="section-title">Our Main Focus</h1>
 						</div>
 					</div>
 				</div>
+				{service.length>0 ?
 				<div className="row  justify-content-center">
 					{service?.map((data) => {
 						return (
@@ -23,10 +24,9 @@ const ServiceV5 = ({ service }) => {
 								<div className="ltn__feature-item ltn__feature-item-6 text-center bg-white  box-shadow-1">
 									<div className="ltn__feature-icon">
 										<img className='service_img' src={data.image} />
-										{/* <span><i className="flaticon-house" /></span> */}
 									</div>
 									<div className="ltn__feature-info">
-										<h3><Link to={`/service-details?edit=${data.id}&&image=${data.image}&&ser_name=${data.name}`}>{data.name}</Link></h3>
+										<Link to={`/service-details?edit=${data.id}&&image=${data.image}&&ser_name=${data.name}&&service=${data.service}`}><h3 style={{color:"#333"}}>{data.name}</h3></Link>
 										<p>{data.description}</p>
 									</div>
 								</div>
@@ -35,6 +35,17 @@ const ServiceV5 = ({ service }) => {
 					})}
 
 				</div>
+				:
+				<div className="row  justify-content-center">
+				{[...Array(3)].map((data) => {
+						return (
+				<div className="col-lg-4 col-sm-6 col-12">
+				   <MediaComp/>
+				</div>
+				)})}
+				</div>
+				}
+
 			</div>
 		</div>
 	)

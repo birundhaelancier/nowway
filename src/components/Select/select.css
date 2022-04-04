@@ -10,6 +10,7 @@
   border: solid 1px #e8e8e8;
   /* margin-bottom: 30px !important; */
 }
+
 .ant-select:not(.ant-select-customize-input) .ant-select-selector{
   border: none !important;
 }
@@ -21,7 +22,7 @@
 .ant-select-single:not(.ant-select-customize-input) .ant-select-selector{
   border-color:transparent !important;
   box-shadow:none !important;
-  height: 50px !important;
+  height: 47px !important;
   padding: 10px 0px 0px 20px !important;
   text-align: start !important;
 
@@ -36,6 +37,7 @@ top: 32%;
 }
 .sel_parent{
 position: relative;
+margin-bottom: 20px;
 }
 .sel_icon{
 color: #ec4249 !important;
@@ -45,4 +47,9 @@ font-size: 16px !important;
   color: rgb(0 0 0 / 45%);
   font-weight: 700;
   font-size: 15px;
+}
+.Errormsg{
+color: red;
+font-size: 13px;
+margin-top: 5px;
 }

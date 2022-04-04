@@ -7,7 +7,7 @@ import Footer from './global-components/footer';
 import { GetPropertyType_Search,GetAmenities,GetPropertyType,GetLocations } from '../components/apiActions/index';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 const ShopRightSidebarPage = (props) => {
-    let { id }=useParams()
+    let { apartment,city }=useParams()
     const [Property_Details, setProperty_Details] = useState([])
     const [Amenities,setAmenities]=useState([])
     const [Location,setLocation]=useState([])

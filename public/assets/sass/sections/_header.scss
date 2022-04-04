@@ -249,7 +249,8 @@
     white-space: nowrap;
     color: var(--ltn__heading-color);
     font-weight: 600;
-    font-family: var(--ltn__body-font);
+    font-family: 'Montserrat' !important;
+    // font-family: var(--ltn__body-font);
 }
 .ltn__main-menu li:hover > a {
     color: var(--ltn__secondary-color);

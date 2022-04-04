@@ -167,7 +167,7 @@ const PropertyIssue=(id,value,report)=>{
           return (
             <>
               <div className="row">
-                <div className="col-lg-7 col-md-12">
+                <div className={`col-lg-${Number(JSON.parse(localStorage.getItem("user_id")))===Number(data.user_id)?12:7} col-md-12`}>
                   <div className="ltn__shop-details-inner ltn__page-details-inner">
                     <div className="ltn__blog-meta">
                     {console.log(data,"tttttttttttt")}
@@ -195,7 +195,7 @@ const PropertyIssue=(id,value,report)=>{
                     <p>{data.description}</p>
                   </div>
                 </div>
-                <div className="col-lg-5">
+                {Number(JSON.parse(localStorage.getItem("user_id")))===Number(data.user_id)?null:<div className="col-lg-5">
                   <aside className="sidebar ltn__shop-sidebar ltn__right-sidebar---">
                     <div className="widget ltn__menu-widget ltn__menu-widget-2--- ltn__menu-widget-2-color-2---">
                       <h4 className="ltn__widget-title ltn__widget-title-border-2">
@@ -210,15 +210,11 @@ const PropertyIssue=(id,value,report)=>{
                             >
                                {Contact_list.includes(data.id)?"Contacted":JSON.parse(localStorage.getItem("user_id"))?"Get Owner Details":"SIGN IN (Get Owner Details)"}
                             </button>
-                            {/* <Link to="#">Get Owner Details</Link> */}
                           </div>
                         </div>
-                        {/* <div className='div2'><i className="far fa-calendar-alt" /></div>
-							<div className='div2'><i class="far fa-comment-alt"></i></div> */}
                       </div>
 
                       <div className="property-box">
-                        {/* <div> */}
                         <div className="circle-icon">
                           <i class="fas fa-exclamation-circle"></i>
                         </div>
@@ -240,19 +236,19 @@ const PropertyIssue=(id,value,report)=>{
                         </div>
                       </div>
 
-                      {/* </div> */}
                     </div>
                   </aside>
                 </div>
+         }
+         {/* get owner details end */}
                 <Modal
                   show={isModalVisible}
-                  width={40}
+                  modelTitle={"Owner Contact Details"}
                   handleClose={() => setIsModalVisible(false)}
                 >
+               
                   <div className="ltn__quick-view-modal-inner">
-                    <div className="col-lg-12 text-center modalHeading">
-                      Owner Contact Details
-                    </div>
+                  
                     <div className="container">
                       <div className="row">
                         <div className="col-lg-12 custom-model">
@@ -265,9 +261,7 @@ const PropertyIssue=(id,value,report)=>{
                           </div>
                           <div className="owner-btn-show">
                             {Contact_list.includes(data.id)?
-							<button
-							className="messegeBtn"
-						    >
+							<button className="messegeBtn"  >
 							Contacted
 						  </button>:
 							<button
@@ -447,9 +441,11 @@ const PropertyIssue=(id,value,report)=>{
                                         </li>
                                       </ul>
                                     </div>
+                                    <div className="related_list">
                                     <h2 className="product-title" style={{marginTop:"10px"}}>
                                       <Link to={`/product-details?product_id=${item.id}`}>{item.title}</Link>
                                     </h2>
+                                    </div>
                                     <div className="product-img-location">
                                       <ul>
                                         <li>
@@ -497,7 +493,7 @@ const PropertyIssue=(id,value,report)=>{
                                         
                                         <li>
 											
-										{Wish_list.includes(item.id) ?<Popconfirm
+									                  	{Wish_list.includes(item.id) ?<Popconfirm
                                           title="Are you sure to delete this task?"
                                           onConfirm={()=>removeWishlist(item.id)}
                                           onCancel={""}

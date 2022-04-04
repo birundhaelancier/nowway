@@ -23,7 +23,7 @@ const Home_V1 = () => {
         <Aboutv1 />
         <Counter />
         <AboutV2 />
-        <Featuresv1 customClass="ltn__feature-area section-bg-1 pt-120 pb-90 mb-120---"/>
+        {/* <Featuresv1 customClass="ltn__feature-area section-bg-1 pt-120 pb-90 mb-120---"/> */}
         <ProSlider />
         <Apartment />
         <VideoV1 />

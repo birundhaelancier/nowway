@@ -32,4 +32,29 @@
     font-weight: 700;
     font-size: 15px;
 }
+.ant-picker-range .ant-picker-active-bar{
+    background: transparent !important;
+}
+input[type="text"], 
+input[type="email"], 
+input[type="password"],
+input[type="number"],
+textarea {
+    background-color: var(--white);
+    border: 1px solid #ccc !important;
+    // height: 65px;
+    box-shadow: none;
+    padding-left: 20px;
+    font-size: 16px;
+    color: var(--ltn__paragraph-color);
+    width: 100%;
+    // margin-bottom: 30px;
+    border-radius: 0;
+    padding-right: 40px;
+}
 
+body{
+    font-family: 'Montserrat' !important;font-size: 22px;
+  }
+
+ 

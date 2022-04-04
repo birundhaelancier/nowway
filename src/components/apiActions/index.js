@@ -67,16 +67,18 @@ export const GetStructureType = () => {
 }
 
 
-export const onLogin = (values) => {
+export const onLogin = (values,type) => {
     try {
         const Encription = CryptoJS.AES.encrypt(JSON.stringify({
-            "mobile": values.mobile, "password": values.password
+            "mobile": values.mobile, "password": values.password || "",type:type
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
         const requestOptions = {
             method: 'POST',
             headers: REQUEST_HEADERS,
             body: JSON.stringify({ encrypted: Encription }),
         };
+        console.log(decryptValue(Encription),"dddddddddd")
+
         return fetch(APIURL + "cuslogin", requestOptions)
             .then((response) => response.json())
             .then((response) => {
@@ -104,10 +106,10 @@ export const onRegister = (values) => {
 }
 
 
-export const GetOtp = (values) => {
+export const GetOtp = (values,type) => {
     try {
         const Encription = CryptoJS.AES.encrypt(JSON.stringify({
-            "mobile": values.mobile
+            "mobile": values.mobile,"type":type
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
         const requestOptions = {
             method: 'POST',
@@ -285,7 +287,9 @@ export const AddSubServiceEnquiry = (values, name) => {
     try {
         const Encription = CryptoJS.AES.encrypt(JSON.stringify({
             "login_id": JSON.parse(localStorage.getItem("user_id")), "name": values.name, "mobile": values.mobile, "place": values.place, "service": name,
+            "email":values.email,"inspect_date":moment(values.date).format("YYYY-MM-DD"),"time_slot":values.time,"address":values.address,"pincode":values.pincode
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
+        console.log("dddddddddddddddd",decryptValue(Encription))
         const requestOptions = {
             method: 'POST',
             headers: REQUEST_HEADERS,
@@ -318,57 +322,59 @@ export const SearchListing = (values) => {
     } catch (err) { }
 }
 
-export const InsertListing = (list, checkList) => {
-    var formData=new FormData()
+export const InsertListing = (list, checkList,Type,property_id) => {
+    var Location=new FormData()
+    var Details=new FormData()
+    var Media=new FormData()
+    var Features=new FormData()
+ 
+    Location.set("user_id",JSON.parse(localStorage.getItem("user_id")))
+    Location.set("city",list.city.value)
+    Location.set("property_type",list.types.value)
+    Location.set("type",list.propertyType.value)
+    Location.set("ptype",Type)
+    Location.set("property_id",property_id || 0)
+
+    Details.set("user_id",JSON.parse(localStorage.getItem("user_id")))
+    Details.set("bhk_type",list.bhk_type.value)
+    Details.set("floors",list.floors.value)
+    Details.set("price",list.price.value)
+    Details.set("ptype",Type)
+    Details.set("property_id",property_id || 0)
+    Details.set("monthly_maintain",list.maintenance.value)
+    Details.set("sq_ft",list.size.value)
+    Details.set("negotiate",list.negotiate.value)
+    Details.set("address",list.address.value)
+    Details.set("facing",list.facing.value)
+    Details.set("description",list.description.value)
+
+    Media.set("user_id",JSON.parse(localStorage.getItem("user_id")))
+    checkList.length>0? 
     Array.from(checkList).forEach(image => {
-    formData.append("images"+"[]",image)
+        Media.append("images"+"[]",image || "")
     })
-    formData.set("user_id",JSON.parse(localStorage.getItem("user_id")))
-    formData.set("title",list.title)
-    formData.set("description",list.description)
-    formData.set("price",list.price)
-    formData.set("after_price",list.afterPrice)
-    formData.set("before_price",list.beforePrice)
-    formData.set("yearly_tax",list.yearlyTax)
-    formData.set("owner_associ_fee",list.ownerFee)
-    formData.set("property_type",list.propertyType)
-    formData.set("type",list.types)
-    formData.set("address",list.address)
-    formData.set("city",list.city)
-    formData.set("state",list.state)
-    formData.set("country",list.country)
-    formData.set("neighbourhood",list.neighbourhood)
-    formData.set("zip",list.zipCode)
-    formData.set("size",list.size)
-    formData.set("lot_size",list.lotSize)
-    formData.set("rooms",list.rooms)
-    formData.set("bedrooms",list.bedRooms)
-    formData.set("bathrooms",list.bathrooms || "")
-    formData.set("garges",list.garges)
-    formData.set("year_built",list.yearBuilt)
-    formData.set("garage_size",list.garageSize)
-    formData.set("basement",list.basement)
-    formData.set("available_from",moment().format("DD-MM-YYYY"))
-    formData.set("extra_details",list.extra_details)
-    formData.set("roofing",list.roofing)
-    formData.set("exterior_material",list.exteriorMaterial)
-    formData.set("structure_type",list.structureType)
-    formData.set("floors",list.floors)
-    formData.set("owner_note",list.owner_note)
-    formData.set("bhk_type",list.bhk_type)
-    formData.set("tenants",list.tenants.toString())
-    formData.set("furnishing",list.furnishing.toString())
-    formData.set("parking",list.parking.toString())
-    formData.set("bathroom", list.bathroom)
-    formData.set("availability", list.availability)
-    formData.set("amenities", list.amenities.toString())
+    : Media.append("images"+"[]","")
+    Media.set("ptype",Type)
+    Media.set("property_id",property_id || 0)
+
+    Features.set("user_id",JSON.parse(localStorage.getItem("user_id")))
+    Features.set("ptype",Type)
+    Features.set("property_id",property_id || 0)
+    Features.set("tenants",list.tenants.value.toString())
+    Features.set("furnishing",list.furnishing.value.toString())
+    Features.set("parking",list.parking.value.toString())
+    Features.set("bathroom", list.bathroom.value)
+    Features.set("availability", list.availability.value)
+    Features.set("amenities", list.amenities.value.toString())
+   
 
     try {
         const requestOptions = {
             method: 'POST',
             headers: REQUEST_HEADERS,
-            body: formData,
+            body: Type==="Details"?Details:Type==="Media"?Media:Type==="Features"?Features:Location,
         };
+
         return fetch(APIURL + "add_listing", requestOptions)
             .then((response) => response.json())
             .then((response) => {
@@ -766,3 +772,74 @@ export const GetServiceEnquiry = () => {
             });
     } catch (err) { }
 }
+
+
+export const GetTime_Slot = () => {
+    try {
+        const requestOptions = {
+            method: 'POST',
+            headers: REQUEST_HEADERS,
+        };
+        return fetch(APIURL + "time_slot", requestOptions)
+            .then((response) => response.json())
+            .then((response) => {
+                return decryptValue(response.encrypted)
+            });
+    } catch (err) { }
+}
+
+export const GetListings_Data = () => {
+    try {
+        const Encription = CryptoJS.AES.encrypt(JSON.stringify({
+            "user_id": JSON.parse(localStorage.getItem("user_id"))
+        }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
+        const requestOptions = {
+            method: 'POST',
+            headers: REQUEST_HEADERS,
+            body: JSON.stringify({ encrypted: Encription }),
+        };
+        return fetch(APIURL + "get_listing", requestOptions)
+            .then((response) => response.json())
+            .then((response) => {
+                return decryptValue(response.encrypted)
+            });
+    } catch (err) { }
+}
+
+export const ServiceProducts = (id) => {
+    try {
+        const Encription = CryptoJS.AES.encrypt(JSON.stringify({
+            "service_id": id
+        }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
+        const requestOptions = {
+            method: 'POST',
+            headers: REQUEST_HEADERS,
+            body: JSON.stringify({ encrypted: Encription }),
+        };
+        return fetch(APIURL + "service_products", requestOptions)
+            .then((response) => response.json())
+            .then((response) => {
+                return decryptValue(response.encrypted)
+            });
+    } catch (err) { }
+}
+
+
+export const AddService_Cart = (qty,data) => {
+    try {
+        const Encription = CryptoJS.AES.encrypt(JSON.stringify({
+            "user_id":JSON.parse(localStorage.getItem("user_id")),"pid":data.id,"price":data.price,"qty":qty || 1
+        }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
+        const requestOptions = {
+            method: 'POST',
+            headers: REQUEST_HEADERS,
+            body: JSON.stringify({ encrypted: Encription }),
+        };
+        return fetch(APIURL + "add_service_cart", requestOptions)
+            .then((response) => response.json())
+            .then((response) => {
+                return decryptValue(response.encrypted)
+            });
+    } catch (err) { }
+}
+

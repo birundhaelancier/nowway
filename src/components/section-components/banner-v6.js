@@ -36,12 +36,12 @@ const BannerV6 = ({ property_type, location }) => {
 
   const submitForm = () => {
 	  if(SearchValues.Property_Type!==""&&SearchValues.Location!=="") {
-    dispatch(GetPropertyType_Search(SearchValues, Type)).then((data) => {
+    // dispatch(GetPropertyType_Search(SearchValues, Type)).then((data) => {
       history.push({
-        pathname: `/shop-right-sidebar/${SearchValues.Property_Type || null}`,
+        pathname: `/shop-right-sidebar/${SearchValues.Property_Type}/${SearchValues.Location}/${Type}`,
         state: Type,
       });
-    });
+    // });
    }
    else{
 	 notification.error(({
@@ -82,7 +82,7 @@ const BannerV6 = ({ property_type, location }) => {
                             <i className="fas fa-home" />
                             Rent
                           </a>
-                          {/* <a
+                          <a
                             data-bs-toggle="tab"
                             onClick={() => setType("Sell")}
                             href="#ltn__form_tab_1_1"
@@ -90,7 +90,7 @@ const BannerV6 = ({ property_type, location }) => {
                           >
                             <i className="fas fa-store" />
                             Sale
-                          </a> */}
+                          </a>
                           <a
                             className="tab"
                             data-bs-toggle="tab"

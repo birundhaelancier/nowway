@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import parse from 'html-react-parser';
 import Slider from "react-slick";
-
+import MediaComp from '../section-components/Loading'
 
 const Advertisement = ({ home_offers }) => {
     let publicUrl = process.env.PUBLIC_URL + '/'
@@ -37,9 +37,10 @@ const Advertisement = ({ home_offers }) => {
                             </div>
                         </div>
                     </div>
+                    {home_offers.length>0 ?
                     <div className="row">
-                        <div className='col-lg-12 product-slider-container'>
-                            <Slider {...settings}>
+                    <div className='col-lg-12 product-slider-container'>
+                       <Slider {...settings}>
                                 {home_offers?.map((item) => {
                                     return (
                                         <div className="col-xl-4 col-sm-6 col-12">
@@ -51,9 +52,20 @@ const Advertisement = ({ home_offers }) => {
                                         </div>
                                     )
                                 })}
-                            </Slider>
-                        </div>
+                          
+                            </Slider>    
+                             </div>
                     </div>
+                    :
+                    <div className="row">
+                      {[...Array(3)].map((data) => {
+             return (
+     <div className="col-lg-4 col-sm-6 col-12">
+        <MediaComp/>
+     </div>
+     )})}
+     </div>
+                }
                 </div>
             </div>
         </div>

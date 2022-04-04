@@ -49,7 +49,6 @@ font-family: 'Nunito Sans', sans-serif;
 font-family: 'Titillium Web', sans-serif;
 */
 
-
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700&family=Poppins:wght@400;500;600;700;800;900&display=swap');
 /*
 font-family: 'Nunito Sans', sans-serif;
@@ -353,7 +352,7 @@ body {
     color: var(--ltn__paragraph-color);
     font-weight: 400;
     font-style: normal;
-    font-size: 16px;
+    font-size: 17px;
     font-family: var(--ltn__body-font);
     line-height: 1.8;
     margin: 0 auto;
@@ -511,13 +510,13 @@ ol li {
     .slick-arrow-1 .slick-arrow {
         background-color: transparent;
     }
-    input[type="text"], 
-    input[type="email"], 
-    input[type="password"], 
-    input[type="submit"] {
-        border-color: var(--white);
-        color: var(--white);
-    }
+    // input[type="text"], 
+    // input[type="email"], 
+    // input[type="password"], 
+    // input[type="submit"] {
+    //     border-color: var(--white);
+    //     color: var(--white);
+    // }
     .btn-wrapper button {
         color: var(--white);
     }
@@ -849,7 +848,7 @@ select:focus {
     outline: none;
     -webkit-box-shadow: none;
     box-shadow: none;
-    border: 1px solid #ddd;
+    // border: 1px solid #ddd;
 }
 
 code {
@@ -859,24 +858,23 @@ code {
 /* ----------------------------------------------------
     Form input box
 ---------------------------------------------------- */
-input[type="text"], 
-input[type="email"], 
-input[type="password"], 
-input[type="submit"],
-textarea {
-    background-color: var(--white);
-    border: 2px solid;
-    border-color: var(--border-color-9);
-    height: 65px;
-    box-shadow: none;
-    padding-left: 20px;
-    font-size: 16px;
-    color: var(--ltn__paragraph-color);
-    width: 100%;
-    margin-bottom: 30px;
-    border-radius: 0;
-    padding-right: 40px;
-}
+// .input-item input[type="text"], 
+// input[type="email"], 
+// input[type="password"],
+// input[type="number"],
+// textarea {
+//     background-color: var(--white);
+//     border: 1px solid #ccc !important;
+//     // height: 65px;
+//     box-shadow: none;
+//     padding-left: 20px;
+//     font-size: 16px;
+//     color: var(--ltn__paragraph-color);
+//     width: 100%;
+//     // margin-bottom: 30px;
+//     border-radius: 0;
+//     padding-right: 40px;
+// }
 input[type="text"]::-webkit-input-placeholder, 
 input[type="email"]::-webkit-input-placeholder, 
 input[type="password"]::-webkit-input-placeholder, 
@@ -916,7 +914,7 @@ button:focus {
     height: 50px;
     padding: 0 70px 0 15px;
     border-radius: 0 15px 0px 0px;
-    border: 1px solid var(--ltn__primary-color);
+    border: 1px solid #ccc;
     margin-bottom: 0;
 }
 .form-input-box button[type="submit"] {
@@ -924,7 +922,7 @@ button:focus {
     color: var(--white);
     padding: 0 18px;
     height: 100%;
-    border: 1px solid var(--ltn__primary-color);
+    // border: 1px solid var(--ltn__primary-color);
     position: absolute;
     right: 0;
     top: 0;
@@ -2117,3 +2115,7 @@ ul {
 .ltn__height-700 {
     height: 700px;
 }
+
+body{
+    font-family: 'Montserrat' !important;font-size: 22px;
+  }
