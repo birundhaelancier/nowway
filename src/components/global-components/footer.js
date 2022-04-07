@@ -73,19 +73,19 @@ import { FooterTags } from '../apiActions'
 									<div className="footer-address">
 										<ul>
 											<li>
-												<div className="footer-address-icon">
+												{/* <div className="footer-address-icon">
 													<i className="icon-placeholder" />
-												</div>
-												<div className="footer-address-info">
+												</div> */}
+												{/* <div className="footer-address-info">
 													<p>Kamarajar Street, Madurai</p>
-												</div>
+												</div> */}
 											</li>
 											<li>
 												<div className="footer-address-icon">
 													<i className="icon-call" />
 												</div>
 												<div className="footer-address-info">
-													<p><a href="tel:+0123-456789">+0123-456789</a></p>
+													<p><a href="tel:+0123-456789">+91 7010143257</a></p>
 												</div>
 											</li>
 											<li>
@@ -93,7 +93,7 @@ import { FooterTags } from '../apiActions'
 													<i className="icon-mail" />
 												</div>
 												<div className="footer-address-info">
-													<p><a href="mailto:example@example.com">nowway@nowway.com</a></p>
+													<p><a href="mailto:example@example.com">info@nowway.in</a></p>
 												</div>
 											</li>
 										</ul>

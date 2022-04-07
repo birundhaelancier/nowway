@@ -36,8 +36,8 @@ class ContactInfo extends Component {
 						<img src={publicUrl+"assets/img/icons/12.png"} alt="Icon Image" />
 						</div>
 						<h3>Office Address</h3>
-						<p>10 Kamarajar Street<br />
-						Madurai</p>
+						<p>Chennai<br />
+				</p>
 					</div>
 					</div>
 				</div>

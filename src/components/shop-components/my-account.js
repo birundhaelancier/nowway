@@ -279,12 +279,12 @@ const MyAccount = ({ wishnumber }) => {
 																				</div>
 																				<div className='cont-amount'>
 																					<div className='nw-amount'>₹{data.price}</div>
-																					<div>Kamarajar Street, Madurai</div>
+																					{/* <div>Kamarajar Street, Madurai</div> */}
+																					<div>{data.user_email}</div>
 																				</div>
 																				<div className='cont-address'>
 																					<div className='icon'> <i class="fas fa-user"></i> {data.user_name}</div>
 																					<div className='icon'> <i class="fas fa-phone"></i>{data.user_mobile}</div>
-																					<div className='cont-mail'>{data.user_email}</div>
 																				</div>
 
 																			</div>

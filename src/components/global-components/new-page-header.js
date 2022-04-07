@@ -31,7 +31,7 @@ class Page_header extends Component {
                         <div className="col-lg-5 col-sm-12">
                         <div className="need-support  need_cus">
                                 <h4 style={{fontWeight:"500",marginBottom:"20px"}}>Still need help? Reach out to support 24/7</h4>
-                                <div><i className="fas fa-phone" style={{color:"#8ab74f"}}/>   <span style={{fontSize:"20px",fontWeight:"400",paddingLeft:"10px"}}>+91-9456663422 </span></div>
+                                <div><i className="fas fa-phone" style={{color:"#8ab74f"}}/>   <span style={{fontSize:"20px",fontWeight:"400",paddingLeft:"10px"}}>+91 7010143257</span></div>
                          </div>
                         </div>
 

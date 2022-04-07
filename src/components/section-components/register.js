@@ -23,7 +23,7 @@ function RegisterComp(props) {
 	const [otpnumber, setOtpnumber] = useState()
 	const [mobileErr, setMobileErr] = useState(false)
 	const [emailErr, setEmailErr] = useState(false)
-
+	const [showPass,setshowPass]=useState(false)
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		if (name === "mobile") {
@@ -60,23 +60,13 @@ function RegisterComp(props) {
 		e.preventDefault();
 		if (!mobileErr && !emailErr) {
 			onRegister(values).then((data) => {
-				if (data.Status == "Success") {
+				if (data.Status === "Success") {
 					notification.success({
 						message: "Register Successfully"
 					})
 					localStorage.setItem("wallet", JSON.stringify(data.Response[0].wallet));
 					setShowOtp(true)
-					GetOtp(values,"Register").then((data) => {
-						
-						const appVerifier = window.recaptchaVerifier;
-						firebase.auth().signInWithPhoneNumber("+91"+values.mobile,appVerifier).then(confirmResult => { 
-						setOtpnumber(confirmResult)
-							notification.success({
-								message: "Otp sent your registered mobile number Successfully"
-							})      
-						})
-					
-					})
+				    SubmitOtp()
 				} 
 				else {
 					notification.error({
@@ -87,7 +77,18 @@ function RegisterComp(props) {
 		}
 
 	}
-
+const SubmitOtp=()=>{
+	GetOtp(values,"Register").then((data) => {				
+		const appVerifier = window.recaptchaVerifier;
+		firebase.auth().signInWithPhoneNumber("+91"+values.mobile,appVerifier).then(confirmResult => { 
+		setOtpnumber(confirmResult)
+			notification.success({
+				message: "Otp sent your registered mobile number Successfully"
+			})      
+		})
+	
+	})
+}
 	const onOtp = (e) => {
 		// if (values.otp == otpnumber || values.otp == "1234") {
 			// notification.success({
@@ -113,7 +114,9 @@ function RegisterComp(props) {
 			})
 		})
 	}
-
+	const clickHandler=()=>{
+		setshowPass(!showPass)
+	}
 	return (
 		<div className="ltn__login-area">
 			<div className="container">
@@ -139,7 +142,10 @@ Get latest updates about Properties and Projects.
 								{emailErr && <div className='errMsg'>Invalid Email</div>}
 								<input type="number" name="mobile" placeholder="Mobile No*" value={values.mobile} onChange={(e) => handleChange(e)} required={showOtp ? false : true} />
 								{mobileErr && <div className='errMsg'>Mobile Number should be 10 digit only</div>}
-								<input type="password" name="password" placeholder="Password*" value={values.password} onChange={(e) => handleChange(e)} required={showOtp ? false : true} />
+								<div className='pass_show_div'>
+								<input type={showPass?"text":"password"} name="password" placeholder="Password*" value={values.password} onChange={(e) => handleChange(e)} required={showOtp ? false : true} />
+								   <i onClick={clickHandler} class={showPass ? 'fas fa-eye' : 'fas fa-eye-slash'}></i>
+								</div>
 								<div className="btn-wrapper   go-top">
 									<button className="theme-btn-1 sign_acc btn black-btn">CREATE ACCOUNT</button>
 								</div>
@@ -153,7 +159,7 @@ Get latest updates about Properties and Projects.
 								<div className="row text-center">
 									<form className="ltn__form-box" onSubmit={(e) => onOtp(e)}>
 										<input type="number" name="otp" placeholder="OTP*" value={values.otp} style={{marginBottom:"10px"}} onChange={(e) => handleChange(e)} required />
-										<div style={{margin:"8px",fontSize:"15px",fontWeight:"bold",color:"#8ab64d",textAlign:"end"}} onClick={(e) => submitForm(e)}>Resend Otp</div>
+										<div style={{margin:"8px",fontSize:"15px",fontWeight:"bold",color:"#8ab64d",textAlign:"end"}} onClick={(e) => SubmitOtp(e)}>Resend Otp</div>
 										<div className="go-top">
 											<button className="theme-btn-1 btn btn-block postBtn" id="recaptcha">SUBMIT OTP</button>
 										</div>

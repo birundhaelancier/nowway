@@ -36,7 +36,7 @@ const Login = () => {
 		});
 	
 	}
-	const submitForm = async (e) => {
+	const submitForm = async (e,type) => {
 		e.preventDefault();
 		let Type=values.type==="otp"?"Otp Login":"Password Login"
 		if (mobileErr) {
@@ -60,6 +60,7 @@ const Login = () => {
 			else{
 				// onOtp()
 				onSignInSubmit()
+				alert("fghjk")
 			}
 		}
 
@@ -83,24 +84,25 @@ const onOtp = () => {
 		   size:"invisible"
 		});
 	},[])
+	const SubmitOtp=()=>{
+		GetOtp(values,"Login").then((data) => {
+			const appVerifier = window.recaptchaVerifier;
+			firebase.auth().signInWithPhoneNumber("+91"+values.mobile,appVerifier).then(confirmResult => { 
+			setOtpnumber(confirmResult)
+				notification.success({
+					message: "Otp sent your registered mobile number Successfully"
+				})      
+			})
+			.catch(error => {
+				notification.error({
+					message: "Something went wrong Otp not sended"
+				})  
+			})
+		})
+	}
 useEffect(()=>{
 if(values.mobile && values.type=="otp" && !mobileErr &&values.otp==""){
-	
-	GetOtp(values,"Login").then((data) => {
-		console.log("check",data)
-		const appVerifier = window.recaptchaVerifier;
-        firebase.auth().signInWithPhoneNumber("+91"+values.mobile,appVerifier).then(confirmResult => { 
-		setOtpnumber(confirmResult)
-			notification.success({
-				message: "Otp sent your registered mobile number Successfully"
-			})      
-		})
-		.catch(error => {
-	
-		})
-	})
-
-
+	SubmitOtp()
 }
 },[values])
 
@@ -162,12 +164,12 @@ const clickHandler=()=>{
 								<input required type="radio" value={"password"}  checked={values.type==="password"?true:false} name='type' onChange={(e) => handleChange(e,"type")}/><span className="diff_sec">I've Password</span>
 								{values.type==="password"?
 								<div className='pass_show_div'>
-								<input type={showPass?"text":"password"} name="password" placeholder="Password*" value={values.password} onChange={(e) => handleChange(e)} required autocomplete="off" />
+								<input type={showPass?"text":"password"} name="password" placeholder="Password*" value={values.password} onChange={(e) => handleChange(e)} required={values.type==="password" && true} autocomplete="off" />
 								   <i onClick={clickHandler} class={showPass ? 'fas fa-eye' : 'fas fa-eye-slash'}></i>
 								</div>
 								:
 								<input type="password" name="otp" placeholder="Enter OTP*" value={values.otp} onChange={(e) => handleChange(e)} required autocomplete="off" />}
-								{values.type==="otp"&&<div style={{textAlign:"end"}}><button style={{margin:"8px",fontSize:"15px",fontWeight:"bold",color:"#8ab64d",textAlign:"end",cursor:"pointer",textDecoration:"underline",background:"none"}}  type="submit" >Resend Otp</button></div>}
+								{values.type==="otp"&&<div style={{textAlign:"end"}}><button style={{margin:"8px",fontSize:"15px",fontWeight:"bold",color:"#8ab64d",textAlign:"end",cursor:"pointer",textDecoration:"underline",background:"none"}} onClick={(e)=>submitForm(e,"resend")} >Resend Otp</button></div>}
 								<div className="btn-wrapper  mt-0">
 									<button className="theme-btn-1 sign_acc btn btn-block">SIGN IN</button>
 								</div>

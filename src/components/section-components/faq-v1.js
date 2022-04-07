@@ -94,7 +94,7 @@ const FaqV1 = ({ faq_details }) => {
                                 <div className="btn-wrapper mb-30 go-top">
                                     <Link to="/#" className="theme-btn-1 btn">Contact Us</Link>
                                 </div>
-                                <h3><i className="fas fa-phone" /> +0123-456-789</h3>
+                                <h3><i className="fas fa-phone" /> +91 7010143257</h3>
                             </div>
                         </div>
                     </div>
