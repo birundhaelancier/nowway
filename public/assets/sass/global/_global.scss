@@ -406,8 +406,9 @@ p {
 a {
     color: inherit;
     text-decoration: none;
-    color: var(--ltn__paragraph-color);
+    // color: var(--ltn__paragraph-color);
     transition: all 0.3s ease 0s;
+    color:#333 !important;
 }
 a,
 a:hover,
@@ -418,7 +419,7 @@ a:active {
     color: inherit;
 }
 a:hover {
-    color: var(--ltn__secondary-color);
+    // color: var(--ltn__secondary-color);
 }
 button,
 input,

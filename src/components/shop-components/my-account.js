@@ -6,6 +6,7 @@ import { notification } from 'antd';
 import Modal from '../Model';
 import Error from "../section-components/error";
 import { useHistory } from 'react-router-dom';
+import Swal from 'sweetalert2'
 // import proImg from '../../../public/assets/img/profilenew.jpg';
 
 const MyAccount = ({ wishnumber }) => {
@@ -115,32 +116,42 @@ const MyAccount = ({ wishnumber }) => {
 			if (userDetails.newPassword == userDetails.conPassword) {
 				UpdateUserDetails(userDetails, picture, show_PasswordInput).then((response) => {
 					if (response.Status == "Success") {
-						notification.success({
-							message: response.Message
+						Swal.fire({
+							title: 'Success!',
+							icon: 'success',
+							text: response.Message,
 						})
 						setShow_PasswordInput(false)
 					} else {
-						notification.error({
-							message: response.Message
+						Swal.fire({
+							title: 'Failed!',
+							icon: 'error',
+							text: response.Message,
 						})
 					}
 				})
 
 			} else {
-				notification.error({
-					message: "Not Match the Confirm Password"
+				Swal.fire({
+					title: 'Failed!',
+					icon: 'error',
+					text:"Not Match the Confirm Password",
 				})
 			}
 		} else {
 			UpdateUserDetails(userDetails, picture, show_PasswordInput).then((response) => {
 				if (response.Status == "Success") {
-					notification.success({
-						message: response.Message
+					Swal.fire({
+						title: 'Success!',
+						icon: 'success',
+						text: response.Message,
 					})
 					setShow_PasswordInput(false)
 				} else {
-					notification.error({
-						message: response.Message
+					Swal.fire({
+						title: 'Failed!',
+						icon: 'error',
+						text: response.Message,
 					})
 				}
 			})
@@ -184,13 +195,19 @@ const MyAccount = ({ wishnumber }) => {
 	const removeWishlist = (id) => {
 		RemoveWishlist(id).then((data) => {
 			if (data.Status == "Success") {
-				notification.success({
-					message: "Removed Successfully"
+				Swal.fire({
+					title: 'Success!',
+					icon: 'success',
+					text: "Removed Successfully",
 				})
-				window.location.reload();
+				setTimeout(()=>{
+					window.location.reload();
+				},4000)
 			} else {
-				notification.error({
-					message: data.Message
+				Swal.fire({
+					title: 'Failed!',
+					icon: 'error',
+					text: data.Message,
 				})
 			}
 		})
@@ -210,10 +227,10 @@ const MyAccount = ({ wishnumber }) => {
 									<div className="col-lg-4">
 										<div className="ltn__tab-menu-list mb-50">
 											<div className="nav">
-												<a data-bs-toggle="tab" className={wishnumber != 1 && "active show"} href="#liton_tab_1_1">Account Details <i className="fas fa-home" /></a>
+												<a data-bs-toggle="tab" className={wishnumber != 1 && wishnumber != 2 && "active show"} href="#liton_tab_1_1">Account Details <i className="fas fa-home" /></a>
 												<a data-bs-toggle="tab" className={wishnumber == 1 && "active show"} href="#liton_tab_1_2">Wishlist <i className="fas fa-heart" /></a>
 												<a data-bs-toggle="tab" href="#liton_tab_1_0">Contacted <i className="fas fa-phone" /></a>
-												<a data-bs-toggle="tab" href="#liton_tab_1_4">My Property <i className="fas fa-list" /></a>
+												<a data-bs-toggle="tab" className={wishnumber == 2 && "active show"}href="#liton_tab_1_4">My Property <i className="fas fa-list" /></a>
 												<a data-bs-toggle="tab" href="#liton_tab_1_5">NW Cash <span style={{ fontSize: "24px" }}>₹</span></a>
 												<a data-bs-toggle="tab" href="#liton_tab_1_6">Service Enquiry <i className="fa fa-rocket" /></a>
 												<Link className="go-top" to={`/login?edit=${"user_id"}`}>Logout <i className="fas fa-sign-out-alt" /></Link>
@@ -262,7 +279,7 @@ const MyAccount = ({ wishnumber }) => {
 													</div>
 												</div>
 											</div>
-											<div className="tab-pane fade" id="liton_tab_1_0">
+											<div className="tab-pane fade"  id="liton_tab_1_0">
 												<div className="ltn__myaccount-tab-content-inner">
 													<div className="table-responsive">
 														<div className='contact-container'>
@@ -298,7 +315,7 @@ const MyAccount = ({ wishnumber }) => {
 													</div>
 												</div>
 											</div>
-											<div className="tab-pane fade" id="liton_tab_1_4">
+											<div  className={`tab-pane fade ${wishnumber == 2 && "active show"}`} id="liton_tab_1_4">
 												<div className="ltn__myaccount-tab-content-inner">
 													<div className="table-responsive">
 														<div className='contact-container'>
@@ -321,11 +338,11 @@ const MyAccount = ({ wishnumber }) => {
 																					<div className='lisu_number'>Viewers: {data.views}</div>
 																					<div className='lisu_number'>Contacted: {data.contacted}</div>
 																					<div
-																						className='lisu_number'>{data.city + ", " + data.state + " - " + data.zip}</div>
+																						className='lisu_number'>{data.city}</div>
 																				</div>
 																				<div className='list_more'>
 																					<button className='more_btn' onClick={() => selectSubserivce(data)}>More Details</button>
-																					<button className='edit_btn' onClick={()=>history.push("/add-listing")}>Edit</button>
+																					<button className='edit_btn' onClick={()=>history.push(`/add-listing/${data.id}`)}>Edit</button>
 																				</div>
 																			</div>
 																		)
@@ -362,32 +379,26 @@ const MyAccount = ({ wishnumber }) => {
 																		<ul>
 																			<li><label>Property ID:</label> <span>{userInfo.code || "-"}</span></li>
 																			<li><label>Property Type: </label> <span>{userInfo.property_type || "-"}</span></li>
-																			<li><label>Structure Type:</label> <span>{userInfo.structure_type || "-"}</span></li>
-																			<li><label>Baths:</label> <span>2</span></li>
+																			{/* <li><label>Structure Type:</label> <span>{userInfo.structure_type || "-"}</span></li> */}
+																			<li><label>Baths:</label> <span>{userInfo.bathroom || "-"}</span></li>
 																			<li><label>Availabilty: </label> <span>{userInfo.availability || "-"}</span></li>
 																			<li><label>Floors: </label> <span>{userInfo.floors || "-"}</span></li>
-																			<li><label>Rooms:</label> <span>{userInfo.rooms || "-"}</span></li>
+																			<li><label>Price:</label> <span>{userInfo.price || "-"}</span></li>
+
+																			{/* <li><label>Rooms:</label> <span>{userInfo.rooms || "-"}</span></li> */}
 
 																		</ul>
-																		<ul>
-																			<li><label>Year built:</label> <span>{userInfo.year_built}</span></li>
-																			<li><label>Available From:</label> <span>{userInfo.available_from}</span></li>
-																			<li><label>Lot Area:</label> <span>HZ29 </span></li>
-																			<li><label>Lot dimensions:</label> <span>120 sqft</span></li>
-																			<li><label>Beds:</label> <span>{userInfo.bedrooms}</span></li>
-																			<li><label>Price:</label> <span>{userInfo.price}</span></li>
-																			<li><label>Garage Size:</label> <span>{userInfo.garage_size}</span></li>
+
+																				<ul className='extra_info'>
+																			<li><label>Amenities  :</label> <span>{userInfo.amenities || "-"}</span></li>
+																			<li><label>Furnishing  :</label> <span>{userInfo.furnishing || "-"}</span></li>
+																			<li><label>Parking  :</label> <span>{userInfo.parking || "-"} </span></li>
+																			<li><label>Tenants  :</label> <span>{userInfo.tenants || "-"} </span></li>
+																		
 																		</ul>
 																	</div>
 																	<div>
-																		<ul className='extra_info'>
-																			<li><label>Amenities  :</label> <span>{userInfo.amenities}</span></li>
-																			<li><label>Furnishing  :</label> <span>{userInfo.furnishing}</span></li>
-																			<li><label>Parking  :</label> <span>{userInfo.parking} </span></li>
-																			<li><label>Roofing  :</label> <span>{userInfo.roofing} </span></li>
-																			<li><label>Associate Fee  :</label> <span>{userInfo.owner_associ_fee} </span></li>
-																			<li><label>Owner Note  :</label> <span>{userInfo.owner_note} </span></li>
-																		</ul>
+																	
 																	</div>
 
 																</div>
@@ -402,9 +413,7 @@ const MyAccount = ({ wishnumber }) => {
               <img src={data.image} style={{ width: "100px", height: "100px",objectFit:"cover" }}/>
               <div>
                 <label>{data.product_name}</label>
-                {/* <label>Apply on next order to get instant discount</label> */}
                 <div className="amt_ch">
-                  {/* <del>₹{data.product_price}</del> */}
                   <label>{data.qty}x{"₹"+data.price}</label>
                 </div>
 				<label>NWcash:₹{data.nwcash}</label>
@@ -563,7 +572,7 @@ const MyAccount = ({ wishnumber }) => {
 																				</div>
 																				<div className='list_more'>
 																				    {data.stype==="Service"?<button className='more_btn' onClick={() => selectSubserivce(data,"service")}>View</button>:""}
-																					<button className={data.status === "Pending"? "pendinShow": "edit_btn"} onClick={() => selectSubserivce(data)}>{data.status}</button>
+																					<button className={data.status === "Pending"? "pendinShow":data.status === "Rejected"?"reject":"edit_btn"} onClick={() => selectSubserivce(data)}>{data.status}</button>
 																				</div>
 																				
 																			</div>

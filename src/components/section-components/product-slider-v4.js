@@ -62,17 +62,21 @@ const ProductSliderV4 = ({ list, callWish }) => {
     if (JSON.parse(localStorage.getItem("user_id"))) {
       Add_WishList(id).then((res) => {
         if (res.Status === "Success") {
-          notification.success({
-            message: "Wishlist Added Successfully"
-          })
+          Swal.fire({
+						title: 'Success!',
+						icon: 'success',
+						text: 'Wishlist Added Successfully',
+					})
           callWish("success")
           setTimeout(() => {
             window.location.reload();
           }, 2000)
         } else {
-          notification.success({
-            message: "Something went wrong not added in your wishlist"
-          })
+          Swal.fire({
+						title: 'Failed!',
+						icon: 'error',
+						text:"Something went wrong not added in your wishlist",
+					})
         }
       })
     }
@@ -87,20 +91,25 @@ const ProductSliderV4 = ({ list, callWish }) => {
   const removeWishlist = (id) => {
     RemoveWishlist(id).then((data) => {
       if (data.Status == "Success") {
-        notification.success({
-          message: "Removed Successfully"
+        Swal.fire({
+          title: 'Success!',
+          icon: 'success',
+          text: 'Removed Successfully',
+          timer: 4000,
+          showConfirmButton: false,
         })
         setTimeout(() => {
           window.location.reload();
         }, 2000)
       } else {
-        notification.error({
-          message: data.Message
+        Swal.fire({
+          title: 'Failed!',
+          icon: 'error',
+          text:data.Message,
         })
       }
     })
   }
-  console.log(list, 'list')
   return (
 
     <div>
@@ -136,14 +145,14 @@ const ProductSliderV4 = ({ list, callWish }) => {
                             <div className="product-img-location">
                               <ul>
                                 <li>
-                                  <Link to={`/product-details?product_id=${item.id}`}><i className="flaticon-pin" /> {item.state + ", " + item.city}</Link>
+                                  <Link to={`/product-details?product_id=${item.id}`}><i className="flaticon-pin" /> {item.city}</Link>
                                 </li>
                               </ul>
                             </div>
                             <div className="product-img-gallery go-top">
                               <ul>
                                 <li>
-                                  <Link to={`/product-details?product_id=${item.id}`}><i className="fas fa-camera" /> 4</Link>
+                                  <Link to={`/product-details?product_id=${item.id}`}><i className="fas fa-camera" /></Link>
                                 </li>
                                 {/* <li>
                                   <Link to={`/product-details?product_id=${item.id}`}><i className="fas fa-film" /> 2</Link>
@@ -162,13 +171,13 @@ const ProductSliderV4 = ({ list, callWish }) => {
                           </div>
                           <Link to={`/product-details?product_id=${item.id}`}>
                           <ul className="ltn__list-item-2 ltn__list-item-2-before">
-                            <li><span>{item.bedrooms} <i className="flaticon-bed" /></span>
+                            {/* <li><span>{item.bedrooms} <i className="flaticon-bed" /></span>
                               Bedrooms
-                            </li>
+                            </li> */}
                             <li><span>{item.bathroom} <i className="flaticon-clean" /></span>
                               Bathrooms
                             </li>
-                            <li><span>{item.size} <i className="flaticon-square-shape-design-interface-tool-symbol" /></span>
+                            <li><span>{item.sq_ft} <i className="flaticon-square-shape-design-interface-tool-symbol" /></span>
                               square Ft
                             </li>
                           </ul>

@@ -6,7 +6,7 @@ import { onLogin,GetOtp } from '../apiActions/index';
 import { notification } from "antd";
 // import auth from "firebase/auth";
 import  firebase from '../../Redux/Utils/firebase'
-
+import Swal from 'sweetalert2'
 const Login = () => {
 	let history = useHistory()
 	const [mobileErr, setMobileErr] = useState(false)
@@ -46,13 +46,18 @@ const Login = () => {
 			onLogin(values,Type).then((data) => {
 				if (data.Status === "Success") {
 					localStorage.setItem("user_id", JSON.stringify(data.Response[0].id));
-					notification.success({
-						message: "Login Successfully"
+					Swal.fire({
+						title: 'Success!',
+						icon: 'success',
+						text: 'Login Successfully',
 					})
 					history.push("/")
 				} else {
-					notification.error({
-						message: data.Message
+				
+					Swal.fire({
+						title: 'Failed!',
+						icon: 'error',
+						text: data.Message,
 					})
 				}
 			})
@@ -60,7 +65,6 @@ const Login = () => {
 			else{
 				// onOtp()
 				onSignInSubmit()
-				alert("fghjk")
 			}
 		}
 
@@ -89,19 +93,24 @@ const onOtp = () => {
 			const appVerifier = window.recaptchaVerifier;
 			firebase.auth().signInWithPhoneNumber("+91"+values.mobile,appVerifier).then(confirmResult => { 
 			setOtpnumber(confirmResult)
-				notification.success({
-					message: "Otp sent your registered mobile number Successfully"
-				})      
+				Swal.fire({
+					title: 'Success!',
+					icon: 'success',
+					text: 'Otp sent your registered mobile number Successfully',
+				})     
 			})
 			.catch(error => {
-				notification.error({
-					message: "Something went wrong Otp not sended"
-				})  
+ 
+				Swal.fire({
+					title: 'Failed!',
+					icon: 'error',
+					text: "Something went wrong Otp not sended",
+				})
 			})
 		})
 	}
 useEffect(()=>{
-if(values.mobile && values.type=="otp" && !mobileErr &&values.otp==""){
+if(values.mobile && values.type==="otp" && !mobileErr &&values.otp===""){
 	SubmitOtp()
 }
 },[values])
@@ -118,20 +127,28 @@ const onSignInSubmit=()=> {
 		onLogin(values,Type).then((data) => {
 			if (data.Status === "Success") {
 				localStorage.setItem("user_id", JSON.stringify(data.Response[0].id));
-				notification.success({
-					message: "Login Successfully"
+				Swal.fire({
+					title: 'Success!',
+					icon: 'success',
+					text: 'Login Successfully',
+					timer: 4000,
+					showConfirmButton: false,
 				})
 				history.push("/")
 			} else {
-				notification.error({
-					message: data.Message
+				Swal.fire({
+					title: 'Failed!',
+					icon: 'error',
+					text: data.Message,
 				})
 			}
 		})
     })
     .catch(error => {
-		notification.error({
-			message: "Please Enter Valid Otp"
+		Swal.fire({
+			title: 'Failed!',
+			icon: 'error',
+			text: "Please Enter Valid Otp",
 		})
     })
 }

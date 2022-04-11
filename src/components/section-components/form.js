@@ -8,7 +8,8 @@ import SelectInput from '../Select';
 import moment from 'moment'
 import './service.scss'
 import Checkout from './checkout'
-const Form = ({ sub_services, ser_image,sub_serv,HandleSubmit,pay_service,handleClose}) => {
+import Swal from 'sweetalert2'
+const Form = ({ sub_services, ser_image,sub_serv,HandleSubmit,pay_service,handleClose,service}) => {
 	
 	let history = useHistory()
 	let publicUrl = process.env.PUBLIC_URL + '/'
@@ -59,21 +60,26 @@ const Form = ({ sub_services, ser_image,sub_serv,HandleSubmit,pay_service,handle
 		e.preventDefault();
 		if(JSON.parse(localStorage.getItem("user_id"))){
 		if(values.place){	
-		pay_service!="pay"&&AddSubServiceEnquiry(values, sub_serv?.id).then((data) => {
-			if (data.Status == "Success") {
-				notification.success({
-					message: data.Message
+		pay_service!=="pay"&&AddSubServiceEnquiry(values, sub_serv?.id).then((data) => {
+			if (data.Status === "Success") {
+				Swal.fire({
+					title: 'Success!',
+					icon: 'success',
+					text: data.Message,
 				})
 				handleClose()
+				handleCancel()
 				setIsModalVisible(false)
 				
 			} else {
-				notification.error({
-					message: data.Message
+				Swal.fire({
+					title: 'Failed!',
+					icon: 'error',
+					text: data.Message,
 				})
 			}
 		})
-		pay_service=="pay"&&HandleSubmit(true,values)
+		pay_service==="pay"&&HandleSubmit(true,values)
 	 }
 	 else{
 		 setlocatErr("Please select locaion")
@@ -118,7 +124,7 @@ const Form = ({ sub_services, ser_image,sub_serv,HandleSubmit,pay_service,handle
 					{/* <div className="col-lg-12 text-center modalHeading"></div> */}
 					<div className="container">
 						<div className="row">
-						{pay_service!="pay"&&<div className="col-lg-4 text-center">
+						{pay_service!="pay"&&<div className="col-lg-5 text-center">
 								<div className="account-create text-start ">
 									<img className='homeimage' src={sub_serv?.images} />
 									<div className='listed'>
@@ -131,7 +137,7 @@ const Form = ({ sub_services, ser_image,sub_serv,HandleSubmit,pay_service,handle
 									</div>
 								</div>
 							</div>}
-							<div className={`col-lg-${pay_service!="pay"?8:12} text-center formShow`}>
+							<div className={`col-lg-${pay_service!="pay"?7:12} text-center formShow`}>
 								<div className="service_addnew">
 									<form className="form-input-box" onSubmit={(e) => submitForm(e)}>
 								

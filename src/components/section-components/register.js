@@ -9,6 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Modal from '../Model';
 import  firebase from '../../Redux/Utils/firebase'
+import Swal from 'sweetalert2'
 function RegisterComp(props) {
 	let history = useHistory()
 	const initialValues = {
@@ -61,16 +62,20 @@ function RegisterComp(props) {
 		if (!mobileErr && !emailErr) {
 			onRegister(values).then((data) => {
 				if (data.Status === "Success") {
-					notification.success({
-						message: "Register Successfully"
+					Swal.fire({
+						title: 'Success!',
+						icon: 'success',
+						text: 'Registration Successfully',
 					})
 					localStorage.setItem("wallet", JSON.stringify(data.Response[0].wallet));
 					setShowOtp(true)
 				    SubmitOtp()
 				} 
 				else {
-					notification.error({
-						message: data.Message
+					Swal.fire({
+						title: 'Failed!',
+						icon: 'error',
+						text: data.Message,
 					})
 				}
 			})
@@ -82,9 +87,11 @@ const SubmitOtp=()=>{
 		const appVerifier = window.recaptchaVerifier;
 		firebase.auth().signInWithPhoneNumber("+91"+values.mobile,appVerifier).then(confirmResult => { 
 		setOtpnumber(confirmResult)
-			notification.success({
-				message: "Otp sent your registered mobile number Successfully"
-			})      
+			Swal.fire({
+				title: 'Success!',
+				icon: 'success',
+				text: 'Otp sent your registered mobile number Successfully',
+			})
 		})
 	
 	})
@@ -104,13 +111,17 @@ const SubmitOtp=()=>{
 			e.preventDefault();
 		otpnumber.confirm(values.otp).then(user => {
 			history.push("/login")
-			notification.success({
-				message: "OTP Verified Successfully"
+			Swal.fire({
+				title: 'Success!',
+				icon: 'success',
+				text: 'OTP Verified Successfully',
 			})
 		})
 		.catch(error => {
-			notification.error({
-				message: "Please Enter Valid Otp"
+			Swal.fire({
+				title: 'Failed!',
+				icon: 'error',
+				text: "Please Enter Valid Otp",
 			})
 		})
 	}

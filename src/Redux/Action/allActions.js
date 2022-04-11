@@ -9,6 +9,7 @@ import CryptoJS from 'crypto-js'
 import { notification } from 'antd'
 import axios from 'axios'
 import moment from 'moment'
+import Swal from 'sweetalert2'
 var CryptoJSAesJson = {
     stringify: function (cipherParams) {
         var j = { ct: cipherParams.ciphertext.toString(CryptoJS.enc.Base64) };
@@ -91,22 +92,28 @@ export const  Remove_Service_Cart= (id) => async (dispatch) => {
         .then((response) => {
             const Res=decryptValue(response.data.encrypted)
             if (Res.Status === "Success") {
-                notification.success({
-                    message: Res.Message,
-                });
+                Swal.fire({
+					title: 'Success!',
+					icon: 'success',
+					text: Res.Message,
+				})
                 dispatch(ViewService_Cart())
             } else {
-                notification.error({
-                    message: Res.Message,
-                });
+                Swal.fire({
+					title: 'Failed!',
+					icon: 'error',
+					text: Res.Message,
+				})
             }
             return Promise.resolve();
         })
         
     } catch (err) {
-        notification.error({
-            message:"Something went wrong details not Deleted",
-        });
+        Swal.fire({
+            title: 'Failed!',
+            icon: 'error',
+            text:"Something went wrong details not Deleted",
+        })
     }
 }
 
@@ -128,22 +135,28 @@ export const AddService_Cart = (data,qty) => async (dispatch) =>  {
         .then((response) => {
             const Res=decryptValue(response.data.encrypted)
             if (Res.Status === "Success") {
-                notification.success({
-                    message: Res.Message,
-                });
+                Swal.fire({
+					title: 'Success!',
+					icon: 'success',
+					text: Res.Message,
+				})
                 dispatch(ViewService_Cart())
             } else {
-                notification.error({
-                    message: Res.Message,
-                });
+                Swal.fire({
+					title: 'Failed!',
+					icon: 'error',
+					text: Res.Message,
+				})
             }
             return Promise.resolve();
         })
         
     } catch (err) {
-        notification.error({
-            message:"Something went wrong details not Deleted",
-        });
+        Swal.fire({
+            title: 'Failed!',
+            icon: 'error',
+            text:"Something went wrong details not Added",
+        })
     }
 }
 
@@ -170,21 +183,27 @@ export const AddService_Cart = (data,qty) => async (dispatch) =>  {
         .then((response) => {
             const Res=decryptValue(response.data.encrypted)
             if (Res.Status === "Success") {
-                notification.success({
-                    message: Res.Message,
-                });
+                Swal.fire({
+					title: 'Success!',
+					icon: 'success',
+					text: Res.Message,
+				})
                 dispatch(ViewService_Cart())
             } else {
-                notification.error({
-                    message: Res.Message,
-                });
+                Swal.fire({
+					title: 'Failed!',
+					icon: 'error',
+					text: Res.Message,
+				})
             }
             return Promise.resolve();
         })
         
     } catch (err) {
-        notification.error({
-            message:"Something went wrong details not Deleted",
-        });
+        Swal.fire({
+            title: 'Failed!',
+            icon: 'error',
+            text:"Something went wrong",
+        })
     }
 }

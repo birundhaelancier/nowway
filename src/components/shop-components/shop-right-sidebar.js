@@ -154,9 +154,9 @@ const ShopGridV1 = (props) => {
                                     <li className="sale-badg">{data.type}</li>
                                   </ul>
                                 </div>
-                                <h2 className="product-title go-top related_list" style={{marginTop:"10px"}}>
+                                <h2 className="product-title go-top" style={{marginTop:"10px"}}>
                                   <Link to={`/product-details?product_id=${data.id}`}>
-                                    {data.title}
+                                    {data.bhk_type},{data.property_type}
                                   </Link>
                                 </h2>
                                 <div className="product-img-location related_list go-top">
@@ -170,16 +170,16 @@ const ShopGridV1 = (props) => {
                                   </ul>
                                 </div>
                                 <ul className="ltn__list-item-2--- ltn__list-item-2-before--- ltn__plot-brief">
-                                  <li>
+                                  {/* <li>
                                     <span>{data.bedrooms || 0} </span>
                                     Bed
-                                  </li>
+                                  </li> */}
                                   <li>
                                     <span>{data.bathroom || 0} </span>
                                     Bath
                                   </li>
                                   <li>
-                                    <span>{data.size} </span>
+                                    <span>{data.sq_ft} </span>
                                     Square Ft
                                   </li>
                                 </ul>

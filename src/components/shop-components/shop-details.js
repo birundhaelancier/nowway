@@ -36,9 +36,13 @@ const ShopDetails = ({ ProductInfo, RelatedProducts, TopCategory }) => {
       Add_ContactDetails(id).then((res) => {
         if (res.Status === "Success") {
           setIsModalVisible(false);
-          notification.success({
-            message: "Successfully added",
-          });
+          Swal.fire({
+            title: 'Success!',
+            icon: 'success',
+            text: "Successfully added",
+            timer: 4000,
+            showConfirmButton: false,
+          })
 		  window.location.reload()
         }
       });
@@ -50,16 +54,22 @@ const ShopDetails = ({ ProductInfo, RelatedProducts, TopCategory }) => {
     if (JSON.parse(localStorage.getItem("user_id"))) {
       Add_WishList(id).then((res) => {
         if (res.Status === "Success") {
-          notification.success({
-            message: "Wishlist Added Successfully",
-          });
+          Swal.fire({
+            title: 'Success!',
+            icon: 'success',
+            text: "Wishlist Added Successfully",
+            timer: 4000,
+            showConfirmButton: false,
+          })
           setTimeout(()=>{
             window.location.reload();
           },2000)
         } else {
-          notification.success({
-            message: "Something went wrong not added in your wishlist",
-          });
+          Swal.fire({
+            title: 'Failed!',
+            icon: 'error',
+            text: "Something went wrong not added in your wishlist",
+          })
         }
       });
     } else {
@@ -90,16 +100,22 @@ const ShopDetails = ({ ProductInfo, RelatedProducts, TopCategory }) => {
   const removeWishlist = (id) => {
 	RemoveWishlist(id).then((data) => {
 		if (data.Status == "Success") {
-			notification.success({
-				message:"Removed Successfully"
-			})
+      Swal.fire({
+        title: 'Success!',
+        icon: 'success',
+        text: "Removed Successfully",
+        timer: 4000,
+        showConfirmButton: false,
+      })
       setTimeout(()=>{
         window.location.reload();
       },2000)
 		} else {
-			notification.error({
-				message: data.Message
-			})
+      Swal.fire({
+        title: 'Failed!',
+        icon: 'error',
+        text:data.Message,
+      })
 		}
 	})
 }
@@ -137,22 +153,28 @@ GetProductDetails(Product_id).then((data) => {
 const PropertyIssue=(id,value,report)=>{
   if(JSON.parse(localStorage.getItem("user_id"))){
     if(report!=""){
-      notification.success({
-				message:"Already Reported"
-			})
+      Swal.fire({
+        title: 'Success!',
+        icon: 'success',
+        text: "Already Reported",
+      })
     }else{
   PropertyReportIssue(id,value).then((data)=>{
     if (data.Status == "Success") {
-			notification.success({
-				message:data.Message
-			})
+      Swal.fire({
+        title: 'Success!',
+        icon: 'success',
+        text: data.Message,
+      })
       setTimeout(()=>{
          window.location.reload()
       },2000)
 		} else {
-			notification.error({
-				message: data.Message
-			})
+      Swal.fire({
+        title: 'Failed!',
+        icon: 'error',
+        text:data.Message,
+      })
 		}
   })
 }
@@ -160,17 +182,18 @@ const PropertyIssue=(id,value,report)=>{
   history.push('/login')
 }
 }
+console.log("pro_details",pro_details)
   return (
     <div className="ltn__shop-details-area pb-10">
       <div className="container">
         {pro_details?.map((data) => {
+          console.log(data,"dddddd")
           return (
             <>
               <div className="row">
                 <div className={`col-lg-${Number(JSON.parse(localStorage.getItem("user_id")))===Number(data.user_id)?12:7} col-md-12`}>
                   <div className="ltn__shop-details-inner ltn__page-details-inner">
                     <div className="ltn__blog-meta">
-                    {console.log(data,"tttttttttttt")}
 
                       <ul>
                         <li className="ltn__blog-category">
@@ -180,16 +203,16 @@ const PropertyIssue=(id,value,report)=>{
                         </li>
                         <li className="ltn__blog-date">
                           <i className="far fa-calendar-alt" />
-                          {moment(data.available_from).format("DD-MM-YYYY")}
+                          {moment(data.d_date).format("DD-MM-YYYY")}
                         </li>
                       </ul>
                     </div>
-                    <h1>{data.title}</h1>
+                    {/* <h1>{data.title}</h1> */}
                     <label>
                       <span className="ltn__secondary-color">
                         <i className="flaticon-pin" />
                       </span>
-                      {data.state + ", " + data.city}
+                      {data.city}
                     </label>
                     <h4 className="title-2">Description</h4>
                     <p>{data.description}</p>
@@ -240,6 +263,8 @@ const PropertyIssue=(id,value,report)=>{
                   </aside>
                 </div>
          }
+              </div>
+
          {/* get owner details end */}
                 <Modal
                   show={isModalVisible}
@@ -312,7 +337,6 @@ const PropertyIssue=(id,value,report)=>{
                     </div>
                   </div>
                 </Modal>
-              </div>
 
               <div className="row">
                 <div className="container">
@@ -330,14 +354,14 @@ const PropertyIssue=(id,value,report)=>{
                               <label>Floors: </label> <span>{data.floors}</span>
                             </li>
                             <li>
-                              <label>Rooms:</label> <span>{data.rooms}</span>
+                              <label>Negotiable:</label> <span>{data.negotiate}</span>
                             </li>
                             <li>
                               <label>Baths:</label> <span>{data.bathroom}</span>
                             </li>
                             <li>
-                              <label>Year built:</label>{" "}
-                              <span>{data.year_built}</span>
+                              <label>Parking:</label>{" "}
+                              <span>{data.parking}</span>
                             </li>
                           </ul>
                           <ul>
@@ -346,18 +370,18 @@ const PropertyIssue=(id,value,report)=>{
                               <span>{data.availability}</span>
                             </li>
                             <li>
-                              <label>Lot Area:</label>{" "}
-                              <span>{data.size} sqft</span>
+                              <label>Carpet Area:</label>{" "}
+                              <span>{data.sq_ft} sqft</span>
                             </li>
                             <li>
-                              <label>Beds:</label> <span>{data.bedrooms}</span>
+                              <label>Tenants:</label> <span>{data.tenants}</span>
                             </li>
                             <li>
                               <label>Price:</label> <span>{data.price}</span>
                             </li>
                             <li>
-                              <label>Garage Size:</label>{" "}
-                              <span>{data.garage_size}</span>
+                              <label>Furnishing:</label>{" "}
+                              <span>{data.furnishing}</span>
                             </li>
                           </ul>
                         </div>
@@ -443,7 +467,9 @@ const PropertyIssue=(id,value,report)=>{
                                     </div>
                                     <div className="related_list">
                                     <h2 className="product-title" style={{marginTop:"10px"}}>
-                                      <Link to={`/product-details?product_id=${item.id}`}>{item.title}</Link>
+                                      <Link to={`/product-details?product_id=${item.id}`}>
+                                        {item.bhk_type},{item.property_type}
+                                        </Link>
                                     </h2>
                                     </div>
                                     <div className="product-img-location">
@@ -457,16 +483,16 @@ const PropertyIssue=(id,value,report)=>{
                                       </ul>
                                     </div>
                                     <ul className="ltn__list-item-2--- ltn__list-item-2-before--- ltn__plot-brief">
-                                      <li>
+                                      {/* <li>
                                         <span>{item.bedrooms} </span>
                                         Bedrooms
-                                      </li>
+                                      </li> */}
                                       <li>
                                         <span>{item.bathroom || 0} </span>
                                         Bathrooms
                                       </li>
                                       <li>
-                                        <span>{item.size} </span>
+                                        <span>{item.sq_ft} </span>
                                         square Ft
                                       </li>
                                     </ul>

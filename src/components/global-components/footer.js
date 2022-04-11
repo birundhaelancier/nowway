@@ -46,11 +46,11 @@ import { FooterTags } from '../apiActions'
 		let imgattr = "Footer logo"
 
 		return (
-			<footer className="ltn__footer-area  ">
+			<footer className="ltn__footer-area">
 				<div className="footer-top-area  section-bg-2 plr--5">
 					<div className="container-fluid">
 						<div className="row">
-							<div className="col-xl-3 col-md-6 col-sm-6 col-12">
+							<div className="col-xl-4 col-md-6 col-sm-6 col-12">
 								<div className="footer-widget footer-about-widget">
 									<div className='logoNameFooter'>
 										<div className="footerLogo">
@@ -73,19 +73,24 @@ import { FooterTags } from '../apiActions'
 									<div className="footer-address">
 										<ul>
 											<li>
-												{/* <div className="footer-address-icon">
+											    <div className="footer-address-icon">
 													<i className="icon-placeholder" />
-												</div> */}
-												{/* <div className="footer-address-info">
-													<p>Kamarajar Street, Madurai</p>
-												</div> */}
+												</div> 
+												 <div className="footer-address-info">
+													<p>
+													NOWWAY PEC SERVICES<br/>
+                                                    No.119E, Velacherry Main road, Little Mount,<br/>
+                                                    Near Behindwoods office, Guindy<br/> 
+                                                    Chennai - 600032
+													</p>
+												</div> 
 											</li>
 											<li>
 												<div className="footer-address-icon">
 													<i className="icon-call" />
 												</div>
 												<div className="footer-address-info">
-													<p><a href="tel:+0123-456789">+91 7010143257</a></p>
+													<p>+91 7010143257</p>
 												</div>
 											</li>
 											<li>
@@ -93,7 +98,7 @@ import { FooterTags } from '../apiActions'
 													<i className="icon-mail" />
 												</div>
 												<div className="footer-address-info">
-													<p><a href="mailto:example@example.com">info@nowway.in</a></p>
+													<p>info@nowway.in</p>
 												</div>
 											</li>
 										</ul>
@@ -103,21 +108,16 @@ import { FooterTags } from '../apiActions'
 				            </div> */}
 								</div>
 							</div>
-							<div className="col-xl-2 col-md-6 col-sm-6 col-12">
+							{/* <div className="col-xl-2 col-md-6 col-sm-6 col-12">
 								<div className="footer-widget footer-menu-widget clearfix">
 									<h4 className="footer-title">Company</h4>
 									<div className="footer-menu go-top">
 										<ul>
-											<li><Link to="/#">About</Link></li>
-											<li><Link to="/#">Blog</Link></li>
 											<li><Link to="/#">All Products</Link></li>
-											{/* <li><Link to="/contact">Contact</Link></li>
-				                <li><Link to="/faq">FAQ</Link></li>
-				                <li><Link to="/contact">Contact us</Link></li> */}
 										</ul>
 									</div>
 								</div>
-							</div>
+							</div> */}
 							<div className="col-xl-2 col-md-6 col-sm-6 col-12">
 								<div className="footer-widget footer-menu-widget clearfix">
 									<h4 className="footer-title">Services</h4>
@@ -141,7 +141,7 @@ import { FooterTags } from '../apiActions'
 									<div className="footer-menu go-top">
 										<ul>
 										<li><Link to="/terms">Terms &amp; Conditions</Link></li>
-						                <li><Link to="/refund">Refund Policy</Link></li>
+						                {/* <li><Link to="/refund">Refund Policy</Link></li> */}
 						                <li><Link to="/policy">Privacy &amp; Policy</Link></li>
 											{/* <li><Link to="/add-listing">Add listing</Link></li>
 				                <li><Link to="/faq">FAQ</Link></li>
@@ -150,10 +150,10 @@ import { FooterTags } from '../apiActions'
 									</div>
 								</div>
 							</div>
-							<div className="col-xl-3 col-md-6 col-sm-12 col-12">
+							<div className="col-xl-4 col-md-6 col-sm-12 col-12">
 								<div className="footer-widget footer-newsletter-widget">
 									<h4 className="footer-title">Newsletter</h4>
-									<p>Subscribe to our weekly Newsletter and receive updates via email.</p>
+									<p style={{fontWeight:"500",fontSize:"17px"}}>Subscribe to our weekly Newsletter and receive updates via email.</p>
 									<div className="footer-newsletter">
 										<form action="#">
 											<input type="email" name="email" placeholder="Email*" />
@@ -162,8 +162,8 @@ import { FooterTags } from '../apiActions'
 											</div>
 										</form>
 									</div>
-									<h5 className="mt-30">We Accept</h5>
-									<img src={publicUrl + "assets/img/icons/payment-4.png"} alt="Payment Image" />
+									{/* <h5 className="mt-30">We Accept</h5>
+									<img src={publicUrl + "assets/img/icons/payment-4.png"} alt="Payment Image" /> */}
 								</div>
 							</div>
 						</div>

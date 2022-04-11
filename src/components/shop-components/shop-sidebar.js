@@ -144,7 +144,7 @@ const Sidebar = (props) => {
 					</ul>
 					<hr />
 
-					<h4 className="ltn__widget-title">Bed Rooms</h4>
+					{/* <h4 className="ltn__widget-title">Bed Rooms</h4>
 					<ul>
 						{Bed_Rooms.map((data, index) =>
 							<li>
@@ -155,7 +155,7 @@ const Sidebar = (props) => {
 							</li>
 						)}
 					</ul>
-					<hr />
+					<hr /> */}
 
 					<h4 className="ltn__widget-title">Bath Rooms</h4>
 					<ul>

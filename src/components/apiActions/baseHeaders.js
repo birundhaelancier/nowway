@@ -1,4 +1,4 @@
-export const APIURL = "https://elancier.in/nowway/api/";
+export const APIURL ="https://nowway.in/$panel/api/";
 export const REQUEST_HEADERS = {
     Authorization: 'Bearer' + JSON.parse(localStorage.getItem("Token")),
     

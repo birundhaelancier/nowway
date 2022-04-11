@@ -3,13 +3,14 @@ import { Link } from 'react-router-dom';
 import parse from 'html-react-parser';
 import { Select, Checkbox } from 'antd';
 import SelectInput from '../Select/index';
-import { InsertListing,GetLocations,GetListings_Data } from '../apiActions/index';
+import { InsertListing,GetLocations,GetListings_Data,GetMyList } from '../apiActions/index';
 import { notification } from "antd";
 import { APIURL, REQUEST_HEADERS } from "../apiActions/baseHeaders";
 import axios from 'axios';
 import CryptoJS from 'crypto-js'
 import ValidationLibrary from '../validationfunction'
-import { useHistory } from 'react-router-dom';
+import { useHistory,useParams } from 'react-router-dom';
+import Swal from 'sweetalert2'
 var CryptoJSAesJson = {
     stringify: function (cipherParams) {
         var j = { ct: cipherParams.ciphertext.toString(CryptoJS.enc.Base64) };
@@ -31,8 +32,10 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
     const [zipCodeErr, setZipCodeErr] = useState(false)
     const [Location,setLocation]=useState([])
     const [property_id,setproperty_id]=useState(0)
+    const [Property_List,setProperty_List]=useState({})
     const [Floors,setFloors]=useState([])
     const [Type,setType]=useState("Location")
+    const { id } =useParams()
     let history=useHistory()
     const initialValues={
         price:{value:"",validation:[],error: null,errmsg: null},
@@ -113,25 +116,8 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
             }));
         }
     }
-console.log("cccccc",listValues)
     const submitForm = async (e) => {
         e.preventDefault();
-
-        // if (!zipCodeErr) {
-        //     InsertListing(listValues, checkList).then((data) => {
-        //         console.log(data, "ss")
-        //         if (data.Status === "Success") {
-        //             notification.success({
-        //                 message: data.Message
-        //             })
-        //             handleCancel()
-        //         } else {
-        //             notification.error({
-        //                 message: data.Message
-        //             })
-        //         }
-        //     })
-        // }
     }
     const options = [
         {
@@ -161,7 +147,36 @@ console.log("cccccc",listValues)
     floor.push({id:i,name:i})
    }
    setFloors(floor)
-  },[])
+   GetMyList().then((data) => {
+
+    data.Response.filter((res)=>{
+       if(res.id==id){
+        setProperty_List(res)
+       }
+    })
+   })
+
+  },[id])
+  useEffect(()=>{
+    GetListings_Data().then((res)=>{
+        const Data=res.Response
+        listValues.bhk_type.value=Data.bhk_type || Property_List.bhk_type || ""
+        listValues.floors.value=Data.floors || Property_List.floors || ""
+        listValues.price.value=Data.price || Property_List.price || ""
+        listValues.maintenance.value=Data.monthly_maintain || Property_List.monthly_maintain || ""
+        listValues.negotiate.value=Data.negotiate || Property_List.negotiate || ""
+        listValues.description.value=Data.description || Property_List.description || ""
+        listValues.address.value=Data.address || Property_List.address || ""
+        listValues.facing.value=Data.facing || Property_List.facing || ""
+        listValues.size.value=Data.sq_ft || Property_List.sq_ft || ""
+        listValues.propertyType.value=Data.property_type || Property_List.property_type || ""
+        listValues.city.value=Data.city || Property_List.city || ""
+        listValues.types.value=Data.type || Property_List.type || ""  
+        setListValues((prevState) => ({
+        ...prevState,
+        }));
+        })
+  },[Property_List])
 
     const ChangeContinue=(key,value)=>{
         setType(key)
@@ -201,26 +216,32 @@ console.log("cccccc",listValues)
     }else{
       
 
-        if(Type==="Media" && checkList.length>=1 && checkList.length>=10){
-        notification.warning({
-            message:"maximum 10 images is for a valid submission."
-        })   
+        if(Type==="Media" && checkList.length>=1 && checkList.length>=10){ 
+        Swal.fire({
+            title: 'Warning!',
+            icon: 'warning',
+            text: "Maximum 10 images is for a valid submission.",
+        })
     
 }else{
     InsertListing(listValues, checkList,Type,property_id).then((data) => {
-        console.log(data, "ss")
         if (data.Status === "Success") {
-            notification.success({
-                message: data.Message
+            type==="submit"&&Swal.fire({
+                title: 'Success!',
+                icon: 'success',
+                text: data.Message,
             })
-            setproperty_id(data.Response.property_id)
+            setproperty_id(id?id:data.Response.property_id)
             setType(type)
-            type==="submit"&&history.push("/my-account")
+            type==="submit"&&history.push(`/my-account/wish=${2}`)
             // handleCancel()
         } else {
-            notification.error({
-                message: data.Message
+            Swal.fire({
+                title: 'Failed!',
+                icon: 'error',
+                text:data.Message,
             })
+            
         }
     })
 }
@@ -229,41 +250,8 @@ console.log("cccccc",listValues)
         ...prevState,
     }));
 }
-useEffect(()=>{
-    GetListings_Data().then((res)=>{
-        const Data=res.Response
-        listValues.bhk_type.value=Data.bhk_type || ""
-        listValues.floors.value=Data.floors || ""
-        listValues.price.value=Data.price || ""
-        listValues.maintenance.value=Data.monthly_maintain || ""
-        listValues.negotiate.value=Data.negotiate || ""
-        listValues.description.value=Data.description || ""
-        listValues.address.value=Data.address || ""
-        listValues.facing.value=Data.facing || ""
-        listValues.size.value=Data.sq_ft || ""
-       listValues.propertyType.value=Data.property_type || ""
-       listValues.city.value=Data.city || ""
-       listValues.types.value=Data.type || ""
-   
-       
-    })
 
-},[])
-// useEffect(()=>{
-//     // setproperty_id())
-//        let Location=["propertyType","city","types"]
-//        let Details=["bhk_type","floors","price","maintenance","negotiate","description","address","facing","size"]
-//        for (var i in Location) {
-//            if(listValues[Location[i]].value!=""){
-//              setType("Details")
-//           }
-//        }
-//        Details.forEach((data,index) => {
-//         if(listValues[data].value!=""){
-//             setType("Media")
-//        }
-//        })
-// },[listValues])
+console.log("listValues",Property_List)
 
     return (
         <div className="ltn__appointment-area pb-120">
@@ -582,7 +570,7 @@ useEffect(()=>{
                                     <button className="theme-btn-1 btn btn-block text-uppercase" onClick={()=>ChangeContinue("Features",false)} type="submit">Back</button>
                                 </div>
                                 <div className="btn-wrapper text-end mt-30 mb-15">
-                                    <button className="theme-btn-1 btn btn-block text-uppercase" onClick={()=>Submit_ChangeContinue("features",true,"submit")} type="submit">Continue</button>
+                                    <button className="theme-btn-1 btn btn-block text-uppercase" onClick={()=>Submit_ChangeContinue("features",true,"submit")} type="submit">Submit Property</button>
                                 </div>
                                 </div>
                                 }
@@ -726,10 +714,10 @@ useEffect(()=>{
                                 {Type==="Features" &&
                                 <div style={{display:"flex",justifyContent:"center"}}>
                                  <div className="btn-wrapper text-end mt-30"  style={{paddingRight:"20px"}}>
-                                    <button className="theme-btn-1 btn btn-block text-uppercase" onClick={()=>ChangeContinue("Media",false)}>Back</button>
+                                    <button className="theme-btn-1 btn btn-block text-uppercase" onClick={()=>ChangeContinue("Details",false)}>Back</button>
                                 </div>
                                 <div className="btn-wrapper text-center mt-30 mb-15">
-                                    <button className="theme-btn-1 btn btn-block text-uppercase"  onClick={()=>Submit_ChangeContinue("features",true,"Media")}>Submit Property</button>
+                                    <button className="theme-btn-1 btn btn-block text-uppercase"  onClick={()=>Submit_ChangeContinue("features",true,"Media")}>Continue</button>
                                 </div>
                                 </div>
 }

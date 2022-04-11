@@ -57,8 +57,11 @@ import PrivatePolicy from './components/private-policy';
 import TermCondition from './components/terms-condition';
 
 const App=()=>{
+    // useEffect(()=>{
+    //     window.location.reload()
+    // },[])
     return(
-        <HashRouter   forceRefresh={true}>
+        <HashRouter>
               {/* <Router> */}
             <Switch>
                 <Route exact path="/" component={HomeV7} />
@@ -109,11 +112,11 @@ const App=()=>{
                 <Route path="/my-account" component={ MyAccount } />
                 <Route path="/login" component={ Login } />
                 <Route path="/register" component={ Register } />
-                <Route path="/add-listing" component={ AddListing } />
+                <Route path="/add-listing/:id?/" component={ AddListing } />
                 <Route path="/wishlist" component={ Wishlist } />
                 <Route path="/order-tracking" component={ OrderTracking } />
                 <Route path="/history" component={ History } />
-                <Route path="/refund" component={ RefundPolicy } />
+                <Route path="/aboutus" component={ RefundPolicy } />
                 
             </Switch>
             {/* </Router> */}

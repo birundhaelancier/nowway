@@ -26,7 +26,7 @@ const NavbarV3 = ({ user, Wish_list }) => {
   useEffect(() => {
     axios({
       method: "POST",
-      url: "https://elancier.in/nowway/api/auth_login",
+      url: "https://nowway.in/$panel/api/auth_login",
       data: {
         email: "nowway",
         password: "12345678",

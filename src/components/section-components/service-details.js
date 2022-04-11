@@ -10,6 +10,7 @@ import './service.scss'
 import Checkout from './checkout'
 import FormComp from './form'
 import { connect } from 'react-redux'
+import Swal from 'sweetalert2'
 const ServiceDetails = ({ sub_services, ser_image,service,ServiceCart,ser_id }) => {
 	
 	let history = useHistory()
@@ -63,14 +64,18 @@ const ServiceDetails = ({ sub_services, ser_image,service,ServiceCart,ser_id }) 
 		if(values.place){	
 		AddSubServiceEnquiry(values, sub_serv?.id).then((data) => {
 			if (data.Status == "Success") {
-				notification.success({
-					message: data.Message
+				Swal.fire({
+					title: 'Success!',
+					icon: 'success',
+					text: data.Message,
 				})
 				handleCancel()
 				setIsModalVisible(false)
 			} else {
-				notification.error({
-					message: data.Message
+				Swal.fire({
+					title: 'Failed!',
+					icon: 'error',
+					text: data.Message,
 				})
 			}
 		})
@@ -120,8 +125,6 @@ const ServiceDetails = ({ sub_services, ser_image,service,ServiceCart,ser_id }) 
 			setTimeSlots(Data)
 		})
 	},[])
-	// const [sub_serv, setSub_serv] = useState()
-	console.log(service,ServiceCart && ServiceCart[0]?.nwcash, "serviceddddddddddddd")
 	return (
 		<div className="ltn__page-details-area ltn__service-details-area">
 			<div className="container">
@@ -245,7 +248,7 @@ const ServiceDetails = ({ sub_services, ser_image,service,ServiceCart,ser_id }) 
 					</div>
 				</div>
 			</div>
-			<Modal show={isModalVisible} width={600} modelTitle={
+			<Modal show={isModalVisible} width={service==1?600:800} modelTitle={
 				<div className='modal_title_div'>
 		         	<span>{sub_serv?.name}</span> 
 					 {service==1&&ServiceCart.length>0 && <span  style={{textAlign:"center",paddingLeft:"20px"}}>
@@ -255,7 +258,7 @@ const ServiceDetails = ({ sub_services, ser_image,service,ServiceCart,ser_id }) 
 				</div>
 				} handleClose={closeModal}>
 			{service==0?
-			<FormComp sub_serv={sub_serv}  handleClose={closeModal}/>:
+			<FormComp sub_serv={sub_serv} service={service} handleClose={closeModal}/>:
 			<div className='cutom_ser_mo'>
              <Checkout sub_services={sub_services} sub_serv={sub_serv?.id}  handleClose={closeModal} ser_id={sub_serv?.id}/>
 			 </div>}

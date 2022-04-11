@@ -12,7 +12,7 @@ const SelectInput = (props) => {
                 optionFilterProp="label"
                 onChange={(value) => props.changeData && props.changeData(value)}>
                 {props.dropdown && props.dropdown.length > 0 ? props.dropdown.map((item, index) => {
-                    return (<Option key={index} disabled={item.disable} value={item.name}>{item.name}</Option>)
+                    return (<Option key={index} disabled={item.disable} value={item.name} className="option">{item.name}</Option>)
 
                 })
                     : null

@@ -135,7 +135,6 @@ const HandleSubmit=(data,formValues)=>{
           </div>}
           {Products.length>0? <div className="listing_services">
             {Products && Products.map((data) => {
-              console.log("daaaa",data)
 
               return (
                 <div>
@@ -161,12 +160,14 @@ const HandleSubmit=(data,formValues)=>{
                   <span>
                   {data.description?
                   <>
-                      <i
+                      {/* <i
                         class="fa fa-check"
                         style={{ color: "green", paddingRight: "10px" }}
                         aria-hidden="true"
-                      ></i>
-                      {data.description}
+                      ></i> */}
+                      <div dangerouslySetInnerHTML={{__html:data.description}}></div>
+
+
                       </>
                       :""}
                     </span>
