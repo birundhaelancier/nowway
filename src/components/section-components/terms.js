@@ -5,7 +5,7 @@ import parse from 'html-react-parser';
 const Terms = ({ terms }) => {
     return (
         <div className='container'>
-            <div dangerouslySetInnerHTML={{ __html: terms[0]?.terms }}></div>
+            <div dangerouslySetInnerHTML={{ __html: terms[0]?.terms }} className="term__child"></div>
         </div>
     )
 }

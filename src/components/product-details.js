@@ -11,11 +11,13 @@ import { GetProductDetails,GetRelatedProducts,Top_Categories,AddPropertyview } f
 const Product_Details = (props) => {
     const params = new URLSearchParams(props.location.search);
     const Product_id = params.get('product_id');
+    const type = params.get('type');
     const [productDetailsInfo, setProductDetailsInfo] = useState();
     const [RelatedProducts,setRelatedProducts]=useState()
     const [TopCategory,setTopCategory]=useState([])
+    console.log("type",props.location.search)
     useEffect(() => {
-        GetProductDetails(Product_id).then((data) => {
+        GetProductDetails(Product_id,type).then((data) => {
             setProductDetailsInfo(data.Response)
         })
         GetRelatedProducts(Product_id).then((data)=>{

@@ -227,12 +227,12 @@ const MyAccount = ({ wishnumber }) => {
 									<div className="col-lg-4">
 										<div className="ltn__tab-menu-list mb-50">
 											<div className="nav">
-												<a data-bs-toggle="tab" className={wishnumber != 1 && wishnumber != 2 && "active show"} href="#liton_tab_1_1">Account Details <i className="fas fa-home" /></a>
-												<a data-bs-toggle="tab" className={wishnumber == 1 && "active show"} href="#liton_tab_1_2">Wishlist <i className="fas fa-heart" /></a>
+											    <a data-bs-toggle="tab" className={wishnumber === 2 && "active show"}href="#liton_tab_1_4">My Property <i className="fas fa-list" /></a>
+										    	<a data-bs-toggle="tab" href="#liton_tab_1_6">Service Enquiry <i className="fa fa-rocket" /></a>
+												<a data-bs-toggle="tab" className={wishnumber === 1 && "active show"} href="#liton_tab_1_2">Wishlist <i className="fas fa-heart" /></a>
 												<a data-bs-toggle="tab" href="#liton_tab_1_0">Contacted <i className="fas fa-phone" /></a>
-												<a data-bs-toggle="tab" className={wishnumber == 2 && "active show"}href="#liton_tab_1_4">My Property <i className="fas fa-list" /></a>
 												<a data-bs-toggle="tab" href="#liton_tab_1_5">NW Cash <span style={{ fontSize: "24px" }}>₹</span></a>
-												<a data-bs-toggle="tab" href="#liton_tab_1_6">Service Enquiry <i className="fa fa-rocket" /></a>
+												<a data-bs-toggle="tab" className={wishnumber != 1 && wishnumber != 2 && "active show"} href="#liton_tab_1_1">Account Details <i className="fas fa-home" /></a>
 												<Link className="go-top" to={`/login?edit=${"user_id"}`}>Logout <i className="fas fa-sign-out-alt" /></Link>
 											</div>
 										</div>
@@ -325,7 +325,7 @@ const MyAccount = ({ wishnumber }) => {
 																		return (
 																			<div className='grid-Show'>
 																				<div className="product-img go-top">
-																					<Link to={`/product-details?product_id=${data.id}`}><img src={data.image[0]?data.image[0]:publicUrl+"assets/img/no_image.jpg"} alt="#" style={{width:"100%",height:"180px",objectFit:"cover"}}/></Link>
+																					<Link to={`/product-details?product_id=${data.id}&&type=${"own"}`}><img src={data.image[0]?data.image[0]:publicUrl+"assets/img/no_image.jpg"} alt="#" style={{width:"100%",height:"180px",objectFit:"cover"}}/></Link>
 																					<div className="product-badge re-content">
 																						<button className={data.type === "Rent" ? "sale-badge bg-green" : "sale-badge-sell"}>{data.type === "Rent" ? "Rent" : "Sell"}</button>
 																					</div>
@@ -354,7 +354,7 @@ const MyAccount = ({ wishnumber }) => {
 														</div>
 													</div>
 												</div>
-												<Modal show={isModalVisible || servicemodal} modelTitle={servicemodal?"Service Details":"Property Details"} handleClose={() =>{setIsModalVisible(false);setservicemodal(false)}} width={servicemodal?800:900}>
+												<Modal show={isModalVisible || servicemodal} modelTitle={servicemodal?"Service Details":"Property Details"} handleClose={() =>{setIsModalVisible(false);setservicemodal(false)}} width={servicemodal && serviceDetails.stype==="Service"?800:servicemodal && serviceDetails.stype!=="Service"?600:900}>
 
 													{!servicemodal?<div className="ltn__quick-view-modal-inner ">
 														{/* <div className="col-lg-12 text-center modalHeading"></div> */}
@@ -407,6 +407,7 @@ const MyAccount = ({ wishnumber }) => {
 													</div>:
 													<>
 													{serviceDetails?.service_details.map((data,index)=>{
+														console.log("gggggg",data)
                 
                return(
 													<div className="service_pay_parent">
@@ -433,11 +434,15 @@ const MyAccount = ({ wishnumber }) => {
 
 																		</ul>
 																		{/* <>Cart Details</> */}
+																		{serviceDetails.stype==="Service"&&
 																		<ul>
-																		<li><label>Sub Total</label> <span>{serviceDetails.sub_total || "-"}</span></li>
+																		    <li><label>Payment Id</label> <span>{serviceDetails.payment_id || "-"}</span></li>
+																		    <li><label>Sub Total</label> <span>{serviceDetails.sub_total || "-"}</span></li>
 																			<li><label>Total</label> <span>{serviceDetails.total || "-"}</span></li>
 																			<li><label>NW Cash</label> <span>{serviceDetails.total_nw || "-"}</span></li>
-																		</ul>
+																			<li><label>Convenience Charge</label> <span>{serviceDetails.conv_charge || "-"}</span></li>
+																			
+																		</ul>}
 																		</div>
 			   </>}
 												</Modal>
@@ -482,7 +487,7 @@ const MyAccount = ({ wishnumber }) => {
 											<div className={`tab-pane fade ${wishnumber != 1 && "active show"}`} id="liton_tab_1_1">
 												<div className="ltn__myaccount-tab-content-inner ">
 													<div className="ltn__form-box acc_details_form">
-														<form onSubmit={(e) => submitForm(e)} >
+														<form onSubmit={(e) => submitForm(e)} autocomplete="off">
 															<div className="row mb-50">
 																<div className="col-md-12 profile_show">
 																	<div className="filecontainer" onClick={fileclick}>
@@ -490,10 +495,11 @@ const MyAccount = ({ wishnumber }) => {
 																			<input required={picture ? false : true} id="profilePic" type="file" onChange={(e) => onChangePicture(e)} className="fileinput hidden" ref={inputElement} />
 
 																			<img src={picture ? picture : publicUrl + "assets/img/profilenew.jpg"} alt=" " className="uploadimage" />
-																		</div>
-																		<div className='uploadBtn'>
+																			<div className='uploadBtn'>
 																			<i class="fa fa-upload" aria-hidden="true"></i>
+																		   </div>
 																		</div>
+																	
 																	</div>
 																</div>
 																<div className="col-md-6">
@@ -561,6 +567,7 @@ const MyAccount = ({ wishnumber }) => {
 															{service.length > 0 ?
 																<>
 																	{service.map((data, index) => {
+																		console.log(data,"gggggggggggg")
 																		return (
 																			<div className='grid-Showservice'>
 																				<div className='cont-amount'>
@@ -571,8 +578,8 @@ const MyAccount = ({ wishnumber }) => {
 																					<div className='lisu_number'>Date: {data.d_date}</div>
 																				</div>
 																				<div className='list_more'>
-																				    {data.stype==="Service"?<button className='more_btn' onClick={() => selectSubserivce(data,"service")}>View</button>:""}
-																					<button className={data.status === "Pending"? "pendinShow":data.status === "Rejected"?"reject":"edit_btn"} onClick={() => selectSubserivce(data)}>{data.status}</button>
+																				    <button className='more_btn' onClick={() => selectSubserivce(data,"service")}>View</button>
+																					<button className={data.status === "Pending"? "pendinShow":data.status === "Rejected"?"reject":"edit_btn"}>{data.status}</button>
 																				</div>
 																				
 																			</div>

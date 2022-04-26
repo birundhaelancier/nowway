@@ -66,7 +66,7 @@ import moment from 'moment'
   },[ViewCarts])
 
   const options = {
-    key: 'rzp_test_cDBuRdcX87VjyC',
+    key: 'rzp_live_ApPVCvIUh5z0pv',
     amount:ViewCarts && ViewCarts[0]?.total*100, //  = INR 1
     name: 'Now Way',
     description: 'Pay Money',
@@ -115,7 +115,7 @@ const HandleSubmit=(data,formValues)=>{
     <div>
       {!continuepay && !payment ? (
         <>
-        {Products.length>0&& <div className="service_pay_parent">
+        {Products.length>0 && <div className="service_pay2_parent">
             <img
               src={publicUrl + "assets/img/winner.jpg"}
               style={{ width: "38px" }}
@@ -166,8 +166,6 @@ const HandleSubmit=(data,formValues)=>{
                         aria-hidden="true"
                       ></i> */}
                       <div dangerouslySetInnerHTML={{__html:data.description}}></div>
-
-
                       </>
                       :""}
                     </span>
@@ -217,7 +215,6 @@ const HandleSubmit=(data,formValues)=>{
           <div>
             <h5 style={{ margin: "10px 0px" }}>My Requirements</h5>
             {ViewCarts && ViewCarts.map((res)=>{
-           
              return(
                <>
                {res.details.map((data,index)=>{
@@ -263,8 +260,8 @@ const HandleSubmit=(data,formValues)=>{
                 <label>₹{data.sub_total}</label>
               </div>
               <div>
-                {/* <label>Discounts</label>
-                <label>₹{data.nwcash}</label> */}
+                <label>Convenience Charge</label>
+                <label>₹ +{data.conv_charge}</label> 
               </div>
               <div>
                 <label>NWcash Discount</label>
@@ -279,7 +276,7 @@ const HandleSubmit=(data,formValues)=>{
             </div>
             )}
 
-            <div className="service_pay_parent">
+            <div className="service_pay2_parent">
               <img
                 src={publicUrl + "assets/img/winner.jpg"}
                 style={{ width: "38px" }}

@@ -1,3 +1,4 @@
+
 import React, { Component, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import parse from 'html-react-parser';
@@ -248,10 +249,10 @@ const ServiceDetails = ({ sub_services, ser_image,service,ServiceCart,ser_id }) 
 					</div>
 				</div>
 			</div>
-			<Modal show={isModalVisible} width={service==1?600:800} modelTitle={
+			<Modal show={isModalVisible} width={service==1?600:800}  modalchanges={"service_modal"} modelTitle={
 				<div className='modal_title_div'>
 		         	<span>{sub_serv?.name}</span> 
-					 {service==1&&ServiceCart.length>0 && <span  style={{textAlign:"center",paddingLeft:"20px"}}>
+					 {service===1&&ServiceCart.length>0 && <span  style={{textAlign:"center",paddingLeft:"20px"}}>
                        <div className="cash_style">₹{ServiceCart && ServiceCart[0]?.nwcash}</div>
                        <img src={publicUrl + "assets/img/cash.png"} style={{width:"20px",height:"20px",marginTop:"-12px"}} />
 				    </span>}

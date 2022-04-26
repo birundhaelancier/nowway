@@ -3,7 +3,10 @@ import { Link } from 'react-router-dom';
 import parse from 'html-react-parser';
 import Slider from "react-slick";
 import MediaComp from '../section-components/Loading'
-
+import MagicSliderDots from 'react-magic-slider-dots';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import 'react-magic-slider-dots/dist/magic-dots.css';
 const Advertisement = ({ home_offers }) => {
     let publicUrl = process.env.PUBLIC_URL + '/'
     const [slideNumber, setSlideNumber] = useState(3)
@@ -14,7 +17,20 @@ const Advertisement = ({ home_offers }) => {
         speed: 500,
         slidesToShow: slideNumber,
         slidesToScroll: 1,
+        appendDots: (dots) => {
+            return <MagicSliderDots dots={dots} numDotsToShow={5} dotWidth={30} />
+          },
+        responsive: [
+           {
+            breakpoint: 480,
+            settings: {
+                arrows:false,
+                dots:true
+            }
+          }
+        ]
     };
+   
     useEffect(() => {
         if (window.innerWidth >= 550 && window.innerWidth <= 1000) {
             setSlideNumber(2)

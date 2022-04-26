@@ -14,11 +14,19 @@ const ProductSliderV4 = ({ list, callWish }) => {
 
   let publicUrl = process.env.PUBLIC_URL + '/'
   var settings = {
-    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: slideNumber,
     slidesToScroll: 1,
+    responsive: [
+      {
+       breakpoint: 480,
+       settings: {
+           arrows:false,
+           dots: true,
+       }
+     }
+   ]
   };
   useEffect(() => {
     if (window.innerWidth >= 550 && window.innerWidth <= 1000) {

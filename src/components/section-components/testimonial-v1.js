@@ -10,7 +10,8 @@ const Testimonial = ({ home_offers }) => {
 	let imagealt = 'image';
 	const [slideNumber, setSlideNumber] = useState(3)
 	var settings = {
-		dots: false,
+		arrows:false,
+		dots: true,
 		infinite: true,
 		speed: 500,
 		slidesToShow: slideNumber,
@@ -54,15 +55,7 @@ const Testimonial = ({ home_offers }) => {
 												<p><i className="flaticon-left-quote-1" />
 												{item.feedback}
 													</p>
-												{/* <div className="ltn__testimoni-info-inner">
-													<div className="ltn__testimoni-img">
-														<img src={publicUrl + "assets/img/testimonial/1.jpg"} alt="#" />
-													</div>
-													<div className="ltn__testimoni-name-designation">
-														<h5>Jacob William</h5>
-														<label>Selling Agents</label>
-													</div>
-												</div> */}
+												
 											</div>
 										</div>
 									</div>

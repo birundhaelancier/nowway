@@ -1,8 +1,19 @@
-import React, { Component } from 'react';
+import React, { Component,useEffect,useState } from 'react';
 import { Link } from 'react-router-dom';
 import parse from 'html-react-parser';
-
-const CategoryV1 = ({ amenities_val }) => {
+import { connect, useDispatch } from 'react-redux'
+import { GetAmenities } from '../../Redux/Action/allActions'
+const CategoryV1 = ({ Aminities }) => {
+	let dispatch=useDispatch()
+	const [amenities_val, setAmenities_val] = useState([])
+	useEffect(() => {
+        // dispatch(GetHomeList())
+        dispatch(GetAmenities())
+	},[])
+	useEffect(()=>{
+		// setHome_list(props.HomeList)
+		setAmenities_val(Aminities)
+	},[Aminities])
 	return (
 		<div className="ltn__category-area ltn__product-gutter section-bg-1--- pt-115 pb-90 go-top">
 			<div className="container">
@@ -107,4 +118,9 @@ const CategoryV1 = ({ amenities_val }) => {
 		</div>
 	)
 }
-export default CategoryV1
+const mapStateToProps = (state) =>
+({
+    // HomeList:state.AllReducer.HomeList.Response || [],
+    Aminities:state.AllReducer.Aminities.Response || [],
+});
+export default connect(mapStateToProps)(CategoryV1);

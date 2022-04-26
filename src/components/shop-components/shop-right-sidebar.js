@@ -66,7 +66,7 @@ const ShopGridV1 = (props) => {
 
   const removeWishlist = (id) => {
     RemoveWishlist(id).then((data) => {
-      if (data.Status == "Success") {
+      if (data.Status === "Success") {
         notification.success({
           message:"Removed Successfully"
         })

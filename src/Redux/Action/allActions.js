@@ -1,7 +1,8 @@
 import {
     PROPERTY_SEARCH,
     VIEW_SERVICE_CART,
-    ADD_CART_LIST
+    ADD_CART_LIST,
+    GET_AMINITIES
   
 } from '../Utils/constant';
 import { APIURL, REQUEST_HEADERS } from "../../components/apiActions/baseHeaders";
@@ -38,6 +39,7 @@ export const GetPropertyType_Search= (data,Search) => async dispatch =>{
     const Encription = CryptoJS.AES.encrypt(JSON.stringify({
     "property_type":data?.Property_Type  || data?.property?.toString() || "","amenities":Amenities || "","from_price":data?.PriceRange?.from || "","to_price":data?.PriceRange?.to || "","bedrooms":data?.Bed_Bath?.toString() || "","type":data?.Category || "","bathrooms":data?.Bathrooms?.toString() || "","user_id": 0,"search":Search || "","city":data?.city || ""
     }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
+    console.log(decryptValue(Encription))
     try {
         const requestOptions = {
             method: 'POST',
@@ -169,7 +171,7 @@ export const AddService_Cart = (data,qty) => async (dispatch) =>  {
     const Encription = CryptoJS.AES.encrypt(JSON.stringify({
     "login_id": JSON.parse(localStorage.getItem("user_id")), "name": values.name, "mobile": values.mobile, "place": values.place, "service":ser_id,
     "email":values.email,"inspect_date":moment(values.date).format("YYYY-MM-DD"),"time_slot":values.time,"address":values.address,"pincode":values.pincode,
-    "total_qty":cartdet.total_qty,"sub_total":cartdet.sub_total,"total_nw":cartdet.nwcash,"total":cartdet.total,"payment_id":pay_id,"payment_mode":"Razorpay","payment_status":status,
+    "total_qty":cartdet.total_qty,"sub_total":cartdet.sub_total,"total_nw":cartdet.nwcash,"total":cartdet.total,"payment_id":pay_id,"payment_mode":"Razorpay","payment_status":status,"conv_charge":cartdet.conv_charge || "",
     "details":ArrayData
     }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
     console.log(decryptValue(Encription),"dfghjdsfghjfdgh")
@@ -206,4 +208,23 @@ export const AddService_Cart = (data,qty) => async (dispatch) =>  {
             text:"Something went wrong",
         })
     }
+}
+
+
+
+export const GetAmenities = () => async (dispatch)=> {
+    try {
+        const requestOptions = {
+            method: 'POST',
+            headers: REQUEST_HEADERS,
+        };
+        return fetch(APIURL + "amenities", requestOptions)
+            .then((response) => response.json())
+            .then((response) => {
+                dispatch({
+                    type: GET_AMINITIES,
+                    payload: decryptValue(response.encrypted)
+                })
+            });
+    } catch (err) { }
 }

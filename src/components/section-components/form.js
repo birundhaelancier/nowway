@@ -173,7 +173,7 @@ const Form = ({ sub_services, ser_image,sub_serv,HandleSubmit,pay_service,handle
 										<div className="row">
 
                                     <div className="col-md-6">
-										<div className="range_pick"><DatePicker  format="DD-MM-YYYY" value={values.date} onChange={(e) => handleChange(e,"date")}/></div>
+										<div className="range_pick"><DatePicker  format="DD-MM-YYYY" disabledDate={(current) => current.isBefore(moment())} value={values.date} onChange={(e) => handleChange(e,"date")}/></div>
 										</div>
 										<div className="col-md-6">
 										<div className="range_pick">

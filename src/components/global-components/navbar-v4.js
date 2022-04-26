@@ -4,9 +4,11 @@ import Social from "../section-components/social";
 import axios from "axios";
 import { GetWishlist } from "../apiActions/index";
 import Modal from "../Model";
+import { useLocation } from "react-router-dom";
 
 const NavbarV3 = ({ user, Wish_list }) => {
   const [login_id, setLogin_id] = useState();
+  let location=useLocation()
   let publicUrl = process.env.PUBLIC_URL + "/";
   let imgattr = "logo";
   let anchor = "#";
@@ -24,19 +26,19 @@ const NavbarV3 = ({ user, Wish_list }) => {
   }, [Wish_list]);
 
   useEffect(() => {
-    axios({
-      method: "POST",
-      url: "https://nowway.in/$panel/api/auth_login",
-      data: {
-        email: "nowway",
-        password: "12345678",
-      },
-    }).then((response) => {
-      localStorage.setItem(
-        "Token",
-        JSON.stringify(response.data.Response.token)
-      );
-    });
+    // axios({
+    //   method: "POST",
+    //   url: "https://nowway.in/$panel/api/auth_login",
+    //   data: {
+    //     email: "nowway",
+    //     password: "12345678",
+    //   },
+    // }).then((response) => {
+    //   localStorage.setItem(
+    //     "Token",
+    //     JSON.stringify(response.data.Response.token)
+    //   );
+    // });
     setLogin_id(JSON.parse(localStorage.getItem("user_id")));
   }, []);
 
@@ -246,14 +248,14 @@ const NavbarV3 = ({ user, Wish_list }) => {
                         )}
                         {!login_id && (
                           <li className="signbtn">
-                            <Link to="/login"> Sign in</Link>
+                            <Link to="/login"> SIGN IN</Link>
                           </li>
                         )}
-                        {!login_id && (
+                        {/* {!login_id && (
                           <li className="signup">
                             <Link to="/register">/ Sign up</Link>
                           </li>
-                        )}
+                        )} */}
                         {login_id && (
                           <li>
                             <Link to={`/login?edit=${"user_id"}`}>
@@ -316,14 +318,14 @@ const NavbarV3 = ({ user, Wish_list }) => {
 
                 {!login_id && (
                   <li className="signbtn">
-                    <Link to="/login"> Sign in</Link>
+                    <Link to="/login"> SIGN IN</Link>
                   </li>
                 )}
-                {!login_id && (
+                {/* {!login_id && (
                   <li className="signup">
                     <Link to="/register">/ Sign up</Link>
                   </li>
-                )}
+                )} */}
                 {login_id && (
                   <li>
                     <Link> <label onClick={()=>{localStorage.clear();history.push("/login")}}>Sign out</label></Link>

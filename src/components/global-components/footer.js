@@ -90,7 +90,7 @@ import { FooterTags } from '../apiActions'
 													<i className="icon-call" />
 												</div>
 												<div className="footer-address-info">
-													<p>+91 7010143257</p>
+													<p>+91 8248699623</p>
 												</div>
 											</li>
 											<li>
@@ -143,6 +143,7 @@ import { FooterTags } from '../apiActions'
 										<li><Link to="/terms">Terms &amp; Conditions</Link></li>
 						                {/* <li><Link to="/refund">Refund Policy</Link></li> */}
 						                <li><Link to="/policy">Privacy &amp; Policy</Link></li>
+										<li><Link to="/aboutus">About Us</Link></li>
 											{/* <li><Link to="/add-listing">Add listing</Link></li>
 				                <li><Link to="/faq">FAQ</Link></li>
 				                <li><Link to="/contact">Contact us</Link></li> */}

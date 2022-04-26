@@ -31,21 +31,28 @@ const ShopDetails = ({ ProductInfo, RelatedProducts, TopCategory }) => {
     setPro_details(ProductInfo);
   }, [ProductInfo]);
   let publicUrl = process.env.PUBLIC_URL + "/";
-  const AddContact = (id) => {
+  const AddContact = (id,limit,contact) => {
     if (JSON.parse(localStorage.getItem("user_id"))) {
-      Add_ContactDetails(id).then((res) => {
-        if (res.Status === "Success") {
-          setIsModalVisible(false);
-          Swal.fire({
-            title: 'Success!',
-            icon: 'success',
-            text: "Successfully added",
-            timer: 4000,
-            showConfirmButton: false,
-          })
-		  window.location.reload()
-        }
-      });
+      if(limit>=contact){
+        Add_ContactDetails(id).then((res) => {
+          if (res.Status === "Success") {
+            setIsModalVisible(false);
+            Swal.fire({
+              title: 'Success!',
+              icon: 'success',
+              text: "Successfully added",
+            })
+        window.location.reload()
+          }
+        });
+      }else{
+        Swal.fire({
+          title: 'Warning!',
+          icon: 'warning',
+          text: "Maximum limit reached today",
+        })
+      }
+     
     } else {
       history.push("/login");
     }
@@ -134,7 +141,6 @@ useEffect(()=>{
 },[Wish_list,Contact_list])
 
 const GetContact=(id)=>{
- 
   if(JSON.parse(localStorage.getItem("user_id"))){
     if(Contact_list.includes(id)){
       setIsModalVisible(false)
@@ -152,7 +158,7 @@ GetProductDetails(Product_id).then((data) => {
 }
 const PropertyIssue=(id,value,report)=>{
   if(JSON.parse(localStorage.getItem("user_id"))){
-    if(report!=""){
+    if(report!==""){
       Swal.fire({
         title: 'Success!',
         icon: 'success',
@@ -269,6 +275,7 @@ console.log("pro_details",pro_details)
                 <Modal
                   show={isModalVisible}
                   modelTitle={"Owner Contact Details"}
+                  width={700}
                   handleClose={() => setIsModalVisible(false)}
                 >
                
@@ -278,20 +285,24 @@ console.log("pro_details",pro_details)
                       <div className="row">
                         <div className="col-lg-12 custom-model">
                           <div className="phone-info">
-                            Owner Details send to your{" "}
-                            {profileDetails[0]?.mobile}
+                          Thank you for your interest. Owner contact will be send shortly<br/>
+                          For Support contact:+91 8248699623<br/>
+                          For mail : contact@nowway.in<br/>
+                          Please visit : <a href={"https://nowway.in"}>http://nowway.in</a><br/>
+                          Download our app in playstore :<a href={"https://cutt.ly/XF4rplE"}>http://cutt.ly/XF4rplE</a>
+                            {/* {profileDetails[0]?.mobile} */}
                           </div>
-                          <div className="phone-mail">
+                          {/* <div className="phone-mail">
                             and {profileDetails[0]?.email}
-                          </div>
+                          </div> */}
                           <div className="owner-btn-show">
                             {Contact_list.includes(data.id)?
-							<button className="messegeBtn"  >
-							Contacted
-						  </button>:
-							<button
+							        <button className="messegeBtn"  >
+					          		Contacted
+						         </button>:
+						        	<button
                               className="messegeBtn"
-                              onClick={() => AddContact(data.id)}
+                              onClick={() => AddContact(data.id,data.contact_limit,data.contacted)}
                             >
                              Got it
                             </button>}

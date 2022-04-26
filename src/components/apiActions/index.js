@@ -3,6 +3,7 @@ import { APIURL, REQUEST_HEADERS } from "./baseHeaders";
 import axios from 'axios';
 import CryptoJS from 'crypto-js'
 import { notification } from 'antd'
+import { VIEW_HOME_LIST } from '../../Redux/Utils/constant'
 var CryptoJSAesJson = {
     stringify: function (cipherParams) {
         var j = { ct: cipherParams.ciphertext.toString(CryptoJS.enc.Base64) };
@@ -77,7 +78,6 @@ export const onLogin = (values,type) => {
             headers: REQUEST_HEADERS,
             body: JSON.stringify({ encrypted: Encription }),
         };
-        console.log(decryptValue(Encription),"dddddddddd")
 
         return fetch(APIURL + "cuslogin", requestOptions)
             .then((response) => response.json())
@@ -87,11 +87,12 @@ export const onLogin = (values,type) => {
     } catch (err) { }
 }
 
-export const onRegister = (values) => {
+export const onRegister = (values,userid) => {
     try {
         const Encription = CryptoJS.AES.encrypt(JSON.stringify({
-            "name": values.name, "mobile": values.mobile, "email": values.email, "password": values.password
+            "name": values.name, "mobile": values.mobile, "email": values.email,"user_id":userid || 0
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
+        console.log(decryptValue(Encription))
         const requestOptions = {
             method: 'POST',
             headers: REQUEST_HEADERS,
@@ -109,7 +110,7 @@ export const onRegister = (values) => {
 export const GetOtp = (values,type) => {
     try {
         const Encription = CryptoJS.AES.encrypt(JSON.stringify({
-            "mobile": values.mobile,"type":type
+            "mobile": values.mobile,
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
         const requestOptions = {
             method: 'POST',
@@ -350,8 +351,9 @@ export const InsertListing = (list, checkList,Type,property_id) => {
 
     Media.set("user_id",JSON.parse(localStorage.getItem("user_id")))
     checkList.length>0? 
-    Array.from(checkList).forEach(image => {
-        Media.append("images"+"[]",image || "")
+    checkList.forEach(image => {
+        // console.log("fghj",image)
+        Media.append("images"+"[]",image.originFileObj || "")
     })
     : Media.append("images"+"[]","")
     Media.set("ptype",Type)
@@ -388,7 +390,8 @@ export const InsertListing = (list, checkList,Type,property_id) => {
 
 
 
-export const GetProductDetails = (values) => {
+export const GetProductDetails = (values,type) => {
+    let Url=type==="own"?"get_my_property":"get_property"
     try {
         const Encription = CryptoJS.AES.encrypt(JSON.stringify({
             "property_id": values, "user_id": JSON.parse(localStorage.getItem("user_id")) || 0
@@ -398,7 +401,7 @@ export const GetProductDetails = (values) => {
             headers: REQUEST_HEADERS,
             body: JSON.stringify({ encrypted: Encription }),
         };
-        return fetch(APIURL + "get_property", requestOptions)
+        return fetch(APIURL + Url, requestOptions)
             .then((response) => response.json())
             .then((response) => {
                 return decryptValue(response.encrypted)
@@ -420,7 +423,7 @@ export const GetHomeOffer = () => {
     } catch (err) { }
 }
 
-export const GetHomeList = () => {
+export const GetHomeList = () => async (dispatch)=> {
     try {
         const Encription = CryptoJS.AES.encrypt(JSON.stringify({
             "user_id": JSON.parse(localStorage.getItem("user_id")) ? JSON.parse(localStorage.getItem("user_id")) : 0
@@ -434,7 +437,11 @@ export const GetHomeList = () => {
         return fetch(APIURL + "home_listing", requestOptions)
             .then((response) => response.json())
             .then((response) => {
-                return decryptValue(response.encrypted)
+                // return decryptValue(response.encrypted)
+                dispatch({
+                    type: VIEW_HOME_LIST,
+                    payload: decryptValue(response.encrypted)
+                })
             });
     } catch (err) { }
 }
@@ -765,6 +772,7 @@ export const GetServiceEnquiry = () => {
             headers: REQUEST_HEADERS,
             body: JSON.stringify({ encrypted: Encription }),
         };
+        console.log("dddddddddddddd",Encription)
         return fetch(APIURL + "enquiry_list", requestOptions)
             .then((response) => response.json())
             .then((response) => {

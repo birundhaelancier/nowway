@@ -11,6 +11,7 @@ import CryptoJS from 'crypto-js'
 import ValidationLibrary from '../validationfunction'
 import { useHistory,useParams } from 'react-router-dom';
 import Swal from 'sweetalert2'
+import MediaComp from './MediaUpload'
 var CryptoJSAesJson = {
     stringify: function (cipherParams) {
         var j = { ct: cipherParams.ciphertext.toString(CryptoJS.enc.Base64) };
@@ -38,12 +39,12 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
     const { id } =useParams()
     let history=useHistory()
     const initialValues={
-        price:{value:"",validation:[],error: null,errmsg: null},
-        description:{value:"",validation:[],error: null,errmsg: null},
-        title:{value:"",validation:[],error: null,errmsg: null},
-        types:{value:"",validation:[],error: null,errmsg: null},
-        propertyType:{value:"",validation:[],error: null,errmsg: null},
-        floors: {value:"",validation:[],error: null,errmsg: null},
+         price:{value:"",validation:[],error: null,errmsg: null},
+         description:{value:"",validation:[],error: null,errmsg: null},
+         title:{value:"",validation:[],error: null,errmsg: null},
+         types:{value:"",validation:[],error: null,errmsg: null},
+         propertyType:{value:"",validation:[],error: null,errmsg: null},
+         floors: {value:"",validation:[],error: null,errmsg: null},
          owner_note: {value:"",validation:[],error: null,errmsg: null},
          bhk_type: {value:"",validation:[],error: null,errmsg: null},
          tenants:{value:"",validation:[],error: null,errmsg: null},
@@ -97,7 +98,6 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
         } else if (type === "files") {
           
             let file = e.target.files;
-            setCheckList(file)
          
         } else {
             var errorcheck = ValidationLibrary.checkValidation(
@@ -128,7 +128,28 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
             name: "Sell",
             id: 2,
         },
+        {
+            name: "Lease",
+            id: 3,
+        },
+        {
+            name: "Resale",
+            id: 4,
+        },
+        {
+            name: "Pg Hostel",
+            id: 5,
+        },
+        {
+            name: "Sale commercial",
+            id: 6,
+        },
+        {
+            name: "Rent commericial",
+            id: 7,
+        },
     ];
+
     const handleCancel = () => {
         Object.keys(initialValues).map((data) => {
             listValues[data] = ""
@@ -143,7 +164,7 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
    })
    let i;
    let floor=[]
-   for(i=1;i<=10;i++){
+   for(i=1;i<=20;i++){
     floor.push({id:i,name:i})
    }
    setFloors(floor)
@@ -160,6 +181,7 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
   useEffect(()=>{
     GetListings_Data().then((res)=>{
         const Data=res.Response
+        console.log(res,"response")
         listValues.bhk_type.value=Data.bhk_type || Property_List.bhk_type || ""
         listValues.floors.value=Data.floors || Property_List.floors || ""
         listValues.price.value=Data.price || Property_List.price || ""
@@ -169,13 +191,14 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
         listValues.address.value=Data.address || Property_List.address || ""
         listValues.facing.value=Data.facing || Property_List.facing || ""
         listValues.size.value=Data.sq_ft || Property_List.sq_ft || ""
-        listValues.propertyType.value=Data.property_type || Property_List.property_type || ""
+        listValues.propertyType.value=Data.type || Property_List.type || ""
         listValues.city.value=Data.city || Property_List.city || ""
-        listValues.types.value=Data.type || Property_List.type || ""  
+        listValues.types.value=Data.property_type || Property_List.property_type || ""  
         setListValues((prevState) => ({
         ...prevState,
         }));
         })
+       
   },[Property_List])
 
     const ChangeContinue=(key,value)=>{
@@ -226,10 +249,13 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
 }else{
     InsertListing(listValues, checkList,Type,property_id).then((data) => {
         if (data.Status === "Success") {
-            type==="submit"&&Swal.fire({
+            type==="submit"&&
+            Swal.fire({
                 title: 'Success!',
                 icon: 'success',
-                text: data.Message,
+                customClass:"custom_sweetalert",
+                html: 
+                '<div className="child_cont"><p>Congratulations<p>Thank you for Registering in Nowway.You have successfully Posted your property, it will be live Within 12 Hrs.For Any queries call : 8248699623 For mail : <a href="https://nowway.in">contact@nowway.in</a>  Download our app in playstore : (<a href="https://play.google.com/store/apps/details?id=com.nowwayreact">http://cutt.ly/XF4rplE</a>)  Visit anytime our website :<a href="https://nowway.in"> http://nowway.in</a></div></div>'
             })
             setproperty_id(id?id:data.Response.property_id)
             setType(type)
@@ -250,8 +276,10 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
         ...prevState,
     }));
 }
-
-console.log("listValues",Property_List)
+const MediaUpload=({fileList})=>{
+    console.log("listValues",fileList)
+    setCheckList([...fileList])
+}
 
     return (
         <div className="ltn__appointment-area pb-120">
@@ -271,7 +299,7 @@ console.log("listValues",Property_List)
                                    <div className="col-md-6">
                                    <h6>Select City</h6>
                                         <div className="input-item custom_sel">
-                                            <SelectInput required dropdown={Location} placeholder={"City"} value={listValues.city.value} changeData={(data) => handleChange(data, "city","select")} 
+                                            <SelectInput required dropdown={Location} value={listValues.city.value} changeData={(data) => handleChange(data, "city","select")} 
                                             error={listValues.city.error}
                                             errmsg={listValues.city.errmsg}
                                             />
@@ -280,7 +308,7 @@ console.log("listValues",Property_List)
                                     <div className="col-md-6">
                                        <h6>Select Categories</h6>
                                         <div className="input-item custom_sel">
-                                            <SelectInput required dropdown={options} placeholder={"Category"} value={listValues.propertyType.value} changeData={(data) => handleChange(data, "propertyType","select")} 
+                                            <SelectInput required dropdown={options} value={listValues.propertyType.value} changeData={(data) => handleChange(data, "propertyType","select")} 
                                              error={listValues.propertyType.error}
                                              errmsg={listValues.propertyType.errmsg}/>
                                         </div>
@@ -326,7 +354,7 @@ console.log("listValues",Property_List)
                                     <h6>Select Apartment Type</h6>
 
                                         <div className="input-item custom_sel">
-                                            <SelectInput required dropdown={property_type} placeholder={"Apartment Type"} value={listValues.types.value} changeData={(data) => handleChange(data, "types", "select")} 
+                                            <SelectInput required dropdown={property_type}  value={listValues.types.value} changeData={(data) => handleChange(data, "types", "select")} 
                                             error={listValues.types.error}
                                             errmsg={listValues.types.errmsg}
                                             />
@@ -353,7 +381,7 @@ console.log("listValues",Property_List)
                                     <div className="col-md-6">
                                     <h6>Select BHK Type</h6>
                                         <div className="input-item">
-                                            <SelectInput required dropdown={floor_type} placeholder={"BHK Type"} value={listValues.bhk_type.value} changeData={(data) => handleChange(data,  "bhk_type","select",)} 
+                                            <SelectInput required dropdown={floor_type} value={listValues.bhk_type.value} changeData={(data) => handleChange(data,  "bhk_type","select",)} 
                                             error={listValues.bhk_type.error}
                                             errmsg={listValues.bhk_type.errmsg}/>
                                         </div> 
@@ -362,15 +390,15 @@ console.log("listValues",Property_List)
                                     <div className="col-md-6">
                                     <h6>Select Floors No</h6>
                                         <div className="input-item">
-                                            <SelectInput required dropdown={Floors} placeholder={"Floors No"} value={listValues.floors.value} changeData={(data) => handleChange(data,  "floors","select",)} 
+                                            <SelectInput required dropdown={Floors}  value={listValues.floors.value} changeData={(data) => handleChange(data,  "floors","select",)} 
                                             error={listValues.floors.error}
                                             errmsg={listValues.floors.errmsg}/>
                                         </div> 
                                     </div>
                                     <div className="col-md-6 mb-3">
-                                    <h6>Price</h6>
+                                    <h6>Price/Monthly Rent</h6>
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input  type="text" className='input_field' required name={"price"} value={listValues.price.value} onChange={(e) => handleChange(e.target.value,"price")} placeholder="Price Range" />
+                                            <input  type="text"  className={listValues.size.errmsg?'input_field':"input_field2"} required name={"price"} value={listValues.price.value} onChange={(e) => handleChange(e.target.value,"price")} />
                                             <div className='Errormsg'>{listValues.price.errmsg}</div>
                                         </div>
                                     </div>
@@ -378,7 +406,7 @@ console.log("listValues",Property_List)
                                     <div className="col-md-6">
                                     <h6>Monthly  Maintenance</h6>
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input  type="text"  className='input_field'  required name={"maintence"} value={listValues.maintenance.value} onChange={(e) => handleChange(e.target.value,"maintenance")} placeholder="Monthly  Maintenance " />
+                                            <input  type="text"  className={listValues.size.errmsg?'input_field':"input_field2"}  required name={"maintence"} value={listValues.maintenance.value} onChange={(e) => handleChange(e.target.value,"maintenance")} />
                                             <div className='Errormsg'>{listValues.maintenance.errmsg}</div>
                                         </div>
                                     </div>
@@ -386,7 +414,7 @@ console.log("listValues",Property_List)
                                     <div className="col-md-6">
                                     <h6>Carpet Area in Sq/ft</h6>
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input  type="number"  className='input_field'  required name={"size"} value={listValues.size.value} onChange={(e) => handleChange(e.target.value,"size")} placeholder="Carpet Area in Sq/ft " />
+                                            <input  type="number" className={listValues.size.errmsg?'input_field':"input_field2"}     required name={"size"} value={listValues.size.value} onChange={(e) => handleChange(e.target.value,"size")}  />
                                             <div className='Errormsg'>{listValues.size.errmsg}</div>
                                         
                                         </div>
@@ -394,7 +422,7 @@ console.log("listValues",Property_List)
                                     <div className="col-md-6">
                                     <h6>Negotiable</h6>
                                         <div className="input-item custom_sel">
-                                            <SelectInput required dropdown={[{id:1,name:"Yes"},{id:2,name:"No"}]} placeholder={"Negotiable"} value={listValues.negotiate.value} changeData={(data) => handleChange(data, "negotiate","select")} 
+                                            <SelectInput required dropdown={[{id:1,name:"Yes"},{id:2,name:"No"}]}  value={listValues.negotiate.value} changeData={(data) => handleChange(data, "negotiate","select")} 
                                             error={listValues.negotiate.error}
                                             errmsg={listValues.negotiate.errmsg}
                                             />
@@ -473,36 +501,37 @@ console.log("listValues",Property_List)
                                
                                 {/* <h6>Property Description</h6> */}
                                 <div className="row">
+                            
                                 <div className="col-md-6">
                                     <h6>Address Details</h6>
-                                    <div className="input-item input-item-name ltn__custom-icon">
-                                            <input className='input_field'  required type="text" name={"address"} value={listValues.address.value} onChange={(e) => handleChange(e.target.value,"address")} placeholder="Address Details" />
+                                    <div className="input-item input-item-textarea ltn__custom-icon">
+                                            <textarea className={listValues.address.errmsg?'input_field':"input_field2"}   required type="text" name={"address"} value={listValues.address.value} onChange={(e) => handleChange(e.target.value,"address")}  />
                                             <div className='Errormsg'>{listValues.address.errmsg}</div>
                                         </div>
                                     </div>    
-                                    <div className="col-md-6">
-                                    <h6>Facing</h6>
-                                        <div className="input-item custom_sel">
-                                            <SelectInput required dropdown={
-                                                 [{id:1,name:"East"},{id:2,name:"West"},{id:3,name:"South"},{id:4,name:"North"},{id:5,name:"North East"},
-                                                 {id:6,name:"South East"},{id:7,name:"North West"},{id:8,name:"South West"},{id:8,name:"No idea"}]
-                                            } placeholder={"Facing"} value={listValues.facing.value} changeData={(data) => handleChange(data, "facing","select")} 
-                                            error={listValues.facing.error}
-                                            errmsg={listValues.facing.errmsg}
-                                            />
-                                        </div> 
-                                    </div>
+                                
                                     <div className="col-md-6">
                                     <h6>Description</h6>
-                                        <div className="input-item input-item-textarea ltn__custom-icon" style={{marginBottom:"20px"}}>
-                                            <textarea  className='input_field'  required name={"description"} value={listValues.description.value} onChange={(e) => handleChange(e.target.value,"description")} placeholder="Description" defaultValue={""} 
+                                        <div className="input-item input-item-textarea ltn__custom-icon">
+                                            <textarea  className={listValues.description.errmsg?'input_field':"input_field2"}   required name={"description"} value={listValues.description.value} onChange={(e) => handleChange(e.target.value,"description")}  defaultValue={""} 
                                            />
                                              <div className='Errormsg'>{listValues.description.errmsg}</div>
                                         </div>
                                         
                                       
                                     </div>
-                                  
+                                    <div className="col-md-6">
+                                    <h6>Facing</h6>
+                                        <div className="input-item custom_sel">
+                                            <SelectInput required dropdown={
+                                                 [{id:1,name:"East"},{id:2,name:"West"},{id:3,name:"South"},{id:4,name:"North"},{id:5,name:"North East"},
+                                                 {id:6,name:"South East"},{id:7,name:"North West"},{id:8,name:"South West"},{id:8,name:"No idea"}]
+                                            }  value={listValues.facing.value} changeData={(data) => handleChange(data, "facing","select")} 
+                                            error={listValues.facing.error}
+                                            errmsg={listValues.facing.errmsg}
+                                            />
+                                        </div> 
+                                    </div>
                                 </div>
                                 </>
                                 }
@@ -549,14 +578,15 @@ console.log("listValues",Property_List)
                                <>
                                 <h2>4. Media</h2>
                                 <h6>Listing Media</h6>
-                                <div className='upload_file_change'>
+                                {/* <div className='upload_file_change'>
                                 <input type="file" id="myFile"  multiple name="images" className="btn theme-btn-3 mb-10"
                                     // value={selectedFile} 
                                     onChange={(e) => handleChange(e, "images","files")}
                                 />
                                {checkList.length>0 && <label style={{position:"absolute",left:"173px",top:"17px"}}>{checkList.length} files</label>}
                                </div>
-                                <br />
+                                <br /> */}
+                                <MediaComp fileList={checkList} handleChange={MediaUpload}/>
                                 <p>
                                     <small>* Maximum 10 images is for a valid submission.Minimum size is 500/500px.</small><br />
                                     <small>* PDF files upload supported as well.</small><br />
@@ -578,7 +608,7 @@ console.log("listValues",Property_List)
                                 {Type==="Features" &&
                                <>   
                                 <h2>3.Features</h2>
-                                <div className="row">
+                                <div className="row features_par">
                                 {/* <div className="col-md-4">
                                 <h6 className="mt-20">BHK Type</h6>
 
@@ -602,7 +632,7 @@ console.log("listValues",Property_List)
                                     </div> */}
                               
                                 <div className="col-md-4">
-                                <h6 className="mt-20 mb-10">Preferred Tenants</h6>
+                                <h5 className="mt-20 mb-14">Preferred Tenants</h5>
                                 <div className="checkbox-view">
                                     {prefered_type.map((data, index) => {
                                         return (
@@ -618,7 +648,7 @@ console.log("listValues",Property_List)
                                 </div>
                                 </div>
                                 <div className="col-md-4">
-                                <h6 className="mt-20">Furnishing</h6>
+                                <h5 className="mt-20 mb-14">Furnishing</h5>
                                 <div className="checkbox-view">
                                     {furnishing_type.map((data, index) => {
                                         return (
@@ -633,7 +663,7 @@ console.log("listValues",Property_List)
                                 </div>
                                 </div>
                                 <div className="col-md-4">
-                                <h6  className="mt-20 mb-10">Parking</h6>
+                                <h5  className="mt-20 mb-14">Parking</h5>
                                 <div className="checkbox-view">
                                     {parking_type.map((data, index) => {
                                         return (
@@ -648,7 +678,7 @@ console.log("listValues",Property_List)
                                 </div>
                                 </div>
                                 <div className="col-md-4">
-                                <h6 className="mt-20 mb-10">Bathroom</h6>
+                                <h5 className="mt-20 mb-14">Bathroom</h5>
                                 <div className="checkbox-view">
                                     {bathroom_type.map((data, index) => {
                                         return (
@@ -661,7 +691,7 @@ console.log("listValues",Property_List)
                                                         // defaultChecked={index === 0}
                                                         onChange={() => handleChange(data.name, "bathroom","radio",)}
                                                     />
-                                                    <span className="checkmark"  >{data.name}</span>
+                                                    <span className="checkmark">{data.name}</span>
                                                 </label>
                                             </div>
                                         )
@@ -669,7 +699,7 @@ console.log("listValues",Property_List)
                                 </div>
                                 </div>
                                 <div className="col-md-4">
-                                <h6 className="mt-20 mb-10">Availability</h6>
+                                <h5 className="mt-20 mb-14">Availability</h5>
                                 <div className="checkbox-view check_second">
                                     {available.map((data, index) => {
                                         return (
@@ -682,7 +712,7 @@ console.log("listValues",Property_List)
                                                         // defaultChecked={index === 0}
                                                         onChange={() => handleChange(data.name,"availability", "radio")}
                                                     />
-                                                    <span className="checkmark"  >{data.name}</span>
+                                                    <span className="checkmark">{data.name}</span>
                                                 </label>
                                             </div>
                                         )
@@ -690,7 +720,7 @@ console.log("listValues",Property_List)
                                 </div>
                                 </div>
                                 <div className="col-md-4">
-                                <h6 className="mt-20 mb-10">Amenities</h6>
+                                <h5 className="mt-20 mb-14">Amenities</h5>
                                 <div className="checkbox-view">
                                     {amenities.map((data, index) => {
                                         return (

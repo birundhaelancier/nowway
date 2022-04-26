@@ -1,6 +1,7 @@
 export const APIURL ="https://nowway.in/$panel/api/";
 export const REQUEST_HEADERS = {
     Authorization: 'Bearer' + JSON.parse(localStorage.getItem("Token")),
+
     
     // 'Access-Control-Allow-Origin': '*',
     // " Content-Length": 0,
@@ -10,4 +11,5 @@ export const REQUEST_HEADERS = {
     // "Accept-Encoding": "gzip, deflate, br",
     // "Connection": "keep-alive"
 }
+console.log(JSON.parse(localStorage.getItem("Token")),"ggggggg")
 

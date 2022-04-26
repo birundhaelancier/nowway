@@ -959,8 +959,11 @@ input[type="password"] {
 
 textarea {
   resize: vertical;
-  padding: 15px 20px;
-  min-height: 150px; }
+  padding: 10px 20px;
+  min-height: 150px; 
+  line-height: 1.5 !important;
+  font-weight: 500;
+}
 
 button {
   outline: none;
@@ -9816,7 +9819,7 @@ margin-bottom: 15px; }
   }
   .btn-wrapper {
     display: block !important;
-    margin: 10px !important;
+    /* margin: 10px !important; */
   }
   .footer-newsletter .btn-wrapper {
     display: block !important;
@@ -15695,6 +15698,7 @@ justify-content: center;}
 }.phone-info{
   color: #000;
   font-size: 17px;
+  line-height: 2.5;
 }.phone-mail{
   color: gray;
   font-size: 17px;
@@ -15738,6 +15742,8 @@ justify-content: center;}
 }
 .service_img{
   width: 70%;
+  height:183px;
+  object-fit: cover;
 }
 .checkbox-view{
   display: flex;
@@ -15751,6 +15757,13 @@ justify-content: center;}
 }
 .checkbox-Data{
   margin-left: 10px;
+  font-size: 15px;
+}
+.checkmark{
+  font-size: 15px;
+}
+.features_par h5{
+  font-weight: 600;
 }
 /* Hide Calendar Icon In Chrome */
 input[type="date"]::-webkit-inner-spin-button,
@@ -15815,7 +15828,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   
 }
 .uploads input[type='file'] {
-  color: transparent;
+  color: transparent !important;
+  display: none;
 }
 .filecontainer {
   display: flex;
@@ -15823,12 +15837,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .uploads {
-  width: 155px;
+  /* width: 155px; */
+  position: relative;
 }
 
 .uploadimage {
   height: 150px;
-  width: 100%;
+  width: 155px;
   border-radius: 50%;
   box-shadow: 1px 1px 10px rgb(62 62 62 / 20%)
 }
@@ -15955,9 +15970,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 } */
 
 .uploadBtn{
-  display: flex;
-  align-items: end;
-  font-size: large;
+  position: absolute;
+  right: -25px;
+  bottom: -7px;
+  font-size: small;
   color: #ec4249;
 }
 .uploadBtn i{
@@ -16004,12 +16020,22 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   margin: 0px 5px;
 }
 
-@media only screen and (min-width: 320px) and (max-width: 480px)  {
+@media only screen and (min-width: 270px) and (max-width: 480px)  {
 .wrap-reverse{
   flex-wrap: wrap;
 }
 .ltn__shop-options{
   margin-top: 20px;
+}
+.service_img{
+  width:100%;
+}
+.ltn__car-dealer-form-box .sel_parent .ant-select{
+  width:100% !important;
+}
+.account-login2-inner .otp_input_div input{
+  width: 10vw !important;
+  height: 10vw !important;
 }
 .ltn__tab-menu-list .nav a{
   font-size: 20px !important;
@@ -16065,9 +16091,7 @@ font-size: 18px !important;
   font-size: 20px;
   font-weight: 500;
 }
-.sel_parent .ant-select-single:not(.ant-select-customize-input) .ant-select-selector{
-  width:100% !important;
-}
+
 .side-btn-show{font-size: 22px;}
 .ltn__testimonial-item-7{
   height: auto;
@@ -16124,7 +16148,7 @@ font-size: 18px !important;
   height:60px !important;
 } 
 .custom_change .ant-select{
-  border: 1px solid  #ccc !important;
+  /* border: 1px solid  #ccc !important; */
   /* border-color: #e4ecf2 !important; */
 }
 
@@ -16141,6 +16165,9 @@ font-size: 18px !important;
 .input_field{
   border: 1px solid  #ccc !important;
   margin-bottom: 0px !important;
+}
+.input_field2{
+  margin-bottom: 15px !important;
 }
 body{
   font-family: 'Montserrat' !important;font-size: 22px;
@@ -16203,8 +16230,8 @@ input[type='file'] {
   /* background-color: #8ab74e !important; */
 }
 
-.sel_parent .ant-select-single:not(.ant-select-customize-input) .ant-select-selector{
-  width:200px !important;
+.ltn__car-dealer-form-box .sel_parent .ant-select{
+  width:200px;
 }
 
 .option{
@@ -16244,6 +16271,50 @@ textarea::-webkit-input-placeholder {
   font-weight: 500 !important;
 }
 
-custom_sel{
 
+.swal2-container{
+  z-index: 30000 !important;
+}
+.term__child{
+  white-space: pre-wrap;
+  word-wrap: break-word;   
+}
+.service_modal .ant-modal-body{
+height: 500px;
+overflow: auto;
+}
+
+.otp_input_div{
+  margin-bottom: 30px;
+}
+
+.mob_field{
+  /* margin-bottom: px !important; */
+}
+.account-login2-inner .otp_input_div input{
+  padding-right: 0px;
+  height: 55px;
+  margin-bottom: 0;
+  padding-left: 0;
+  border: 1px solid var(--border-color-9);
+  width:100% ;
+}
+.account-login2-inner .otp_input_div input:focus{
+border-color: var(--ltn__secondary-color);
+}
+
+@media only screen and (min-width: 481px) and (max-width: 2000px)  {
+  .account-login2-inner .otp_input input{
+    width:55px !important;
+  }
+}
+
+
+
+.custom_sweetalert p{
+    line-height: 2;
+    font-weight: 500;
+}
+.custom_sweetalert {
+  line-height: 2;
 }

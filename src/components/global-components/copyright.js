@@ -21,7 +21,7 @@ class CopyRight extends Component {
 					<ul className="go-top">
 						{/* <li><Link to="/terms">Terms &amp; Conditions</Link></li> */}
 						{/* <li><Link to="/refund">Refund Policy</Link></li> */}
-						<li><Link to="/aboutus" style={{color:"#fff"}}>About Us</Link></li>
+						{/* <li><Link to="/aboutus" style={{color:"#fff"}}>About Us</Link></li> */}
 					</ul>
 					</div>
 				</div>

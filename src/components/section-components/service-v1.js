@@ -4,7 +4,6 @@ import parse from 'html-react-parser';
 import MediaComp from '../section-components/Loading'
 const ServiceV5 = ({ service }) => {
 	let publicUrl = process.env.PUBLIC_URL + '/'
-	console.log(service,"service")
 	return (
 		<div className="ltn__service-area section-bg-1 pt-115 pb-70 go-top">
 			<div className="container">
@@ -27,7 +26,7 @@ const ServiceV5 = ({ service }) => {
 									</div>
 									<div className="ltn__feature-info">
 										<Link to={`/service-details?edit=${data.id}&&image=${data.image}&&ser_name=${data.name}&&service=${data.service}`}><h3 style={{color:"#333"}}>{data.name}</h3></Link>
-										<p>{data.description}</p>
+										<p  dangerouslySetInnerHTML={{__html:data.description}}></p>
 									</div>
 								</div>
 							</div>

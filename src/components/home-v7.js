@@ -13,9 +13,12 @@ import ServiceV1 from './section-components/service-v1';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
-import { GetPropertyType, GetLocations, GetAmenities, GetHomeOffer, GetHomeList,GetServiceDetails } from '../components/apiActions/index';
+import { connect, useDispatch } from 'react-redux'
+import {  GetAmenities } from '../Redux/Action/allActions'
+import { GetPropertyType, GetLocations, GetHomeOffer, GetHomeList,GetServiceDetails } from '../components/apiActions/index';
 
 const Home_V7 = (props) => {
+    let dispatch=useDispatch()
     const params = new URLSearchParams(props.location.search);
     const EditText = params.get('edit');
     const myRef = useRef(null)
@@ -29,8 +32,15 @@ const Home_V7 = (props) => {
 
 
 
+useEffect(()=>{
+    setHome_list(props.HomeList)
+    setAmenities_val(props.Aminities)
+},[props.Aminities])
 
     useEffect(() => {
+        dispatch(GetHomeList())
+
+        dispatch(GetAmenities())
         myRef.current.scrollIntoView()
         GetPropertyType().then((data) => {
             setProperty_type(data.Response)
@@ -38,24 +48,23 @@ const Home_V7 = (props) => {
         GetLocations().then((data) => {
             setLocation(data.Response)
         })
-        GetAmenities().then((amenities_data) => {
-            setAmenities_val(amenities_data.Response)
-        })
+
         GetHomeOffer().then((data) => {
             setHome_offer(data.Response)
         })
-        GetHomeList().then((data) => {
-            setHome_list(data.Response)
-        })
+        // dispatch(GetHomeList()).then((data) => {
+        //     setHome_list(data.Response)
+        // })
         GetServiceDetails().then((data) => {
             setService(data.Response)
         })
-    }, [])
-
-    return <div>
-        <Navbar CustomClass="ltn__header-transparent gradient-color-2" Wish_list={Wish_list} />
-        <BannerV6 property_type={property_type} location={location} />
-        <ServiceV1 service={service}/>
+    }, [JSON.parse(localStorage.getItem("Token"))])
+console.log(props.HomeList)
+    return (
+    <div>
+         <Navbar CustomClass="ltn__header-transparent gradient-color-2" Wish_list={Wish_list} /> 
+         <BannerV6 property_type={property_type} location={location} />
+        <ServiceV1 service={service}/> 
         {/* <Aboutv2 /> */}
         <div ref={myRef}>
             <Advertisement home_offers={home_offers} />
@@ -68,7 +77,14 @@ const Home_V7 = (props) => {
         <CallToActionV1 />
         <Footer />
     </div>
+    )
 }
 
-export default Home_V7
 
+
+const mapStateToProps = (state) =>
+({
+    HomeList:state.AllReducer.HomeList.Response || [],
+    Aminities:state.AllReducer.Aminities.Response || [],
+});
+export default connect(mapStateToProps)(Home_V7);

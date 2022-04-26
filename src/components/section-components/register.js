@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory,useParams } from 'react-router-dom';
 import parse from 'html-react-parser';
 import axios from 'axios';
 import { notification } from "antd";
@@ -12,11 +12,12 @@ import  firebase from '../../Redux/Utils/firebase'
 import Swal from 'sweetalert2'
 function RegisterComp(props) {
 	let history = useHistory()
+	let { userid,mobilenumber } =useParams()
 	const initialValues = {
 		email: "",
 		password: "",
 		name: "",
-		mobile: "",
+		mobile: mobilenumber || "",
 		otp: "",
 	};
 	const [values, setValues] = useState(initialValues);
@@ -25,6 +26,7 @@ function RegisterComp(props) {
 	const [mobileErr, setMobileErr] = useState(false)
 	const [emailErr, setEmailErr] = useState(false)
 	const [showPass,setshowPass]=useState(false)
+	const [ResponseData,setResponseData]=useState(false)
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		if (name === "mobile") {
@@ -60,16 +62,26 @@ function RegisterComp(props) {
 	const submitForm = (e, key) => {
 		e.preventDefault();
 		if (!mobileErr && !emailErr) {
-			onRegister(values).then((data) => {
+			onRegister(values,userid).then((data) => {
 				if (data.Status === "Success") {
-					Swal.fire({
-						title: 'Success!',
-						icon: 'success',
-						text: 'Registration Successfully',
-					})
+						
+						Swal.fire({
+							showClass: {
+							  popup: 'animate__animated animate__fadeInDown'
+							},
+							hideClass: {
+							  popup: 'animate__animated animate__fadeOutUp'
+							},
+							title:`N/W cash ${data.Response[0]?.wallet} Credited`,
+						    icon: 'success',
+							text:'Registration Successfully!' ,
+						    // html: <p style={{color:"#ec4249",fontWeight:"700",fontSize:"20px"}}></p>,
+						  })
+					history.push("/")
 					localStorage.setItem("wallet", JSON.stringify(data.Response[0].wallet));
-					setShowOtp(true)
-				    SubmitOtp()
+					localStorage.setItem("user_id", JSON.stringify(data.Response[0]?.id));
+					// setShowOtp(true)
+				    // SubmitOtp()
 				} 
 				else {
 					Swal.fire({
@@ -83,10 +95,11 @@ function RegisterComp(props) {
 
 	}
 const SubmitOtp=()=>{
-	GetOtp(values,"Register").then((data) => {				
+	GetOtp(values).then((data) => {				
 		const appVerifier = window.recaptchaVerifier;
 		firebase.auth().signInWithPhoneNumber("+91"+values.mobile,appVerifier).then(confirmResult => { 
 		setOtpnumber(confirmResult)
+		setResponseData(data.Response)
 			Swal.fire({
 				title: 'Success!',
 				icon: 'success',
@@ -137,7 +150,7 @@ const SubmitOtp=()=>{
 							<h1 className="section-title">Register <br />Your Account</h1>
 							<p>
 							Create an account to unlock these benefits
-Get latest updates about Properties and Projects.
+                           Get latest updates about Properties and Projects.
 							</p>
 						</div>
 					</div>
@@ -151,12 +164,12 @@ Get latest updates about Properties and Projects.
 								<input type="text" name="email" placeholder="Email*" value={values.email}
 									onChange={(e) => handleChange(e)} required={showOtp ? false : true} />
 								{emailErr && <div className='errMsg'>Invalid Email</div>}
-								<input type="number" name="mobile" placeholder="Mobile No*" value={values.mobile} onChange={(e) => handleChange(e)} required={showOtp ? false : true} />
+								<input type="number" name="mobile" placeholder="Mobile No*"  readOnly={userid?true:false} value={values.mobile} onChange={(e) => handleChange(e)} required={showOtp ? false : true} />
 								{mobileErr && <div className='errMsg'>Mobile Number should be 10 digit only</div>}
-								<div className='pass_show_div'>
+								{/* <div className='pass_show_div'>
 								<input type={showPass?"text":"password"} name="password" placeholder="Password*" value={values.password} onChange={(e) => handleChange(e)} required={showOtp ? false : true} />
 								   <i onClick={clickHandler} class={showPass ? 'fas fa-eye' : 'fas fa-eye-slash'}></i>
-								</div>
+								</div> */}
 								<div className="btn-wrapper   go-top">
 									<button className="theme-btn-1 sign_acc btn black-btn">CREATE ACCOUNT</button>
 								</div>

@@ -1,14 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, HashRouter, Route, Switch } from "react-router-dom";
 import axios from 'axios';
 
-import HomeV1 from './components/home-v1';
-import HomeV2 from './components/home-v2';
-import HomeV3 from './components/home-v3';
-import HomeV4 from './components/home-v4';
-import HomeV5 from './components/home-v5';
-import HomeV6 from './components/home-v6';
 import HomeV7 from './components/home-v7';
 import HomeV8 from './components/home-v8';
 import HomeV9 from './components/home-v9';
@@ -55,17 +49,63 @@ import Wallet from './components/wallet';
 import RefundPolicy from './components/section-components/RefundPollicy'
 import PrivatePolicy from './components/private-policy';
 import TermCondition from './components/terms-condition';
-
+import ScrollToTop from './components/section-components/ScrollTop'
+import MediaComp from './components/section-components/MediaUpload'
+import store from './Redux/Store/store'
+import { Provider } from 'react-redux';
 const App=()=>{
-    // useEffect(()=>{
-    //     window.location.reload()
-    // },[])
+  const [loading,setloading]=useState(false)
+    // useEffect(async () => {
+     
+    //   }, []);
+    //   useEffect(() => {
+    //     async function fetchMyAPI() {
+    //        axios({
+    //         method: "POST",
+    //         url: "https://nowway.in/$panel/api/auth_login",
+    //         data: {
+    //           email: "nowway",
+    //           password: "12345678",
+    //         },
+    //       }).then((response) => {
+    //          localStorage.setItem(
+    //           "Token",JSON.stringify(response.data.Response.token))
+    //       });
+    //     }
+    //     fetchMyAPI()
+    //   }, [])
+    async function fetchData() {
+      localStorage.removeItem("Token")
+       try{
+         await axios.post('https://nowway.in/$panel/api/auth_login',{
+          email: "nowway",
+          password: "12345678",
+        }).then((res)=>{
+            console.log("reeee",res)
+            localStorage.setItem("Token",JSON.stringify(res.data.Response.token))
+           setloading(true)
+        })
+        // const data=await Response
+      }catch{
+        
+      }
+
+       }
+       
+       useEffect(() => {
+        fetchData()
+       console.log(loading,"dddddddddddddd")
+       }, []);
     return(
+      <>
+      {loading===true &&
+    <Provider  store = {store}>
+  
         <HashRouter>
-              {/* <Router> */}
+               <ScrollToTop/>
             <Switch>
-                <Route exact path="/" component={HomeV7} />
-                <Route path="/home-v2" component={HomeV2} />
+                <Route exact  path="/" component={HomeV7} />
+                {/* <Route path="/home-v2" component={HomeV2} />
                 <Route path="/home-v3" component={HomeV3} />
                 <Route path="/home-v4" component={HomeV4} />
                 <Route path="/home-v5" component={HomeV5} />
@@ -73,7 +113,7 @@ const App=()=>{
                 <Route path="/home-v7" component={HomeV7} />
                 <Route path="/home-v8" component={HomeV8} />
                 <Route path="/home-v9" component={HomeV9} />
-                <Route path="/home-v10" component={HomeV10} />
+                <Route path="/home-v10" component={HomeV10} /> */}
 
                 <Route path="/about" component={About} />
                 <Route path="/service" component={Service} />
@@ -96,9 +136,11 @@ const App=()=>{
                 <Route path="/wallet" component={Wallet} />
                 <Route path="/policy" component={PrivatePolicy} />
                 <Route path="/terms" component={TermCondition} />
+                <Route path="/media" component={MediaComp} />
+            
+
 
                 <Route path="/product-details" component={ ProdductDetails } />
-                {/* blog */}
                 <Route path="/blog-grid" component={ BlogGrid } />
                 <Route path="/blog-left-sidebar" component={ BlogLeftSidebar } />
                 <Route path="/blog-right-sidebar" component={ BlogRightSidebar } />
@@ -111,26 +153,22 @@ const App=()=>{
                 <Route path="/checkout" component={ Checkout } />
                 <Route path="/my-account" component={ MyAccount } />
                 <Route path="/login" component={ Login } />
-                <Route path="/register" component={ Register } />
+                <Route path="/register/:userid?/:mobilenumber?" component={ Register } />
                 <Route path="/add-listing/:id?/" component={ AddListing } />
                 <Route path="/wishlist" component={ Wishlist } />
                 <Route path="/order-tracking" component={ OrderTracking } />
                 <Route path="/history" component={ History } />
-                <Route path="/aboutus" component={ RefundPolicy } />
+                <Route path="/aboutus" component={ RefundPolicy } /> 
                 
-            </Switch>
-            {/* </Router> */}
+             </Switch>
         </HashRouter>
+   </Provider>
+
+}
+        </>
 )
 }
 
 export default App;
 
 
-// ReactDOM.render(
-//       <Provider store={store}>
-        
-//         <Root />
-//       </Provider>,
-//     document.getElementById('quarter')
-//   );
