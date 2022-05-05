@@ -1,9 +1,10 @@
 import moment from "moment";
-import { APIURL, REQUEST_HEADERS } from "./baseHeaders";
+import { APIURL} from "./baseHeaders";
 import axios from 'axios';
 import CryptoJS from 'crypto-js'
 import { notification } from 'antd'
 import { VIEW_HOME_LIST } from '../../Redux/Utils/constant'
+
 var CryptoJSAesJson = {
     stringify: function (cipherParams) {
         var j = { ct: cipherParams.ciphertext.toString(CryptoJS.enc.Base64) };
@@ -29,7 +30,7 @@ export const GetPropertyType = () => {
     try {
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
         };
         return fetch(APIURL + "property_type", requestOptions)
             .then((response) => response.json())
@@ -43,7 +44,7 @@ export const GetLocations = () => {
     try {
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
         };
         return fetch(APIURL + "locations", requestOptions)
             .then((response) => response.json())
@@ -57,7 +58,7 @@ export const GetStructureType = () => {
     try {
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
         };
         return fetch(APIURL + "structure_type", requestOptions)
             .then((response) => response.json())
@@ -68,17 +69,17 @@ export const GetStructureType = () => {
 }
 
 
-export const onLogin = (values,type) => {
+export const onLogin = (values,type,token) => {
     try {
         const Encription = CryptoJS.AES.encrypt(JSON.stringify({
             "mobile": values.mobile, "password": values.password || "",type:type
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
         const requestOptions = {
-            method: 'POST',
-            headers: REQUEST_HEADERS,
+            method:'POST',
+            headers:{"Authorization": 'Bearer' + token},
             body: JSON.stringify({ encrypted: Encription }),
         };
-
+       console.log(decryptValue(Encription))
         return fetch(APIURL + "cuslogin", requestOptions)
             .then((response) => response.json())
             .then((response) => {
@@ -90,12 +91,12 @@ export const onLogin = (values,type) => {
 export const onRegister = (values,userid) => {
     try {
         const Encription = CryptoJS.AES.encrypt(JSON.stringify({
-            "name": values.name, "mobile": values.mobile, "email": values.email,"user_id":userid || 0
+            "name": values.name, "mobile": values.mobile, "email": values.email,"user_id":userid || 0,"password":values.password
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
         console.log(decryptValue(Encription))
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
             body: JSON.stringify({ encrypted: Encription })
         };
         return fetch(APIURL + "cusregister", requestOptions)
@@ -113,8 +114,8 @@ export const GetOtp = (values,type) => {
             "mobile": values.mobile,
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
         const requestOptions = {
-            method: 'POST',
-            headers: REQUEST_HEADERS,
+            method:'POST',
+            headers:{"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
             body: JSON.stringify({ encrypted: Encription }),
         };
         return fetch(APIURL + "verifyotp", requestOptions)
@@ -129,7 +130,7 @@ export const GetAmenities = () => {
     try {
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers:{"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
         };
         return fetch(APIURL + "amenities", requestOptions)
             .then((response) => response.json())
@@ -143,7 +144,7 @@ export const GetFaqDetails = () => {
     try {
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
         };
         return fetch(APIURL + "faq", requestOptions)
             .then((response) => response.json())
@@ -157,7 +158,7 @@ export const GetServiceDetails = () => {
     try {
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
         };
         return fetch(APIURL + "services", requestOptions)
             .then((response) => response.json())
@@ -171,7 +172,7 @@ export const GetRooms = () => {
     try {
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
         };
         return fetch(APIURL + "rooms", requestOptions)
             .then((response) => response.json())
@@ -185,7 +186,7 @@ export const GetBHKType = () => {
     try {
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
         };
         return fetch(APIURL + "bhk_type", requestOptions)
             .then((response) => response.json())
@@ -199,7 +200,7 @@ export const GetPreferredTenants = () => {
     try {
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
         };
         return fetch(APIURL + "preferred_tenants", requestOptions)
             .then((response) => response.json())
@@ -213,7 +214,7 @@ export const GetFurnishing = () => {
     try {
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
         };
         return fetch(APIURL + "furnishing", requestOptions)
             .then((response) => response.json())
@@ -227,7 +228,7 @@ export const GetParking = () => {
     try {
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
         };
         return fetch(APIURL + "parking", requestOptions)
             .then((response) => response.json())
@@ -241,7 +242,7 @@ export const GetBathroom = () => {
     try {
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
         };
         return fetch(APIURL + "bathroom", requestOptions)
             .then((response) => response.json())
@@ -255,7 +256,7 @@ export const GetAvailability = () => {
     try {
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
         };
         return fetch(APIURL + "availability", requestOptions)
             .then((response) => response.json())
@@ -273,7 +274,7 @@ export const GetSubService = (values) => {
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
             body: JSON.stringify({ encrypted: Encription }),
         };
         return fetch(APIURL + "sub_services", requestOptions)
@@ -290,10 +291,9 @@ export const AddSubServiceEnquiry = (values, name) => {
             "login_id": JSON.parse(localStorage.getItem("user_id")), "name": values.name, "mobile": values.mobile, "place": values.place, "service": name,
             "email":values.email,"inspect_date":moment(values.date).format("YYYY-MM-DD"),"time_slot":values.time,"address":values.address,"pincode":values.pincode
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
-        console.log("dddddddddddddddd",decryptValue(Encription))
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
             body: JSON.stringify({ encrypted: Encription }),
         };
         return fetch(APIURL + "add_service_enquiry", requestOptions)
@@ -312,7 +312,7 @@ export const SearchListing = (values) => {
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
             body: JSON.stringify({ encrypted: Encription }),
         };
         return fetch(APIURL + "search_listing", requestOptions)
@@ -328,7 +328,6 @@ export const InsertListing = (list, checkList,Type,property_id) => {
     var Details=new FormData()
     var Media=new FormData()
     var Features=new FormData()
- 
     Location.set("user_id",JSON.parse(localStorage.getItem("user_id")))
     Location.set("city",list.city.value)
     Location.set("property_type",list.types.value)
@@ -348,7 +347,7 @@ export const InsertListing = (list, checkList,Type,property_id) => {
     Details.set("address",list.address.value)
     Details.set("facing",list.facing.value)
     Details.set("description",list.description.value)
-
+    Details.set("advance_amount",list.advance.value)
     Media.set("user_id",JSON.parse(localStorage.getItem("user_id")))
     checkList.length>0? 
     checkList.forEach(image => {
@@ -373,15 +372,16 @@ export const InsertListing = (list, checkList,Type,property_id) => {
     try {
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
             body: Type==="Details"?Details:Type==="Media"?Media:Type==="Features"?Features:Location,
         };
+        console.log("reeeee",Details)
 
         return fetch(APIURL + "add_listing", requestOptions)
             .then((response) => response.json())
             .then((response) => {
-                console.log("reeeee", decryptValue(response.encrypted))
                 return decryptValue(response.encrypted)
+
             });
     } catch (err) { }
 
@@ -398,7 +398,7 @@ export const GetProductDetails = (values,type) => {
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers:{"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
             body: JSON.stringify({ encrypted: Encription }),
         };
         return fetch(APIURL + Url, requestOptions)
@@ -413,7 +413,7 @@ export const GetHomeOffer = () => {
     try {
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
         };
         return fetch(APIURL + "home_offers", requestOptions)
             .then((response) => response.json())
@@ -423,28 +423,7 @@ export const GetHomeOffer = () => {
     } catch (err) { }
 }
 
-export const GetHomeList = () => async (dispatch)=> {
-    try {
-        const Encription = CryptoJS.AES.encrypt(JSON.stringify({
-            "user_id": JSON.parse(localStorage.getItem("user_id")) ? JSON.parse(localStorage.getItem("user_id")) : 0
-        }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
 
-        const requestOptions = {
-            method: 'POST',
-            headers: REQUEST_HEADERS,
-            body: JSON.stringify({ encrypted: Encription }),
-        };
-        return fetch(APIURL + "home_listing", requestOptions)
-            .then((response) => response.json())
-            .then((response) => {
-                // return decryptValue(response.encrypted)
-                dispatch({
-                    type: VIEW_HOME_LIST,
-                    payload: decryptValue(response.encrypted)
-                })
-            });
-    } catch (err) { }
-}
 
 
 export const GetUserDetails = () => {
@@ -454,7 +433,7 @@ export const GetUserDetails = () => {
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
             body: JSON.stringify({ encrypted: Encription }),
         };
         return fetch(APIURL + "get_user", requestOptions)
@@ -472,7 +451,7 @@ export const UpdateUserDetails = (userDetails, picture, show_PasswordInput) => {
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
             body: JSON.stringify({ encrypted: Encription }),
         };
         return fetch(APIURL + "update_user", requestOptions)
@@ -490,7 +469,7 @@ export const GetRelatedProducts = (values) => {
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
             body: JSON.stringify({ encrypted: Encription }),
         };
         return fetch(APIURL + "related_listing", requestOptions)
@@ -505,7 +484,7 @@ export const Top_Categories = () => {
     try {
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
         };
         return fetch(APIURL + "top_property_type", requestOptions)
             .then((response) => response.json())
@@ -523,7 +502,7 @@ export const Add_ContactDetails = (property_id) => {
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
             body: JSON.stringify({ encrypted: Encription }),
         };
         return fetch(APIURL + "add_contacted", requestOptions)
@@ -542,7 +521,7 @@ export const Add_WishList = (property_id) => {
     try {
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
             body: JSON.stringify({ encrypted: Encription }),
         };
         return fetch(APIURL + "add_wishlist", requestOptions)
@@ -561,7 +540,7 @@ export const GetMyList = () => {
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
             body: JSON.stringify({ encrypted: Encription }),
         };
         return fetch(APIURL + "my_listing", requestOptions)
@@ -580,7 +559,7 @@ export const GetContachDetails = () => {
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
             body: JSON.stringify({ encrypted: Encription }),
         };
         return fetch(APIURL + "contacted_list", requestOptions)
@@ -598,7 +577,7 @@ export const GetWishlist = () => {
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
             body: JSON.stringify({ encrypted: Encription }),
         };
         return fetch(APIURL + "wish_list", requestOptions)
@@ -617,7 +596,7 @@ export const RemoveWishlist = (id) => {
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
             body: JSON.stringify({ encrypted: Encription }),
         };
         return fetch(APIURL + "remove_wishlist", requestOptions)
@@ -635,7 +614,7 @@ export const AddPropertyview = (property_id) => {
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
             body: JSON.stringify({ encrypted: Encription }),
         };
         console.log(decryptValue(Encription), "yy")
@@ -652,7 +631,7 @@ export const GetPolicy = () => {
     try {
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
         };
         return fetch(APIURL + "policy", requestOptions)
             .then((response) => response.json())
@@ -667,7 +646,7 @@ export const GetTerms = () => {
     try {
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
         };
         return fetch(APIURL + "terms", requestOptions)
             .then((response) => response.json())
@@ -685,7 +664,7 @@ export const GetWalletList = () => {
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
             body: JSON.stringify({ encrypted: Encription }),
         };
         console.log(decryptValue(Encription), "Encription")
@@ -702,7 +681,7 @@ export const FeedBacklist = () => {
        
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
         };
         return fetch(APIURL + "feedback", requestOptions)
             .then((response) => response.json())
@@ -721,7 +700,7 @@ export const PropertyReportIssue = (id,value) => {
         const requestOptions = {
 
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
             body: JSON.stringify({ encrypted: Encription }),
         };
         return fetch(APIURL + "report_issue", requestOptions)
@@ -737,7 +716,7 @@ export const Refund_list = () => {
     try {
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
         };
         return fetch(APIURL + "refund", requestOptions)
             .then((response) => response.json())
@@ -752,7 +731,7 @@ export const FooterTags = () => {
     try {
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
         };
         return fetch(APIURL + "footer_tags", requestOptions)
             .then((response) => response.json())
@@ -769,7 +748,7 @@ export const GetServiceEnquiry = () => {
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
             body: JSON.stringify({ encrypted: Encription }),
         };
         console.log("dddddddddddddd",Encription)
@@ -786,7 +765,7 @@ export const GetTime_Slot = () => {
     try {
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
         };
         return fetch(APIURL + "time_slot", requestOptions)
             .then((response) => response.json())
@@ -803,7 +782,7 @@ export const GetListings_Data = () => {
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
             body: JSON.stringify({ encrypted: Encription }),
         };
         return fetch(APIURL + "get_listing", requestOptions)
@@ -821,7 +800,7 @@ export const ServiceProducts = (id) => {
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
             body: JSON.stringify({ encrypted: Encription }),
         };
         return fetch(APIURL + "service_products", requestOptions)
@@ -840,7 +819,7 @@ export const AddService_Cart = (qty,data) => {
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
             body: JSON.stringify({ encrypted: Encription }),
         };
         return fetch(APIURL + "add_service_cart", requestOptions)

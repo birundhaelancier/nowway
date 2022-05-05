@@ -79,26 +79,25 @@ import { FooterTags } from '../apiActions'
 												 <div className="footer-address-info">
 													<p>
 													NOWWAY PEC SERVICES<br/>
-                                                    No.119E, Velacherry Main road, Little Mount,<br/>
-                                                    Near Behindwoods office, Guindy<br/> 
+                                                    No.119E, Velacherry Mainroad,Guindy<br/>
                                                     Chennai - 600032
 													</p>
 												</div> 
 											</li>
-											<li>
+											{/* <li>
 												<div className="footer-address-icon">
 													<i className="icon-call" />
 												</div>
 												<div className="footer-address-info">
 													<p>+91 8248699623</p>
 												</div>
-											</li>
+											</li> */}
 											<li>
 												<div className="footer-address-icon">
 													<i className="icon-mail" />
 												</div>
 												<div className="footer-address-info">
-													<p>info@nowway.in</p>
+													<p>contact@nowway.in</p>
 												</div>
 											</li>
 										</ul>

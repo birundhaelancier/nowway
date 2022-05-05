@@ -11,5 +11,4 @@ export const REQUEST_HEADERS = {
     // "Accept-Encoding": "gzip, deflate, br",
     // "Connection": "keep-alive"
 }
-console.log(JSON.parse(localStorage.getItem("Token")),"ggggggg")
 

@@ -59,7 +59,8 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
          maintenance:{value:"",validation:[],error: null,errmsg: null},
          city:{value:"",validation:[],error: null,errmsg: null},
          address:{value:"",validation:[],error: null,errmsg: null},
-         
+         advance:{value:"",validation:[],error: null,errmsg: null},
+             
     }
   
     const [listValues, setListValues] = useState(initialValues);
@@ -164,10 +165,11 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
    })
    let i;
    let floor=[]
+   let Array_value=[{id:0,name:"Ground Floor"}]
    for(i=1;i<=20;i++){
     floor.push({id:i,name:i})
    }
-   setFloors(floor)
+   setFloors(Array_value.concat(floor))
    GetMyList().then((data) => {
 
     data.Response.filter((res)=>{
@@ -181,7 +183,6 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
   useEffect(()=>{
     GetListings_Data().then((res)=>{
         const Data=res.Response
-        console.log(res,"response")
         listValues.bhk_type.value=Data.bhk_type || Property_List.bhk_type || ""
         listValues.floors.value=Data.floors || Property_List.floors || ""
         listValues.price.value=Data.price || Property_List.price || ""
@@ -221,6 +222,7 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
         listValues.address.validation=[{ name: "required" }] 
         listValues.facing.validation=[{ name: "required" }] 
         listValues.size.validation=[{ name: "required" }] 
+        // listValues.advance.validation=[{ name: "required" }] 
      }
     var mainvalue = {};
     var targetkeys = Object.keys(listValues);
@@ -237,8 +239,6 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
     if(filtererr.length>0){
         
     }else{
-      
-
         if(Type==="Media" && checkList.length>=1 && checkList.length>=10){ 
         Swal.fire({
             title: 'Warning!',
@@ -262,7 +262,7 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
             type==="submit"&&history.push(`/my-account/wish=${2}`)
             // handleCancel()
         } else {
-            Swal.fire({
+            type==="submit" && Swal.fire({
                 title: 'Failed!',
                 icon: 'error',
                 text:data.Message,
@@ -280,7 +280,6 @@ const MediaUpload=({fileList})=>{
     console.log("listValues",fileList)
     setCheckList([...fileList])
 }
-
     return (
         <div className="ltn__appointment-area pb-120">
             <div className="container">
@@ -403,6 +402,14 @@ const MediaUpload=({fileList})=>{
                                         </div>
                                     </div>
 
+                                   {listValues.propertyType.value==="Rent" && <div className="col-md-6">
+                                    <h6>Advance Amount</h6>
+                                        <div className="input-item input-item-name ltn__custom-icon">
+                                            <input  type="text"  className={listValues.advance.errmsg?'input_field':"input_field2"}  required name={"advance"} value={listValues.advance.value} onChange={(e) => handleChange(e.target.value,"advance")} />
+                                            <div className='Errormsg'>{listValues.advance.errmsg}</div>
+                                        </div>
+                                    </div>}
+
                                     <div className="col-md-6">
                                     <h6>Monthly  Maintenance</h6>
                                         <div className="input-item input-item-name ltn__custom-icon">
@@ -428,7 +435,18 @@ const MediaUpload=({fileList})=>{
                                             />
                                         </div> 
                                     </div>
-
+                                    <div className="col-md-6">
+                                    <h6>Facing</h6>
+                                        <div className="input-item custom_sel">
+                                            <SelectInput required dropdown={
+                                                 [{id:1,name:"East"},{id:2,name:"West"},{id:3,name:"South"},{id:4,name:"North"},{id:5,name:"North East"},
+                                                 {id:6,name:"South East"},{id:7,name:"North West"},{id:8,name:"South West"},{id:8,name:"No idea"}]
+                                            }  value={listValues.facing.value} changeData={(data) => handleChange(data, "facing","select")} 
+                                            error={listValues.facing.error}
+                                            errmsg={listValues.facing.errmsg}
+                                            />
+                                        </div> 
+                                    </div>
                                     {/* <div className="col-md-6">
                                         <div className="input-item input-item-name ltn__custom-icon">
                                             <input  type="number" required name={"lotSize"} value={listValues.lotSize} onChange={(e) => handleChange(e)} placeholder="Lot Size in ft2 (*only numbers)" />
@@ -520,18 +538,7 @@ const MediaUpload=({fileList})=>{
                                         
                                       
                                     </div>
-                                    <div className="col-md-6">
-                                    <h6>Facing</h6>
-                                        <div className="input-item custom_sel">
-                                            <SelectInput required dropdown={
-                                                 [{id:1,name:"East"},{id:2,name:"West"},{id:3,name:"South"},{id:4,name:"North"},{id:5,name:"North East"},
-                                                 {id:6,name:"South East"},{id:7,name:"North West"},{id:8,name:"South West"},{id:8,name:"No idea"}]
-                                            }  value={listValues.facing.value} changeData={(data) => handleChange(data, "facing","select")} 
-                                            error={listValues.facing.error}
-                                            errmsg={listValues.facing.errmsg}
-                                            />
-                                        </div> 
-                                    </div>
+                                 
                                 </div>
                                 </>
                                 }

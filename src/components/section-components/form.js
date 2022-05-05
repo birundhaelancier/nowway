@@ -3,15 +3,19 @@ import { Link, useHistory } from 'react-router-dom';
 import parse from 'html-react-parser';
 import Modal from '../Model';
 import { AddSubServiceEnquiry,GetTime_Slot,GetLocations } from '../apiActions/index';
+import { ViewService_Cart } from '../../Redux/Action/allActions'
 import { notification,DatePicker } from "antd";
 import SelectInput from '../Select';
 import moment from 'moment'
 import './service.scss'
 import Checkout from './checkout'
 import Swal from 'sweetalert2'
-const Form = ({ sub_services, ser_image,sub_serv,HandleSubmit,pay_service,handleClose,service}) => {
+import { useDispatch,connect } from 'react-redux';
+import { PaymentSuccess } from '../../Redux/Action/allActions'
+const Form = ({ sub_services, ser_image,sub_serv,HandleSubmit,pay_service,handleClose,service,ServiceCart,ser_id,page}) => {
 	
 	let history = useHistory()
+	let dispatch=useDispatch()
 	let publicUrl = process.env.PUBLIC_URL + '/'
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [continuepay,setcontinue]=useState(false)
@@ -60,7 +64,7 @@ const Form = ({ sub_services, ser_image,sub_serv,HandleSubmit,pay_service,handle
 		e.preventDefault();
 		if(JSON.parse(localStorage.getItem("user_id"))){
 		if(values.place){	
-		pay_service!=="pay"&&AddSubServiceEnquiry(values, sub_serv?.id).then((data) => {
+		pay_service!=="pay"?AddSubServiceEnquiry(values, sub_serv?.id).then((data) => {
 			if (data.Status === "Success") {
 				Swal.fire({
 					title: 'Success!',
@@ -78,7 +82,8 @@ const Form = ({ sub_services, ser_image,sub_serv,HandleSubmit,pay_service,handle
 					text: data.Message,
 				})
 			}
-		})
+		}):
+		openPayModal()
 		pay_service==="pay"&&HandleSubmit(true,values)
 	 }
 	 else{
@@ -101,10 +106,7 @@ const Form = ({ sub_services, ser_image,sub_serv,HandleSubmit,pay_service,handle
 
 
 
-	const closeModal = () => {
-		setIsModalVisible(false)
-		handleCancel()
-	}
+
 	useEffect(()=>{
 		GetLocations().then((res)=>{
 			 setLocation(res.Response)
@@ -117,7 +119,75 @@ const Form = ({ sub_services, ser_image,sub_serv,HandleSubmit,pay_service,handle
 			setTimeSlots(Data)
 		})
 	},[])
+	const [Products,setProducts]=useState([])
+	const [ViewCarts,setViewCarts]=useState([])
+	// const [service,setservice]=useState(false)
+	const [CartId,setCartId]=useState([])
+	const [qty,setqty]=useState([])
+	const [Formvalues,setFormvalues]=useState({})
+	const [payment,setpayment]=useState(false)
+	const [disble, setdisble] = useState(true);
+  
 
+	useEffect(()=>{
+	  dispatch(ViewService_Cart())
+	},[])
+	useEffect(()=>{
+	setViewCarts(ServiceCart.Response)
+  
+	},[ServiceCart])
+	useEffect(()=>{
+	  let arraydd=[]
+	  let cartIds=[]
+	  ViewCarts && ViewCarts.map((data)=>{
+		arraydd=data.details
+	  })
+	  arraydd && arraydd.map((res)=>{
+		cartIds.push(res.pid)     
+	  })
+	  setCartId(cartIds)
+	},[ViewCarts])
+  
+	const options = {
+	  key: 'rzp_live_ApPVCvIUh5z0pv',
+	  amount:ViewCarts && ViewCarts[0]?.total*100, //  = INR 1
+	  name: 'Now Way',
+	  description: 'Pay Money',
+	  image:publicUrl+"assets/img/logonow.png",
+	  handler: function(response) {
+		dispatch(PaymentSuccess(values,ViewCarts&&ViewCarts[0],ser_id,response.razorpay_payment_id,"Success")).then(()=>{
+		  setcontinue(false)
+		  setpayment(false)
+		})
+	  },
+	  prefill: {
+		  name:values.name,
+		  contact:values.mobile,
+		  email:values.email
+	  },
+	  notes: {
+		  address:values.address
+	  },
+	  theme: {
+		  color: 'green',
+		  hide_topbar: true
+	  }
+	};
+	const openPayModal = () => {
+	//   location.pathname!=="/cart" && props.handleClose()
+	  var rzp1 = new window.Razorpay(options);
+	  rzp1.open();
+	  }
+  
+  useEffect(() => {
+	const script = document.createElement('script');
+	script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+	script.async = true;
+	document.body.appendChild(script);
+  }, []);
+
+
+  console.log(ViewCarts,"ViewCarts")
 	return (
 		<>
         	{/* <div className="ltn__quick-view-modal-inner">
@@ -183,9 +253,19 @@ const Form = ({ sub_services, ser_image,sub_serv,HandleSubmit,pay_service,handle
 										</div>
 										</>:null
                                          }
+										 {page!=="cart"?
 										<div className="btn-wrapper mt-0 ">
 											<button className="theme-btn-1 btn btn-block"  style={{marginTop:values.place?"0px":"20px"}}>Submit</button>
-										</div>
+										</div>:
+										<>
+										{ViewCarts && ViewCarts.map((data)=>
+                                             <button className="theme-btn-1 btn btn-block" onClick={openPayModal}>
+                                                  Pay ₹{data.total || 0} now
+                                           </button>
+                                        )}
+										</>
+										}
+									
 									</form>
 								</div>
 							</div>
@@ -197,6 +277,9 @@ const Form = ({ sub_services, ser_image,sub_serv,HandleSubmit,pay_service,handle
 	)
 
 }
-export default Form;
 
-
+const mapStateToProps = (state) =>
+({
+	ServiceCart:state.AllReducer.Service_Cart || [],
+});
+export default connect(mapStateToProps)(Form);

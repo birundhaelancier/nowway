@@ -5733,8 +5733,9 @@ box-shadow: 0px 4px 5px -3px rgba(226, 224, 224, 0.75);
     @media (max-width: 770px) {
       .site-logo-wrap .site-logo {
         min-width: auto;
-        width: 35%;
-      margin-left: 10px; } }
+        /* width: 35%; */
+      /* margin-left: 10px;  */
+    } }
 
 .ltn__utilize-menu > ul {
   margin: 0;
@@ -6087,7 +6088,7 @@ box-shadow: 0px 4px 5px -3px rgba(226, 224, 224, 0.75);
   .ltn__header-logo-and-mobile-menu-in-mobile .ltn__header-options {
     -webkit-box-flex: 0;
     -ms-flex: 0 0 30%;
-    flex: 0 0 17%; }
+    flex: 0 0 10%; }
   .header-top-btn a {
     padding: 0 15px;
     line-height: 25px; } }
@@ -16024,11 +16025,24 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .wrap-reverse{
   flex-wrap: wrap;
 }
+.contact-form-box {
+  padding: 10px !important;
+}
+.amt_ch{
+  font-size: 18px !important;
+  font-weight: 600 !important;
+}
 .ltn__shop-options{
   margin-top: 20px;
 }
 .service_img{
   width:100%;
+}
+.cart_icon{
+  display: block !important;
+}
+.all_right{
+  font-size: 14px !important;
 }
 .ltn__car-dealer-form-box .sel_parent .ant-select{
   width:100% !important;
@@ -16317,4 +16331,22 @@ border-color: var(--ltn__secondary-color);
 }
 .custom_sweetalert {
   line-height: 2;
+}
+.cart_icon{
+  display: none;
+}
+.cart_icon button{
+  color:#8ab74f;
+}
+.cart_icon .MuiBadge-badge{
+background-color:red;
+}
+
+.otp_pass{
+  font-size: 16px;
+  font-weight: 600;
+  padding-right: 10px;
+
+}
+.otp_pass:first-child{
 }

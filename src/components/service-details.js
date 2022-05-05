@@ -17,11 +17,12 @@ const Service_Details = (props) => {
     useEffect(() => {
         GetSubService(EditText).then((data) => {
             setSub_services(data.Response)
+            console.log("checkwwwwww",data)
         })
     }, [])
     return <div>
         <Navbar />
-        <PageHeader headertitle="Service Details" subheader={ser_name} />
+        <PageHeader headertitle="Service Details" subheader={sub_services &&sub_services[0]?.service_name} />
         <ServiceDetails sub_services={sub_services} ser_image={ser_image} service={service} ser_id={EditText}/>
         <CallToActionV1 />
         <Footer />

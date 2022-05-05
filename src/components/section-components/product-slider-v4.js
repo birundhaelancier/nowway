@@ -14,7 +14,7 @@ const ProductSliderV4 = ({ list, callWish }) => {
 
   let publicUrl = process.env.PUBLIC_URL + '/'
   var settings = {
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: slideNumber,
     slidesToScroll: 1,
@@ -118,6 +118,7 @@ const ProductSliderV4 = ({ list, callWish }) => {
       }
     })
   }
+  console.log("listdddddddddd",list)
   return (
 
     <div>

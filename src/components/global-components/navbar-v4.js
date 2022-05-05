@@ -5,14 +5,32 @@ import axios from "axios";
 import { GetWishlist } from "../apiActions/index";
 import Modal from "../Model";
 import { useLocation } from "react-router-dom";
+import CartComp from '../section-components/Cart'
+import Badge from '@mui/material/Badge';
+import { styled } from '@mui/material/styles';
+import IconButton from '@mui/material/IconButton';
+import { GetWalletList } from '../apiActions'
+import { ViewService_Cart } from '../../Redux/Action/allActions'
+import { useDispatch,connect } from "react-redux";
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  '& .MuiBadge-badge': {
+    right: -3,
+    top: 13,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: '0 4px',
+  },
+}));
 
-const NavbarV3 = ({ user, Wish_list }) => {
-  const [login_id, setLogin_id] = useState();
+const NavbarV3 = ({ user, Wish_list,ServiceCart }) => {
+  const [login_id, setLogin_id] = useState(JSON.parse(localStorage.getItem("user_id")));
+  const [ViewCarts,setViewCarts]=useState([])
+  const [transaction,setTransaction]=useState([])
+  let history=useHistory()
+  let dispatch=useDispatch()
   let location=useLocation()
   let publicUrl = process.env.PUBLIC_URL + "/";
   let imgattr = "logo";
   let anchor = "#";
-  let history = useHistory();
   const [wish_list, setWish_list] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -26,19 +44,6 @@ const NavbarV3 = ({ user, Wish_list }) => {
   }, [Wish_list]);
 
   useEffect(() => {
-    // axios({
-    //   method: "POST",
-    //   url: "https://nowway.in/$panel/api/auth_login",
-    //   data: {
-    //     email: "nowway",
-    //     password: "12345678",
-    //   },
-    // }).then((response) => {
-    //   localStorage.setItem(
-    //     "Token",
-    //     JSON.stringify(response.data.Response.token)
-    //   );
-    // });
     setLogin_id(JSON.parse(localStorage.getItem("user_id")));
   }, []);
 
@@ -49,7 +54,19 @@ const NavbarV3 = ({ user, Wish_list }) => {
   const openWishlist = () => {
     history.push(`/my-account?wish=${1}`);
   };
-
+  useEffect(()=>{
+    dispatch(ViewService_Cart())
+    GetWalletList().then((response) => {
+			setTransaction(response.Response)
+		})
+  },[])
+  useEffect(()=>{
+  setViewCarts(ServiceCart.Response)
+  },[ServiceCart])
+  const CartPage=()=>{
+    history.push("/cart")
+  }
+  console.log("ServiceCart",ServiceCart?.Response && ServiceCart?.Response[0]?.details?.length)
   return (
     <div>
       <header className="ltn__header-area ltn__header-5 ltn__header-logo-and-mobile-menu-in-mobile ltn__header-logo-and-mobile-menu ltn__header-transparent gradient-color-2">
@@ -182,6 +199,14 @@ const NavbarV3 = ({ user, Wish_list }) => {
                     </div>
                     <div className="nameShow">NOW WAY</div>
                   </div>
+                  <div  className="cart_icon">
+                    {/* <CartComp /> */}
+                    {ServiceCart?.Response && ServiceCart?.Response[0]?.details?.length>0 &&<IconButton aria-label="cart" onClick={CartPage}>
+                       <StyledBadge badgeContent={ServiceCart?.Response && ServiceCart?.Response[0]?.details?.length} color="secondary">
+                              <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                     </StyledBadge>
+                    </IconButton>}
+                    </div>
                   <div
                     className="col-lg-1 d-flex wish-mobile"
                     onClick={openWishlist}
@@ -206,10 +231,10 @@ const NavbarV3 = ({ user, Wish_list }) => {
                   <nav>
                     <div className="ltn__main-menu">
                       <ul>
-                      {JSON.parse(localStorage.getItem("wallet"))? <li style={{textAlign:"center"}}>
+                      {transaction && transaction[0]?.amount? <li style={{textAlign:"center"}}>
                         <Link to="/#">
                        
-                        <div className="cash_style">₹{JSON.parse(localStorage.getItem("wallet"))}</div>
+                        <div className="cash_style">₹{transaction && transaction[0]?.amount}</div>
                        <img src={publicUrl + "assets/img/cash.png"} style={{width:"20px",height:"20px",marginTop:"-12px"}} />
                       </Link>
                      </li>:""}
@@ -260,7 +285,7 @@ const NavbarV3 = ({ user, Wish_list }) => {
                           <li>
                             <Link to={`/login?edit=${"user_id"}`}>
                               {" "}
-                              <label onClick={()=>localStorage.clear()}>Sign out</label>
+                              <label onClick={()=>localStorage.removeItem("user_id")}>Sign out</label>
                             </Link>
                           </li>
                         )}
@@ -328,7 +353,7 @@ const NavbarV3 = ({ user, Wish_list }) => {
                 )} */}
                 {login_id && (
                   <li>
-                    <Link> <label onClick={()=>{localStorage.clear();history.push("/login")}}>Sign out</label></Link>
+                    <Link> <label onClick={()=>{localStorage.removeItem("user_id");history.push("/login")}}>Sign out</label></Link>
 
                   </li>
                 )}
@@ -364,4 +389,9 @@ const NavbarV3 = ({ user, Wish_list }) => {
     </div>
   );
 };
-export default NavbarV3;
+
+const mapStateToProps = (state) =>
+({
+    ServiceCart:state.AllReducer.Service_Cart || [],
+});
+export default connect(mapStateToProps)(NavbarV3);

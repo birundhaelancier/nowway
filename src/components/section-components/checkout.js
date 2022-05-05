@@ -122,7 +122,7 @@ const HandleSubmit=(data,formValues)=>{
             />
             <div>
               <label>
-                Earn upto ₹1,000{" "}
+                Earn upto ₹1,200{" "}
                 <img
                   src={publicUrl + "assets/img/cash.png"}
                   style={{ width: "20px", height: "20px" }}
@@ -283,7 +283,7 @@ const HandleSubmit=(data,formValues)=>{
               />
               <div>
                 <label>
-                  Earn upto ₹1,000{" "}
+                  Earn upto ₹1,200{" "}
                   <img
                     src={publicUrl + "assets/img/cash.png"}
                     style={{ width: "20px", height: "20px" }}

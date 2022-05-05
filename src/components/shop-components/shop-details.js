@@ -204,7 +204,7 @@ console.log("pro_details",pro_details)
                       <ul>
                         <li className="ltn__blog-category">
                           <Link className="bg-orange" to="#">
-                            {data.type === "Rent" ? "For Rent" : "For Sell"}
+                            {data.typey}
                           </Link>
                         </li>
                         <li className="ltn__blog-date">

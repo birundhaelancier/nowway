@@ -126,6 +126,7 @@ const ServiceDetails = ({ sub_services, ser_image,service,ServiceCart,ser_id }) 
 			setTimeSlots(Data)
 		})
 	},[])
+
 	return (
 		<div className="ltn__page-details-area ltn__service-details-area">
 			<div className="container">
@@ -133,7 +134,7 @@ const ServiceDetails = ({ sub_services, ser_image,service,ServiceCart,ser_id }) 
 					<div className="col-lg-7">
 						<div className="ltn__page-details-inner ltn__service-details-inner">
 							<div className="ltn__blog-img">
-								<img className='serviceImage' src={ser_image} alt="Image" />
+								<img className='serviceImage' src={sub_services && sub_services[0]?.service_image} alt="Image" />
 							</div>
 						</div>
 					</div>
@@ -149,7 +150,7 @@ const ServiceDetails = ({ sub_services, ser_image,service,ServiceCart,ser_id }) 
 												<button className='side-btn-show' onClick={() => selectSubserivce(data)}>
 											     	<div>
 														<img src={data.image} style={{width:"100px",height:"80px"}}/>
-													    <div style={{paddingLeft:"20px"}}>{data.name}</div>
+													    <div style={{paddingLeft:"20px",textAlign:"left"}}>{data.name}</div>
 													</div>
 													<div>
 														<span><i className="fas fa-arrow-right" /></span>

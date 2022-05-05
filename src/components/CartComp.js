@@ -14,10 +14,11 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
 import { connect, useDispatch } from 'react-redux'
-import {  GetAmenities,GetHomeList } from '../Redux/Action/allActions'
+import {  GetAmenities } from '../Redux/Action/allActions'
 import { GetPropertyType, GetLocations, GetHomeOffer,GetServiceDetails } from '../components/apiActions/index';
-
-const Home_V7 = (props) => {
+import Checkout from './section-components/Cart';
+import PageHeader from './global-components/new-page-header';
+const CartPage = (props) => {
     let dispatch=useDispatch()
     const params = new URLSearchParams(props.location.search);
     const EditText = params.get('edit');
@@ -33,14 +34,13 @@ const Home_V7 = (props) => {
 
 
 useEffect(()=>{
-    setHome_list(props.HomeList)
     setAmenities_val(props.Aminities)
-},[props.Aminities,props.HomeList])
+},[props.Aminities])
 
     useEffect(() => {
-        dispatch(GetHomeList())
+      
         dispatch(GetAmenities())
-        myRef.current.scrollIntoView()
+        // myRef.current.scrollIntoView()
         GetPropertyType().then((data) => {
             setProperty_type(data.Response)
         })
@@ -51,29 +51,20 @@ useEffect(()=>{
         GetHomeOffer().then((data) => {
             setHome_offer(data.Response)
         })
-        // dispatch(GetHomeList()).then((data) => {
-        //     setHome_list(data.Response)
-        // })
         GetServiceDetails().then((data) => {
             setService(data.Response)
         })
-    }, [JSON.parse(localStorage.getItem("Token"))])
-console.log(props.HomeList)
+    }, [])
     return (
     <div>
         <Navbar CustomClass="ltn__header-transparent gradient-color-2" Wish_list={Wish_list} /> 
-         <BannerV6 property_type={property_type} location={location} />
-        <ServiceV1 service={service}/> 
-        {/* <Aboutv2 /> */}
-        <div ref={myRef}>
-            <Advertisement home_offers={home_offers} />
-        </div>
-        <Featuresv1 customClass="ltn__feature-area section-bg-1" home_offers={home_offers} />
+        <PageHeader headertitle="What We Do" subheader="Service" />
+         <Checkout/>
 
-        <ProSlider list={home_list} callWish={(data)=>setWish_list(data)}/>
+        {/* <ProSlider list={home_list} callWish={(data)=>setWish_list(data)}/>
         <Category amenities_val={amenities_val} />
         <Testimonial />
-        <CallToActionV1 />
+        <CallToActionV1 /> */}
         <Footer />
     </div>
     )
@@ -86,4 +77,4 @@ const mapStateToProps = (state) =>
     HomeList:state.AllReducer.HomeList.Response || [],
     Aminities:state.AllReducer.Aminities.Response || [],
 });
-export default connect(mapStateToProps)(Home_V7);
+export default connect(mapStateToProps)(CartPage);

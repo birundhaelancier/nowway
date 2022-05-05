@@ -13,25 +13,33 @@ const Login = () => {
 	const [mobileErr, setMobileErr] = useState(false)
 	const [otpnumber, setOtpnumber] = useState()
 	const [validate,setvalidate]=useState(false)
+	const [login,setlogin]=useState(false)
 	const [Responsedata,setResponsedata]=useState()
 	const [showPass,setshowPass]=useState(false)
 	const initialValues = {
 		mobile: "",
 		password: "",
-		type:"password",
+		type:"",
 		otp:""
 	};
 	const [values, setValues] = useState(initialValues);
 
-	const handleChange = (e,key) => {
-		
+	const handleChange = (e,key,type) => {
+
 	
 		if(key==="otp"){
 			setValues({
 				...values,
 				[key]: e,
 			});	
-		}else{
+		}
+		else if(key==="type"){
+			setValues({
+				...values,
+				[key]:type,
+			});	
+		}
+		else{
 			const { name, value } = e.target;
 			if (name === "mobile") {
 				if (value.length !== 10) {
@@ -52,8 +60,29 @@ const Login = () => {
 		if (mobileErr) {
 			setMobileErr(true)
 		} else {
-				// onOtp()
-				SubmitOtp()
+			let Type=values.type==="pass"?"Password Login":"Otp Login"
+			if(values.type==="pass"){
+				onLogin(values,Type,JSON.parse(localStorage.getItem("Token"))).then((data) => {
+					 if(data.Status==="Success"){
+						localStorage.setItem("user_id", JSON.stringify(data.Response[0]?.id))
+						Swal.fire({
+							title: 'Success!',
+							icon: 'success',
+							// text:data.Message,
+						}) 
+						history.push("/") 
+					 }else{
+						Swal.fire({
+							title: 'Failed!',
+							icon: 'error',
+							text: data.Message,
+						})
+					 }
+				})
+			}else if(validate?validate:values.type==="otp"){
+				// onSignInSubmit()
+				onSignInSubmit()
+			}
 		}
 
 	}
@@ -64,35 +93,47 @@ const Login = () => {
 		   size:"invisible"
 		});
 	},[])
-	const SubmitOtp=()=>{
+	const OtpVerifyFun= async (data)=>{
+		const appVerifier = window.recaptchaVerifier;
+			
+		await firebase.auth().signInWithPhoneNumber("+91"+values.mobile,appVerifier).then(confirmResult => { 
+		setOtpnumber(confirmResult)
+			Swal.fire({
+				title: 'Success!',
+				icon: 'success',
+				text: 'Otp sent your registered mobile number Successfully',
+			})   
+		}).catch(error => {
+			Swal.fire({
+				title: 'Failed!',
+				icon: 'error',
+				text: "Something went wrong",
+			})
+		})
+
+	}
+	const SubmitOtp=(e)=>{
+		e.preventDefault();
 		GetOtp(values).then((data) => {
 			setResponsedata(data.Response)
+			if(data.Response[0]?.user!==0){
+		    OtpVerifyFun(data)
+			setvalidate(false)
 			setvalidate(true)
-			const appVerifier = window.recaptchaVerifier;
-			
-			firebase.auth().signInWithPhoneNumber("+91"+values.mobile,appVerifier).then(confirmResult => { 
-			setResponsedata(data.Response)
-			setOtpnumber(confirmResult)
-				Swal.fire({
-					title: 'Success!',
-					icon: 'success',
-					text: 'Otp sent your registered mobile number Successfully',
-				})     
-			})
-			.catch(error => {
-				setvalidate(true)
-				Swal.fire({
-					title: 'Failed!',
-					icon: 'error',
-					text: "Something went wrong Otp not sended",
-				})
-			})
+			}else{
+				setlogin(true)
+				setvalidate(false)
+			}
 		})
 	}
 
-
-const onSignInSubmit=(e)=> {
-	e.preventDefault();
+// useEffect(()=>{
+// 	if(values.type==="otp"){
+// 		OtpVerifyFun()
+// 	}
+// },[])
+const onSignInSubmit=async(e)=> {
+	// e.preventDefault()
 	if(Number(values.otp)===123456){
 		if (Responsedata[0]?.user===0) {
 			localStorage.setItem("user_id", JSON.stringify(Responsedata[0]?.user_id))
@@ -102,12 +143,11 @@ const onSignInSubmit=(e)=> {
 				text: 'Login Successfully',
 			})
 			history.push("/")
-		} else {
-		
+		} else {	
 			history.push(`/register/${Responsedata[0]?.user_id}/${values.mobile}`)
 		}
 	}else{
-	otpnumber.confirm(values.otp).then(user => {
+	await otpnumber.confirm(values.otp).then(user => {
 			if (Responsedata[0]?.user===0) {
 				localStorage.setItem("user_id", JSON.stringify(Responsedata[0]?.user_id))
 				Swal.fire({
@@ -117,7 +157,6 @@ const onSignInSubmit=(e)=> {
 				})
 				history.push("/")
 			} else {
-				
 				history.push(`/register/${Responsedata[0]?.user_id}/${values.mobile}`)
 			}
     })
@@ -135,6 +174,7 @@ const onSignInSubmit=(e)=> {
 const clickHandler=()=>{
 	setshowPass(!showPass)
 }
+console.log("check",values)
 	return (
 		<div className="ltn__login-area">
 			<div className="container">
@@ -154,20 +194,36 @@ const clickHandler=()=>{
 				</div>
 					<div className="col-lg-6">
 						<div className="account-login2-inner">
-							<form className="ltn__form-box contact-form-box" onSubmit={(e) =>{validate? onSignInSubmit(e): submitForm(e)}}>
+							<form className="ltn__form-box"  autocomplete="off" onSubmit={(e) =>{!validate && !login ?SubmitOtp(e):submitForm(e)}}>
 								<div id="sign-in-button">
 								<h5>Enter Your Mobile Number</h5>
-								<input type="number" style={{marginBottom:validate ? "10px":"20px"}} className="mob_field" name="mobile" placeholder="Mobile No*" value={values.mobile} onChange={(e) => handleChange(e)} required autocomplete="off" />
+								<input type="number" style={{marginBottom:validate ? "10px":"20px"}} className="mob_field" name="mobile" placeholder="Mobile No*" value={values.mobile} onChange={(e) => handleChange(e)} required  />
 								{mobileErr && <div className='errMsg' style={{bottom:"16px"}} >Mobile Number should be 10 digit only</div>}
-								{validate && <div onClick={()=>setvalidate(false)} style={{textAlign:"end",color:"green",textDecoration:"underline"}}>Change Your MobileNumber</div>}
-								{validate &&<div className='otp_input_div'>
+								{validate || login && <div onClick={()=>{setvalidate(false);setlogin(false)}} style={{textAlign:"end",color:"green",textDecoration:"underline"}}>Change Your MobileNumber</div>}
+								{login &&
+								<div style={{margin:"15px 0px"}}>
+									<input type="radio"  className="mob_field" name="radio" checked={values.type==="otp"?true:false} value={values.type}  onClick={()=>	OtpVerifyFun()} onChange={(e) => handleChange(e,"type","otp")}   /><span className="otp_pass">Generate OTP</span>{" "} {" "}
+									<input type="radio"  className="mob_field" name="radio" checked={values.type==="pass"?true:false}  value={values.type} onChange={(e) => handleChange(e,"type","pass")}   /><span className="otp_pass">I've Password</span>
+								</div>
+								}
+
+								{login && values.type==="pass" ? <div className='pass_show_div'>
+								<input type={showPass?"text":"password"} name="password" placeholder="Password*" value={values.password} onChange={(e) => handleChange(e)} required={!login ? false : true} />
+								   <i onClick={clickHandler} class={showPass ? 'fas fa-eye' : 'fas fa-eye-slash'}></i>
+								</div>:""}
+
+								{!login && validate || login && values.type==="otp" ?<div className='otp_input_div'>
 									<div style={{marginBottom:"10px",fontSize:"15px",fontWeight:500}}>Enter Your Otp</div>
-								<OtpInput value={values.otp}  className="otp_input" onChange={(e)=>handleChange(e,"otp")}  isInputNum={true} numInputs={6} separator={<span style={{padding:"5px"}}>-</span>} /></div>}
+								<OtpInput value={values.otp}  className="otp_input" onChange={(e)=>handleChange(e,"otp")}  isInputNum={true} numInputs={6} separator={<span style={{padding:"5px"}}>-</span>} /></div>:""}
 								{validate &&<div style={{textAlign:"end"}}><button style={{fontSize:"15px",fontWeight:"bold",color:"#8ab64d",textAlign:"end",cursor:"pointer",textDecoration:"underline",background:"none"}} onClick={(e)=>SubmitOtp(e,"resend")} >Resend Otp</button></div>}
+								{login?
+								<div className="btn-wrapper  text-center mt-0">
+								<button className="theme-btn-1 sign_acc btn btn-block">{validate?"VALIDATE OTP":"SIGN IN"}</button>
+							   </div>:
 								<div className="btn-wrapper  text-center mt-0">
 									<button className="theme-btn-1 sign_acc btn btn-block">{validate?"VALIDATE OTP":"SIGN IN"}</button>
-								</div>
-							
+								</div>}
+				
 								</div>
 							</form>
 						</div>

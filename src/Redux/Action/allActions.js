@@ -2,10 +2,10 @@ import {
     PROPERTY_SEARCH,
     VIEW_SERVICE_CART,
     ADD_CART_LIST,
-    GET_AMINITIES
+    GET_AMINITIES,VIEW_HOME_LIST
   
 } from '../Utils/constant';
-import { APIURL, REQUEST_HEADERS } from "../../components/apiActions/baseHeaders";
+import { APIURL } from "../../components/apiActions/baseHeaders";
 import CryptoJS from 'crypto-js'
 import { notification } from 'antd'
 import axios from 'axios'
@@ -43,7 +43,7 @@ export const GetPropertyType_Search= (data,Search) => async dispatch =>{
     try {
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
             body: JSON.stringify({ encrypted: Encription }),
         };
         return fetch(APIURL + "search_listing", requestOptions)
@@ -65,7 +65,7 @@ export const ViewService_Cart= () => async dispatch =>{
     try {
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
             body: JSON.stringify({ encrypted: Encription }),
         };
         return fetch(APIURL + "view_service_cart", requestOptions)
@@ -87,7 +87,7 @@ export const  Remove_Service_Cart= (id) => async (dispatch) => {
     try {
         axios({
             method: 'post',
-            headers:REQUEST_HEADERS,
+            headers:{"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
             url: APIURL + 'delete_service_cart',
             data:JSON.stringify({encrypted:Encription})
         })
@@ -130,7 +130,7 @@ export const AddService_Cart = (data,qty) => async (dispatch) =>  {
     try {
         axios({
             method: 'post',
-            headers:REQUEST_HEADERS,
+            headers:{"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
             url: APIURL + 'add_service_cart',
             data:JSON.stringify({encrypted:Encription})
         })
@@ -178,7 +178,7 @@ export const AddService_Cart = (data,qty) => async (dispatch) =>  {
     try {
         axios({
             method: 'post',
-            headers:REQUEST_HEADERS,
+            headers:{"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
             url: APIURL + 'save_enquiry',
             data:JSON.stringify({encrypted:Encription})
         })
@@ -216,13 +216,38 @@ export const GetAmenities = () => async (dispatch)=> {
     try {
         const requestOptions = {
             method: 'POST',
-            headers: REQUEST_HEADERS,
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
         };
         return fetch(APIURL + "amenities", requestOptions)
             .then((response) => response.json())
             .then((response) => {
                 dispatch({
                     type: GET_AMINITIES,
+                    payload: decryptValue(response.encrypted)
+                })
+            });
+    } catch (err) { }
+}
+
+
+export const GetHomeList = () => async (dispatch)=> {
+    try {
+        const Encription = CryptoJS.AES.encrypt(JSON.stringify({
+            "user_id": JSON.parse(localStorage.getItem("user_id")) ? JSON.parse(localStorage.getItem("user_id")) : 0
+        }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
+
+        const requestOptions = {
+            method: 'POST',
+            headers:{"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
+            body: JSON.stringify({ encrypted: Encription }),
+        };
+        console.log("Encription",decryptValue(Encription))
+        return fetch(APIURL + "home_listing", requestOptions)
+            .then((response) => response.json())
+            .then((response) => {
+                console.log("check",decryptValue(response.encrypted))
+                dispatch({
+                    type: VIEW_HOME_LIST,
                     payload: decryptValue(response.encrypted)
                 })
             });

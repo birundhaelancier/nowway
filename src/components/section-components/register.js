@@ -63,8 +63,10 @@ function RegisterComp(props) {
 		e.preventDefault();
 		if (!mobileErr && !emailErr) {
 			onRegister(values,userid).then((data) => {
+				console.log("chekkk",data)
 				if (data.Status === "Success") {
-						
+					localStorage.setItem("wallet", JSON.stringify(data.Response[0].wallet))
+					localStorage.setItem("user_id", JSON.stringify(data.Response[0]?.id))
 						Swal.fire({
 							showClass: {
 							  popup: 'animate__animated animate__fadeInDown'
@@ -78,8 +80,7 @@ function RegisterComp(props) {
 						    // html: <p style={{color:"#ec4249",fontWeight:"700",fontSize:"20px"}}></p>,
 						  })
 					history.push("/")
-					localStorage.setItem("wallet", JSON.stringify(data.Response[0].wallet));
-					localStorage.setItem("user_id", JSON.stringify(data.Response[0]?.id));
+					
 					// setShowOtp(true)
 				    // SubmitOtp()
 				} 
@@ -166,10 +167,10 @@ const SubmitOtp=()=>{
 								{emailErr && <div className='errMsg'>Invalid Email</div>}
 								<input type="number" name="mobile" placeholder="Mobile No*"  readOnly={userid?true:false} value={values.mobile} onChange={(e) => handleChange(e)} required={showOtp ? false : true} />
 								{mobileErr && <div className='errMsg'>Mobile Number should be 10 digit only</div>}
-								{/* <div className='pass_show_div'>
+								<div className='pass_show_div'>
 								<input type={showPass?"text":"password"} name="password" placeholder="Password*" value={values.password} onChange={(e) => handleChange(e)} required={showOtp ? false : true} />
 								   <i onClick={clickHandler} class={showPass ? 'fas fa-eye' : 'fas fa-eye-slash'}></i>
-								</div> */}
+								</div>
 								<div className="btn-wrapper   go-top">
 									<button className="theme-btn-1 sign_acc btn black-btn">CREATE ACCOUNT</button>
 								</div>
