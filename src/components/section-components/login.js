@@ -107,7 +107,7 @@ const Login = () => {
 			Swal.fire({
 				title: 'Failed!',
 				icon: 'error',
-				text: "Something went wrong",
+				text: "Something went wrong Otp not sended please try again",
 			})
 		})
 

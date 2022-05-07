@@ -75,9 +75,9 @@ const App = () => {
         }).then((response) => {
           localStorage.setItem(
             "Token",JSON.stringify(response.data.Response.token))
-          setTimeout(()=>{
+          // setTimeout(()=>{
             setloading(true)
-          },500)  
+          // },500)  
         
         });
       }
