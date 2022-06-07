@@ -447,17 +447,18 @@ export const GetUserDetails = () => {
 export const UpdateUserDetails = (userDetails, picture, show_PasswordInput) => {
     try {
         const Encription = CryptoJS.AES.encrypt(JSON.stringify({
-            "user_id": JSON.parse(localStorage.getItem("user_id")), "first_name": userDetails.fname, "last_name": userDetails.lname, "password": show_PasswordInput ? userDetails.newPassword : userDetails.curPassword, "email": userDetails.email, "display_name": userDetails.name, "description": userDetails.description, "image": picture, "profession": userDetails.profession
+            "user_id": JSON.parse(localStorage.getItem("user_id")), "first_name": userDetails.fname, "last_name": userDetails.lname, "password": show_PasswordInput ? userDetails.newPassword : userDetails.curPassword, "email": userDetails.email, "display_name": userDetails.name, "description": userDetails.description, "image":picture || "","old_image":!picture?userDetails.image:"","profession": userDetails.profession
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
         const requestOptions = {
             method: 'POST',
             headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
             body: JSON.stringify({ encrypted: Encription }),
         };
+        console.log(decryptValue(Encription),"Encription")
         return fetch(APIURL + "update_user", requestOptions)
             .then((response) => response.json())
             .then((response) => {
-                return decryptValue(response.encrypted)
+              return decryptValue(response.encrypted)
             });
     } catch (err) { }
 }

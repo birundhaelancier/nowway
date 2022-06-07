@@ -164,6 +164,7 @@ export const AddService_Cart = (data,qty) => async (dispatch) =>  {
 
 
     export const PaymentSuccess = (values,cartdet,ser_id,pay_id,status) => async (dispatch) =>  {
+
      var ArrayData=[]
      cartdet && cartdet.details.forEach((data,index) => {
         ArrayData.push({"pid":data.pid,"price":data.price,"qty":data.qty,"nwcash":data.product_nwcash})
@@ -174,7 +175,7 @@ export const AddService_Cart = (data,qty) => async (dispatch) =>  {
     "total_qty":cartdet.total_qty,"sub_total":cartdet.sub_total,"total_nw":cartdet.nwcash,"total":cartdet.total,"payment_id":pay_id,"payment_mode":"Razorpay","payment_status":status,"conv_charge":cartdet.conv_charge || "",
     "details":ArrayData
     }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
-    console.log(decryptValue(Encription),"dfghjdsfghjfdgh")
+
     try {
         axios({
             method: 'post',
@@ -235,17 +236,14 @@ export const GetHomeList = () => async (dispatch)=> {
         const Encription = CryptoJS.AES.encrypt(JSON.stringify({
             "user_id": JSON.parse(localStorage.getItem("user_id")) ? JSON.parse(localStorage.getItem("user_id")) : 0
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
-
         const requestOptions = {
             method: 'POST',
             headers:{"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
             body: JSON.stringify({ encrypted: Encription }),
         };
-        console.log("Encription",decryptValue(Encription))
         return fetch(APIURL + "home_listing", requestOptions)
             .then((response) => response.json())
             .then((response) => {
-                console.log("check",decryptValue(response.encrypted))
                 dispatch({
                     type: VIEW_HOME_LIST,
                     payload: decryptValue(response.encrypted)

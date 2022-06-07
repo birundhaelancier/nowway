@@ -21,6 +21,7 @@ const MyAccount = ({ wishnumber }) => {
 		newPassword: "",
 		conPassword: "",
 		profession: "",
+		image:"",
 	};
 	let history=useHistory()
 	const [userDetails, setUserDetails] = useState(initialValues);
@@ -68,13 +69,14 @@ const MyAccount = ({ wishnumber }) => {
 		})
 		GetUserDetails().then((data) => {
 			let response = data.Response[0];
-			userDetails.fname = response.name;
-			userDetails.lname = response.last_name;
-			userDetails.name = response.display_name;
-			userDetails.email = response.email;
-			userDetails.description = response.description;
-			userDetails.curPassword = response.password;
-			setPicture(response.image)
+			userDetails.fname = response.name || ""
+			userDetails.lname = response.last_name || ""
+			userDetails.name = response.display_name ||""
+			userDetails.email = response.email || ""
+			userDetails.description = response.description || ""
+			userDetails.curPassword = response.password ||""
+			userDetails.image=response.image
+			console.log(response,"image")
 			setUserDetails({
 				...userDetails,
 			});
@@ -109,11 +111,11 @@ const MyAccount = ({ wishnumber }) => {
 		});
 	}
 
-	const submitForm = async (e) => {
+	const submitForm = (e) => {
 		e.preventDefault();
 		// if (show_PasswordInput && (userDetails.newPassword != " " && userDetails != " "))
 		if (show_PasswordInput) {
-			if (userDetails.newPassword == userDetails.conPassword) {
+			if (userDetails.newPassword === userDetails.conPassword) {
 				UpdateUserDetails(userDetails, picture, show_PasswordInput).then((response) => {
 					if (response.Status == "Success") {
 						Swal.fire({
@@ -121,6 +123,10 @@ const MyAccount = ({ wishnumber }) => {
 							icon: 'success',
 							text: response.Message,
 						})
+						setTimeout(()=>{
+							window.location.reload()
+						 },1000)
+						setPicture("")
 						setShow_PasswordInput(false)
 					} else {
 						Swal.fire({
@@ -146,6 +152,10 @@ const MyAccount = ({ wishnumber }) => {
 						icon: 'success',
 						text: response.Message,
 					})
+					setTimeout(()=>{
+					window.location.reload()
+				    },1000)
+					setPicture("")
 					setShow_PasswordInput(false)
 				} else {
 					Swal.fire({
@@ -213,7 +223,7 @@ const MyAccount = ({ wishnumber }) => {
 		})
 		setRefresh(true);
 	}
-	console.log(serviceDetails, "tranaction")
+	console.log(userDetails, "tranaction")
 
 	return (
 		<div className="liton__wishlist-area pb-70">
@@ -289,7 +299,7 @@ const MyAccount = ({ wishnumber }) => {
 																		return (
 																			<div className='grid-Show'>
 																				<div className="product-img go-top">
-																					<Link to={`/product-details?product_id=${data.id}`}><img src={data.image[0]?data.image[0]:publicUrl+"assets/img/no_image.jpg"} alt="#" style={{width:"100%",height:"180px",objectFit:"cover"}}/></Link>
+																					<Link to={`/product-details?product_id=${data.id}`}><img src={data.image[0]?data.image[0]:publicUrl+"assets/img/home.jpeg"} alt="#" style={{width:"100%",height:"180px",objectFit:"cover"}}/></Link>
 																					<div className="product-badge re-content">
 																						<button className={data.type === "Rent" ? "sale-badge bg-green" : "sale-badge-sell"}>{data.type === "Rent" ? "Rent" : "Sell"}</button>
 																					</div>
@@ -325,7 +335,7 @@ const MyAccount = ({ wishnumber }) => {
 																		return (
 																			<div className='grid-Show'>
 																				<div className="product-img go-top">
-																					<Link to={`/product-details?product_id=${data.id}&&type=${"own"}`}><img src={data.image[0]?data.image[0]:publicUrl+"assets/img/no_image.jpg"} alt="#" style={{width:"100%",height:"180px",objectFit:"cover"}}/></Link>
+																					<Link to={`/product-details?product_id=${data.id}&&type=${"own"}`}><img src={data.image[0]?data.image[0]:publicUrl+"assets/img/home.jpeg"} alt="#" style={{width:"100%",height:"180px",objectFit:"cover"}}/></Link>
 																					<div className="product-badge re-content">
 																						<button className={data.type === "Rent" ? "sale-badge bg-green" : "sale-badge-sell"}>{data.type === "Rent" ? "Rent" : "Sell"}</button>
 																					</div>
@@ -407,7 +417,6 @@ const MyAccount = ({ wishnumber }) => {
 													</div>:
 													<>
 													{serviceDetails?.service_details.map((data,index)=>{
-														console.log("gggggg",data)
                 
                return(
 													<div className="service_pay_parent">
@@ -492,9 +501,9 @@ const MyAccount = ({ wishnumber }) => {
 																<div className="col-md-12 profile_show">
 																	<div className="filecontainer" onClick={fileclick}>
 																		<div className="uploads">
-																			<input required={picture ? false : true} id="profilePic" type="file" onChange={(e) => onChangePicture(e)} className="fileinput hidden" ref={inputElement} />
+																			<input id="profilePic" type="file" onChange={(e) => onChangePicture(e)} className="fileinput hidden" ref={inputElement} />
 
-																			<img src={picture ? picture : publicUrl + "assets/img/profilenew.jpg"} alt=" " className="uploadimage" />
+																			<img src={picture ? picture :userDetails.image?userDetails.image:publicUrl + "assets/img/profilenew.jpg"} alt=" " className="uploadimage" />
 																			<div className='uploadBtn'>
 																			<i class="fa fa-upload" aria-hidden="true"></i>
 																		   </div>
@@ -509,12 +518,12 @@ const MyAccount = ({ wishnumber }) => {
 																</div>
 																<div className="col-md-6">
 																	<label  className='label_ac_name'>Last name:</label>
-																	<input required type="text" name="lname" onChange={(e) => handleChange(e)}
+																	<input  type="text" name="lname" onChange={(e) => handleChange(e)}
 																		value={userDetails.lname} />
 																</div>
 																<div className="col-md-6">
 																	<label  className='label_ac_name'>Display Name:</label>
-																	<input required type="text" name="name" onChange={(e) => handleChange(e)} placeholder="display name"
+																	<input  type="text" name="name" onChange={(e) => handleChange(e)} 
 																		value={userDetails.name} />
 																</div>
 																<div className="col-md-6">
@@ -529,12 +538,12 @@ const MyAccount = ({ wishnumber }) => {
 																</div>
 																<div className="col-md-12">
 																	<label  className='label_ac_name'> Profession:</label>
-																	<input required  type="text" name="profession" onChange={(e) => handleChange(e)} placeholder="Profession"
+																	<input   type="text" name="profession" onChange={(e) => handleChange(e)} 
 																		value={userDetails.profession} />
 																</div>
 																<div className="col-md-12">
 																	<label  className='label_ac_name'>Current password:</label>
-																	<input required type="password" name="curPassword" onChange={(e) => handleChange(e)}
+																	<input  type="password" name="curPassword" onChange={(e) => handleChange(e)}
 																		value={userDetails.curPassword} />
 																	<div className='change_pwd_link' onClick={() => setShow_PasswordInput(!show_PasswordInput)}>Change Password</div>
 																</div>

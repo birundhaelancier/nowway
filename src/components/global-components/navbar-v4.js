@@ -231,6 +231,7 @@ const NavbarV3 = ({ user, Wish_list,ServiceCart }) => {
                   <nav>
                     <div className="ltn__main-menu">
                       <ul>
+                  
                       {transaction && transaction[0]?.amount? <li style={{textAlign:"center"}}>
                         <Link to="/#">
                        
@@ -238,6 +239,9 @@ const NavbarV3 = ({ user, Wish_list,ServiceCart }) => {
                        <img src={publicUrl + "assets/img/cash.png"} style={{width:"20px",height:"20px",marginTop:"-12px"}} />
                       </Link>
                      </li>:""}
+                        <li>
+                          <Link onClick={()=>window.open("https://blog.nowway.in/")}> Blog</Link>
+                        </li>
                         <li>
                           <Link to="/service"> Services</Link>
                         </li>
@@ -271,6 +275,8 @@ const NavbarV3 = ({ user, Wish_list,ServiceCart }) => {
                             <Link to="/my-account"> My Profile</Link>
                           </li>
                         )}
+
+                       
                         {!login_id && (
                           <li className="signbtn">
                             <Link to="/login"> SIGN IN</Link>
@@ -340,6 +346,12 @@ const NavbarV3 = ({ user, Wish_list,ServiceCart }) => {
                     <Link to="/my-account"> My Profile</Link>
                   </li>
                 )}
+                
+                 {login_id && (
+                          <li>
+                            <Link onClick={()=>window.open("https://blog.nowway.in/")}>Blog</Link>
+                          </li>
+                 )}
 
                 {!login_id && (
                   <li className="signbtn">

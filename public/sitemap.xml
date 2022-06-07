@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+<url>
+  <loc>https://nowway.in/#/</loc>
+  <lastmod>2022-05-16T20:16:30+00:00</lastmod>
+</url>
+
+<url>
+  <loc>https://nowway.in/#/login</loc>
+  <lastmod>2022-05-16T20:16:30+00:00</lastmod>
+</url>
+
+<url>
+  <loc>https://nowway.in/#/my-account</loc>
+  <lastmod>2022-05-16T20:16:30+00:00</lastmod>
+</url>
+
+
+<url>
+  <loc>https://nowway.in/#/shop-right-sidebar/:apartment?/:city?/:type?</loc>
+  <lastmod>2022-05-16T20:16:30+00:00</lastmod>
+</url>
+
+<url>
+  <loc>https://nowway.in/#/shop-right-sidebar</loc>
+  <lastmod>2022-05-16T20:16:30+00:00</lastmod>
+</url>
+
+<url>
+  <loc>https://nowway.in/#/register/:userid?/:mobilenumber?</loc>
+  <lastmod>2022-05-16T20:16:30+00:00</lastmod>
+</url>
+
+<url>
+  <loc>https://nowway.in/#/add-listing/:id?</loc>
+  <lastmod>2022-05-16T20:16:30+00:00</lastmod>
+</url>
+
+<url>
+  <loc>https://nowway.in/#/wallet</loc>
+  <lastmod>2022-05-16T20:16:30+00:00</lastmod>
+</url>
+
+<url>
+  <loc>https://nowway.in/#/contact</loc>
+  <lastmod>2022-05-16T20:16:30+00:00</lastmod>
+</url>
+
+<url>
+  <loc>https://nowway.in/#/wallet</loc>
+  <lastmod>2022-05-16T20:16:30+00:00</lastmod>
+</url>
+
+<url>
+  <loc>https://nowway.in/#/blog-details</loc>
+  <lastmod>2022-05-16T20:16:30+00:00</lastmod>
+</url>
+</urlset>

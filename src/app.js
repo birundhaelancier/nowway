@@ -54,15 +54,26 @@ import PrivatePolicy from "./components/private-policy";
 import TermCondition from "./components/terms-condition";
 import ScrollToTop from "./components/section-components/ScrollTop";
 import MediaComp from "./components/section-components/MediaUpload";
-
+import { AuthContext } from './context/auth' 
 import { Box,CircularProgress } from "@mui/material";
 import store from "./Redux/Store/store";
 import { Provider } from "react-redux";
 // import PullToRefresh from "rmc-pull-to-refresh";
 import PullToRefresh from 'react-simple-pull-to-refresh';
+import { createBrowserHistory } from "history";
 const App = () => {
+  // const existingTokens = JSON.parse(localStorage.getItem("data"));
+  // const [authTokens, setAuthTokens] = useState(existingTokens);
+  // const setTokens=(data)=>{
+  //   // localStorage.setItem("data",JSON.stringify(data));
+  //   // localStorage.setItem("UserId",JSON.stringify(data.id))
+  //   console.log(data,"ddddddddddddddddddd")
+  //   localStorage.setItem("user_id", JSON.stringify(data[0]?.id))
+  //   setAuthTokens(data);
+  // }
   const [loading, setloading] = useState(false);
   const [refresh,setrefresh] = React.useState(false);
+  const hist=createBrowserHistory()
     useEffect(() => {
       async function fetchMyAPI() {
          axios({
@@ -83,18 +94,13 @@ const App = () => {
       }
       fetchMyAPI()
     }, [])
-    const handleRefresh = () => {
-      setrefresh(!refresh)
-      // setTimeout(() => {
-      //   setloading(false)
-      // }, 2000);
-    };
+
   return (
     <>
     {/* <PullToRefresh onRefresh={handleRefresh}> */}
-     
-      {loading &&
-          <HashRouter>
+    {/* <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>   */}
+    {loading && 
+          <Router basename="https://tranquil-licorice-4cd8ae.netlify.app/">
             <ScrollToTop />
             <Switch>
               <Route exact path="/" component={HomeV7} />
@@ -144,8 +150,9 @@ const App = () => {
               <Route path="/history" component={History} />
               <Route path="/aboutus" component={RefundPolicy} />
             </Switch>
-          </HashRouter>
-}
+          </Router>
+         }
+          {/* </AuthContext.Provider> */}
         {/* </PullToRefresh> */}
     </>
   );

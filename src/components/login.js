@@ -16,6 +16,5 @@ const LoginV1 = (props) => {
         <Footer />
     </div>
 }
-
 export default LoginV1
 

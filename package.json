@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "homepage": "/",
   "private": true,
+  "homepage":"https://tranquil-licorice-4cd8ae.netlify.app/",
   "proxy": "http://localhost:3001/",
   "dependencies": {
     "@emotion/react": "^11.8.2",

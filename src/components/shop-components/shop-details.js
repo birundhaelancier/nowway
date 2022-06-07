@@ -188,7 +188,6 @@ const PropertyIssue=(id,value,report)=>{
   history.push('/login')
 }
 }
-console.log("pro_details",pro_details)
   return (
     <div className="ltn__shop-details-area pb-10">
       <div className="container">
@@ -434,7 +433,7 @@ console.log("pro_details",pro_details)
                                       <img
                                         src={
                                           item?.image[0] || publicUrl +
-                                          "assets/img/product-3/1.jpg"
+                                          "assets/img/home.jpeg"
                                         }
                                         alt="#"
 										                    style={{width:"100%",height:"300px",objectFit:"cover"}}

@@ -128,7 +128,7 @@ const ShopGridV1 = (props) => {
                                 <Link to={`/product-details?product_id=${data.id}`}>
                                   <img
                                     src={
-                                      data?.image[0] ||  publicUrl + "assets/img/product-3/1.jpg" 
+                                      data?.image[0] ||  publicUrl + "assets/img/home.jpeg" 
                                     }
                                     style={{width:"100%",height:"250px",objectFit:"cover"}}
                                     alt="#"

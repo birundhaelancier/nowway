@@ -144,7 +144,7 @@ const ProductSliderV4 = ({ list, callWish }) => {
                     <div className="col-xl-4 col-sm-6 col-12">
                       <div className="ltn__product-item ltn__product-item-4 text-center---">
                         <div className="product-img go-top">
-                          <Link to={`/product-details?product_id=${item.id}`}><img src={item.image[0]?item.image[0]:publicUrl+"assets/img/product-3/1.jpg"}/></Link>
+                          <Link to={`/product-details?product_id=${item.id}`}><img src={item.image[0]?item.image[0]:publicUrl+"assets/img/home.jpeg"}/></Link>
                           <div className="product-badge">
                             <ul>
                               <li className={item.type === "Rent" ? "sale-badge bg-green" : "sale-badge bg-pink"}>{item.type === "Rent" ? "For Rent" : "For Sell"}</li>

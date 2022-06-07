@@ -67,9 +67,7 @@ const AddListing = ({ structure_type, floor_type, property_type, prefered_type, 
     const [checkList, setCheckList] = useState([]);
 
   
-    const handleChange = (e, key, type, row, id) => {
-    
-        
+    const handleChange = (e, key, type, row, id) => {    
       if (type === "checkbox") {
             let arrValues = []
             if (e.target.checked === true) {
