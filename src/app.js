@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,Suspense  } from "react";
 import ReactDOM from "react-dom";
-import {
-  BrowserRouter as Router,
-  HashRouter,
-  Route,
-  Switch,
-} from "react-router-dom";
+// import {
+//   HashRouter as Router,
+//   Route,
+//   Switch,
+// } from "react-router-dom";
+
+import {BrowserRouter as Router, Route,Switch,useHistory, useLocation,BrowserRouter  } from 'react-router-dom'
 import axios from "axios";
 
 import HomeV7 from "./components/home-v7";
@@ -60,7 +61,7 @@ import store from "./Redux/Store/store";
 import { Provider } from "react-redux";
 // import PullToRefresh from "rmc-pull-to-refresh";
 import PullToRefresh from 'react-simple-pull-to-refresh';
-import { createBrowserHistory } from "history";
+
 const App = () => {
   // const existingTokens = JSON.parse(localStorage.getItem("data"));
   // const [authTokens, setAuthTokens] = useState(existingTokens);
@@ -73,7 +74,6 @@ const App = () => {
   // }
   const [loading, setloading] = useState(false);
   const [refresh,setrefresh] = React.useState(false);
-  const hist=createBrowserHistory()
     useEffect(() => {
       async function fetchMyAPI() {
          axios({
@@ -94,18 +94,18 @@ const App = () => {
       }
       fetchMyAPI()
     }, [])
-
+ 
   return (
     <>
     {/* <PullToRefresh onRefresh={handleRefresh}> */}
     {/* <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>   */}
     {loading && 
-          <Router basename="https://tranquil-licorice-4cd8ae.netlify.app/">
+          <Router>
             <ScrollToTop />
             <Switch>
               <Route exact path="/" component={HomeV7} />
-              <Route path="/service" component={Service} />
-              <Route path="/cart" component={CartPage}/>
+              <Route path="/service" exact component={Service} />
+              <Route path="/cart"  exact component={CartPage}/>
               <Route path="/service-details" component={ServiceDetails} />
               <Route path="/portfolio-details" component={PortfolioDetails} />
               <Route path="/team" component={Team} />
@@ -124,8 +124,8 @@ const App = () => {
               <Route path="/advertisement" component={Advertisement} />
               <Route path="/plan" component={OwnwerPlan} />
               <Route path="/wallet" component={Wallet} />
-              <Route path="/policy" component={PrivatePolicy} />
-              <Route path="/terms" component={TermCondition} />
+              <Route path="/policy" exact component={PrivatePolicy} />
+              <Route path="/terms" exact component={TermCondition} />
               <Route path="/media" component={MediaComp} />
 
               <Route path="/product-details" component={ProdductDetails} />
@@ -144,13 +144,13 @@ const App = () => {
                 path="/register/:userid?/:mobilenumber?"
                 component={Register}
               />
-              <Route path="/add-listing/:id?/" component={AddListing} />
+              <Route path="/add-listing/:id?" component={AddListing} />
               <Route path="/wishlist" component={Wishlist} />
               <Route path="/order-tracking" component={OrderTracking} />
               <Route path="/history" component={History} />
               <Route path="/aboutus" component={RefundPolicy} />
             </Switch>
-          </Router>
+      </Router>
          }
           {/* </AuthContext.Provider> */}
         {/* </PullToRefresh> */}

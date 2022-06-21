@@ -5,7 +5,7 @@ import ShopRightSidebar from './shop-components/shop-right-sidebar';
 import CallToActionV1 from './section-components/call-to-action-v1';
 import Footer from './global-components/footer';
 import { GetPropertyType_Search,GetAmenities,GetPropertyType,GetLocations } from '../components/apiActions/index';
-import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import { useParams } from 'react-router-dom';
 const ShopRightSidebarPage = (props) => {
     let { apartment,city }=useParams()
     const [Property_Details, setProperty_Details] = useState([])

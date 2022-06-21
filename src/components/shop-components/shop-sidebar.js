@@ -4,7 +4,7 @@ import { Checkbox, notification } from 'antd'
 import { GetPropertyType_Search } from '../../Redux/Action/allActions';
 import { useDispatch, connect } from 'react-redux';
 import { GetAmenities, GetPropertyType, GetBathroom } from '../../components/apiActions/index';
-import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import { useParams } from 'react-router-dom';
 
 const Sidebar = (props) => {
 	let publicUrl = process.env.PUBLIC_URL + '/'
