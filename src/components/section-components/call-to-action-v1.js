@@ -19,7 +19,7 @@ class CallToActonV1 extends Component {
 			            <p>We can help you realize your dream of a new home</p>
 			          </div>
 			          <div className="btn-wrapper go-top" >
-			            <Link className="btn btn-effect-3 btn-white" onClick={()=>window.open("https://play.google.com/store/apps/details?id=com.nowwayreact")}>Download our app <i className="icon-next" /></Link>
+			            <Link className="btn btn-effect-3 btn-white" onClick={()=>window.open("https://play.google.com/store/apps/details?id=com.nowwayreact")}><img style={{width:"25px",marginLeft:"10px"}} src={publicUrl+"assets/img/play.webp"}/> Download our app <i className="icon-next" /></Link>
 			          </div>
 			        </div>
 			      </div>

@@ -3,6 +3,7 @@ export const ADD_CART_LIST="ADD_CART_LIST"
 export const VIEW_SERVICE_CART="VIEW_SERVICE_CART"
 export const VIEW_HOME_LIST="VIEW_HOME_LIST"
 export const GET_AMINITIES="GET_AMINITIES"
+export const GET_SEO_LIST="GET_SEO_LIST"
 
 
 

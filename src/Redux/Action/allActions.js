@@ -2,8 +2,8 @@ import {
     PROPERTY_SEARCH,
     VIEW_SERVICE_CART,
     ADD_CART_LIST,
-    GET_AMINITIES,VIEW_HOME_LIST
-  
+    GET_AMINITIES,VIEW_HOME_LIST,
+    GET_SEO_LIST
 } from '../Utils/constant';
 import { APIURL } from "../../components/apiActions/baseHeaders";
 import CryptoJS from 'crypto-js'
@@ -250,4 +250,50 @@ export const GetHomeList = () => async (dispatch)=> {
                 })
             });
     } catch (err) { }
+}
+
+
+
+export const GetSeo_list = () => async (dispatch)=> {
+    try {
+        const requestOptions = {
+            method: 'POST',
+            headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
+        };
+        return fetch(APIURL + "seo_list", requestOptions)
+            .then((response) => response.json())
+            .then((response) => {
+                dispatch({
+                    type: GET_SEO_LIST,
+                    payload: decryptValue(response.encrypted)
+                })
+            });
+    } catch (err) { }
+}
+
+
+
+
+export const Visit_OurPages = (name,service_id,product_name) => async dispatch => {
+    try {
+        axios({
+            method: 'post',
+            url:"https://nowway.in:3000/metaData",
+            headers:{
+                "Content-Type": "application/x-www-form-urlencoded",
+                "Access-Control-Allow-Origin": "*",
+                
+            },
+            data:JSON.stringify({
+                "page":"home",
+                "serviceId":service_id || "",
+                "product":product_name || ""     
+            }),
+        })
+        .then((response) => {
+         
+        })
+        
+    } catch (err) {
+    }
 }

@@ -8,7 +8,10 @@ import { notification } from "antd";
 import  firebase from '../../Redux/Utils/firebase'
 import Swal from 'sweetalert2'
 import OtpInput from "react-otp-input";
+import { Helmet } from 'react-helmet';
+
 const Login = () => {
+
 	let history = useHistory()
 	const [mobileErr, setMobileErr] = useState(false)
 	const [otpnumber, setOtpnumber] = useState()
@@ -92,6 +95,7 @@ const Login = () => {
 		{
 		   size:"invisible"
 		});
+		
 	},[])
 	const OtpVerifyFun= async (data)=>{
 		const appVerifier = window.recaptchaVerifier;
@@ -174,9 +178,9 @@ const onSignInSubmit=async(e)=> {
 const clickHandler=()=>{
 	setshowPass(!showPass)
 }
-console.log("check",values)
 	return (
 		<div className="ltn__login-area">
+		
 			<div className="container">
 				<div className="row">
 					<div className="col-lg-12 mbl">

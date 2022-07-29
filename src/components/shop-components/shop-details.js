@@ -192,7 +192,6 @@ const PropertyIssue=(id,value,report)=>{
     <div className="ltn__shop-details-area pb-10">
       <div className="container">
         {pro_details?.map((data) => {
-          console.log(data,"dddddd")
           return (
             <>
               <div className="row">
@@ -203,7 +202,7 @@ const PropertyIssue=(id,value,report)=>{
                       <ul>
                         <li className="ltn__blog-category">
                           <Link className="bg-orange" to="#">
-                            {data.typey}
+                            {data.type}
                           </Link>
                         </li>
                         <li className="ltn__blog-date">
@@ -288,7 +287,7 @@ const PropertyIssue=(id,value,report)=>{
                           For Support contact:+91 8248699623<br/>
                           For mail : contact@nowway.in<br/>
                           Please visit : <a href={"https://nowway.in"}>http://nowway.in</a><br/>
-                          Download our app in playstore :<a href={"https://cutt.ly/XF4rplE"}>http://cutt.ly/XF4rplE</a>
+                          Download our app in playstore :<a href={"https://play.google.com/store/apps/details?id=com.nowwayreact"}>http://play.google.com/store/apps/details?id=com.nowwayreact</a>
                             {/* {profileDetails[0]?.mobile} */}
                           </div>
                           {/* <div className="phone-mail">
@@ -455,7 +454,7 @@ const PropertyIssue=(id,value,report)=>{
                                           <img
                                             src={
 												                      item?.user_image || publicUrl +
-                                              "assets/img/blog/author.jpg"
+                                              "assets/img/dummy-profile-pic.png"
                                             }
                                             style={{width:"50px",height:"50px"}}
 
@@ -469,9 +468,7 @@ const PropertyIssue=(id,value,report)=>{
                                     <div className="product-badge">
                                       <ul>
                                         <li className="sale-badg">
-                                          {item.type === "Rent"
-                                            ? "For Rent"
-                                            : "For Sale"}
+                                          {item.type}
                                         </li>
                                       </ul>
                                     </div>
@@ -587,7 +584,7 @@ const PropertyIssue=(id,value,report)=>{
                         <div className="widget ltn__author-widget">
                           <div className="ltn__author-widget-inner text-center">
                             <img
-                              src={data?.user_image || publicUrl + "assets/img/team/4.jpg"}
+                              src={data?.user_image || publicUrl + "assets/img/dummy-profile-pic.png"}
                               alt="Image"
                               style={{width:"90px",height:"90px"}}
                             />

@@ -25,7 +25,8 @@ const ServiceV5 = ({ service }) => {
 										<img className='service_img' src={data.image} />
 									</div>
 									<div className="ltn__feature-info">
-										<Link to={`/service-details?edit=${data.id}&&service=${data.service}`}><h3 style={{color:"#333"}}>{data.name}</h3></Link>
+									{/* <Link to={`/service-details/${data.slug}&&service=${data.service}`} */}
+										<Link to={`/service-details/${data.slug}/?service=${data.service}`}><h3 style={{color:"#333"}}>{data.name}</h3></Link>
 										<p  dangerouslySetInnerHTML={{__html:data.description}}></p>
 									</div>
 								</div>

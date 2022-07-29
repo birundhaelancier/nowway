@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Nowway.in is the best online home rental platform to list your property at the best price. Rent it now or sell your home and start making money. Register now and get 1 offer.">
+    <meta charset="UTF-8">
     <meta name="keywords" content="house for rental in Chennai, rental house in Chennai below 5000, apartments to rent for cheap, house rent for Chennai, house rent for Chennai, rent a house in Chennai, selling an apartment, flat rental in Chennai, Chennai rental flats, flats for rental in Chennai,">
     <!-- <meta http-equiv="refresh" content="300"> -->
     <!-- <meta http-equiv="refresh" content="1"> -->
@@ -12,6 +13,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge"> -->
     <title>Nowway – Rent, Buy or Sell</title>
     <!-- Place favicon.png in the root directory -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
     <link rel="shortcut icon" href="%PUBLIC_URL%/assets/img/logonow.png" type="image/x-icon" />
     <!-- Font Icons css -->
     <link rel="stylesheet" href="%PUBLIC_URL%/assets/css/font-icons.css">
@@ -21,27 +25,36 @@
     <link rel="stylesheet" href="%PUBLIC_URL%/assets/css/style.css">
     <!-- Responsive css -->
     <link rel="stylesheet" href="%PUBLIC_URL%/assets/css/responsive.css">
-    
-    <link href="//db.onlinewebfonts.com/c/67137b5f6928edc941186baaab5a664b?family=Lemon/Milk" rel="stylesheet" type="text/css"/>
+<!--     
+    <link href="//db.onlinewebfonts.com/c/67137b5f6928edc941186baaab5a664b?family=Lemon/Milk" rel="stylesheet" type="text/css"/> -->
     <script src="/assets/js/jquery-3.6.0.min.js"></script>
     <!-- <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'> -->
     <link href='//fonts.googleapis.com/css?family=Montserrat:thin,extra-light,light,100,200,300,400,500,600,700,800' 
 rel='stylesheet' type='text/css'>
 <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-<!-- <script type="text/javascript">
 
-  (function(l) {
-    if (l.search[1] === '/' ) {
-      var decoded = l.search.slice(1).split('&').map(function(s) { 
-        return s.replace(/~and~/g, '&')
-      }).join('?');
-      window.history.replaceState(null, null,
-          l.pathname.slice(0, -1) + decoded + l.hash
-      );
-    }
-  }(window.location))
-</script> -->
 
+<!-- Place this data between the <head> tags of your website -->
+  <meta name="description" content="Page description. No longer than 155 characters." />
+  
+  <!-- Schema.org markup for Google+ -->
+  <meta itemprop="name" content="The Name or Title Here">
+  <meta itemprop="description" content="This is the page description">
+  <meta itemprop="image" content="http://www.example.com/image.jpg">
+  <!-- <meta id="meta-description" name="description" content="Some description." /> -->
+  <meta property="og:url" content="">
+  <meta property="og:type" content="">
+<meta property="og:title" content="">
+<meta property="og:description" content="">
+<meta property="og:image" content="">
+  <!-- Twitter Card data -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@publisher_handle">
+  <meta name="twitter:title" content="Nowway">
+  <meta name="twitter:description" content="dfghjk">
+  <meta name="twitter:creator" content="@author_handle">
+  <!-- Twitter summary card with large image must be at least 280x150px -->
+  <meta name="twitter:image:src" content="http://www.example.com/image.jpg">
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-228778402-1"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -61,6 +74,33 @@ rel='stylesheet' type='text/css'>
 </script>
 
 </head>
+<style>
+  .loader-container {
+position: absolute;
+top: calc(50% - 4em);
+left: calc(50% - 4em);
+width: 6em;
+height: 6em;
+border: 7px solid #1da57f;
+border-left: 7px solid #fff;
+border-radius: 50%;
+animation: load8 1.1s infinite linear;
+transition: opacity 0.3s;
+}
+
+.loader--hide {
+opacity: 0;
+}
+
+@keyframes load8 {
+0% {
+  transform: rotate(0deg);
+}
+100% {
+  transform: rotate(360deg);
+}
+}
+</style>
 <body>
 
     <div class="quarter-overlay">
@@ -69,13 +109,26 @@ rel='stylesheet' type='text/css'>
         </div>
     </div>
 
+    <!-- <div class="loader-container">
+      <div class="loader"></div>
+   </div> -->
+   
     <div class="page-wrapper">
       <div id="quarter"></div>
   </div>
   
     <script src="%PUBLIC_URL%/assets/js/plugins.js"></script>
     <script src="/assets/js/bootstrap.min.js" ></script> 
-
+   <!-- Google Tag Manager (noscript) -->
+   <!-- <noscript
+   ><iframe
+     src="https://www.googletagmanager.com/ns.html?id=GTM-NDNFVM5"
+     height="0"
+     width="0"
+     style="display:none;visibility:hidden"
+   ></iframe
+ ></noscript> -->
+ <!-- End Google Tag Manager (noscript) -->
 </body>
 </html>
 

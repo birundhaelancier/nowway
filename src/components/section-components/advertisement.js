@@ -25,7 +25,7 @@ const Advertisement = ({ home_offers }) => {
             breakpoint: 480,
             settings: {
                 arrows:false,
-                dots:true
+                // dots:true
             }
           }
         ]
@@ -58,6 +58,7 @@ const Advertisement = ({ home_offers }) => {
                     <div className='col-lg-12 product-slider-container'>
                        <Slider {...settings}>
                                 {home_offers?.map((item) => {
+                 
                                     return (
                                         <div className="col-xl-4 col-sm-6 col-12">
                                             <div className="ltn__product-item ltn__product-item-4 text-center---">

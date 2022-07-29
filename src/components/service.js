@@ -7,19 +7,24 @@ import BlogSlider from './blog-components/blog-slider-v1';
 import CallToActionV1 from './section-components/call-to-action-v1';
 import Footer from './global-components/footer';
 import { GetServiceDetails } from '../components/apiActions/index';
+import { Helmet } from 'react-helmet';
+import { Visit_OurPages } from '../Redux/Action/allActions';
+import { useDispatch } from 'react-redux';
 
 
 const Service_V1 = () => {
     const [service, setService] = useState([])
-
+    let dispatch=useDispatch()
 
     useEffect(() => {
         GetServiceDetails().then((data) => {
             setService(data.Response)
         })
+        dispatch(Visit_OurPages("serviceDetails",))
     }, [])
     return <div>
-        <Navbar />
+      
+         <Navbar />
         <PageHeader headertitle="What We Do" subheader="Service" />
         {/* <AboutV5 /> */}
         <ServiceV1 service={service} />

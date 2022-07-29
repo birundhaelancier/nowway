@@ -223,7 +223,6 @@ const MyAccount = ({ wishnumber }) => {
 		})
 		setRefresh(true);
 	}
-	console.log(userDetails, "tranaction")
 
 	return (
 		<div className="liton__wishlist-area pb-70">
@@ -299,7 +298,7 @@ const MyAccount = ({ wishnumber }) => {
 																		return (
 																			<div className='grid-Show'>
 																				<div className="product-img go-top">
-																					<Link to={`/product-details?product_id=${data.id}`}><img src={data.image[0]?data.image[0]:publicUrl+"assets/img/home.jpeg"} alt="#" style={{width:"100%",height:"180px",objectFit:"cover"}}/></Link>
+																					<Link to={`/product-details/${data.code}`}><img src={data.image[0]?data.image[0]:publicUrl+"assets/img/home.jpeg"} alt="#" style={{width:"100%",height:"180px",objectFit:"cover"}}/></Link>
 																					<div className="product-badge re-content">
 																						<button className={data.type === "Rent" ? "sale-badge bg-green" : "sale-badge-sell"}>{data.type === "Rent" ? "Rent" : "Sell"}</button>
 																					</div>
@@ -335,7 +334,7 @@ const MyAccount = ({ wishnumber }) => {
 																		return (
 																			<div className='grid-Show'>
 																				<div className="product-img go-top">
-																					<Link to={`/product-details?product_id=${data.id}&&type=${"own"}`}><img src={data.image[0]?data.image[0]:publicUrl+"assets/img/home.jpeg"} alt="#" style={{width:"100%",height:"180px",objectFit:"cover"}}/></Link>
+																					<Link to={`/product-details/${data.code}?type=${"own"}`}><img src={data.image[0]?data.image[0]:publicUrl+"assets/img/home.jpeg"} alt="#" style={{width:"100%",height:"180px",objectFit:"cover"}}/></Link>
 																					<div className="product-badge re-content">
 																						<button className={data.type === "Rent" ? "sale-badge bg-green" : "sale-badge-sell"}>{data.type === "Rent" ? "Rent" : "Sell"}</button>
 																					</div>
@@ -576,7 +575,6 @@ const MyAccount = ({ wishnumber }) => {
 															{service.length > 0 ?
 																<>
 																	{service.map((data, index) => {
-																		console.log(data,"gggggggggggg")
 																		return (
 																			<div className='grid-Showservice'>
 																				<div className='cont-amount'>

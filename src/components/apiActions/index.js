@@ -79,7 +79,6 @@ export const onLogin = (values,type,token) => {
             headers:{"Authorization": 'Bearer' + token},
             body: JSON.stringify({ encrypted: Encription }),
         };
-       console.log(decryptValue(Encription))
         return fetch(APIURL + "cuslogin", requestOptions)
             .then((response) => response.json())
             .then((response) => {
@@ -93,7 +92,6 @@ export const onRegister = (values,userid) => {
         const Encription = CryptoJS.AES.encrypt(JSON.stringify({
             "name": values.name, "mobile": values.mobile, "email": values.email,"user_id":userid || 0,"password":values.password
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
-        console.log(decryptValue(Encription))
         const requestOptions = {
             method: 'POST',
             headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
@@ -272,12 +270,13 @@ export const GetSubService = (values) => {
         const Encription = CryptoJS.AES.encrypt(JSON.stringify({
             "service_id": values
         }), '$2y$10$NDJ8GvTAdoJ/uG0AQ2Y.9ucXwjy75NVf.VgFnSZDSakRRvrEyAlMq', { format: CryptoJSAesJson }).toString();
+        console.log(decryptValue(Encription),"ppppppppp")
         const requestOptions = {
             method: 'POST',
             headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
             body: JSON.stringify({ encrypted: Encription }),
         };
-        return fetch(APIURL + "sub_services", requestOptions)
+        return fetch(APIURL + "sub_servicess", requestOptions)
             .then((response) => response.json())
             .then((response) => {
                 return decryptValue(response.encrypted)
@@ -375,7 +374,6 @@ export const InsertListing = (list, checkList,Type,property_id) => {
             headers: {"Authorization": 'Bearer' + JSON.parse(localStorage.getItem("Token"))},
             body: Type==="Details"?Details:Type==="Media"?Media:Type==="Features"?Features:Location,
         };
-        console.log("reeeee",Details)
 
         return fetch(APIURL + "add_listing", requestOptions)
             .then((response) => response.json())
@@ -391,7 +389,7 @@ export const InsertListing = (list, checkList,Type,property_id) => {
 
 
 export const GetProductDetails = (values,type) => {
-    let Url=type==="own"?"get_my_property":"get_property"
+    let Url=type==="own"?"get_my_properties":"get_properties"
     try {
         const Encription = CryptoJS.AES.encrypt(JSON.stringify({
             "property_id": values, "user_id": JSON.parse(localStorage.getItem("user_id")) || 0

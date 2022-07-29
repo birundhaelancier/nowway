@@ -6,7 +6,7 @@ import ReactDOM from "react-dom";
 //   Switch,
 // } from "react-router-dom";
 
-import {BrowserRouter as Router, Route,Switch,useHistory, useLocation,BrowserRouter  } from 'react-router-dom'
+import {Router, Route,BrowserRouter,Switch, HashRouter} from 'react-router-dom'
 import axios from "axios";
 
 import HomeV7 from "./components/home-v7";
@@ -56,25 +56,23 @@ import TermCondition from "./components/terms-condition";
 import ScrollToTop from "./components/section-components/ScrollTop";
 import MediaComp from "./components/section-components/MediaUpload";
 import { AuthContext } from './context/auth' 
+import pMinDelay from 'p-min-delay';
 import { Box,CircularProgress } from "@mui/material";
 import store from "./Redux/Store/store";
 import { Provider } from "react-redux";
 // import PullToRefresh from "rmc-pull-to-refresh";
 import PullToRefresh from 'react-simple-pull-to-refresh';
-
+import SeoPage from "./components/global-components/Seopage";
+import Loading from './loading'
+import {Helmet} from "react-helmet";
 const App = () => {
-  // const existingTokens = JSON.parse(localStorage.getItem("data"));
-  // const [authTokens, setAuthTokens] = useState(existingTokens);
-  // const setTokens=(data)=>{
-  //   // localStorage.setItem("data",JSON.stringify(data));
-  //   // localStorage.setItem("UserId",JSON.stringify(data.id))
-  //   console.log(data,"ddddddddddddddddddd")
-  //   localStorage.setItem("user_id", JSON.stringify(data[0]?.id))
-  //   setAuthTokens(data);
-  // }
+ 
   const [loading, setloading] = useState(false);
+  const [loading2, setloading2] = useState(false);
   const [refresh,setrefresh] = React.useState(false);
+
     useEffect(() => {
+     
       async function fetchMyAPI() {
          axios({
           method: "POST",
@@ -93,28 +91,33 @@ const App = () => {
         });
       }
       fetchMyAPI()
+
+     
     }, [])
+ 
  
   return (
     <>
     {/* <PullToRefresh onRefresh={handleRefresh}> */}
     {/* <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>   */}
-    {loading && 
-          <Router>
+    {!loading ? 
+       <Loading/>:
+       
+          <BrowserRouter basename="/demo">
             <ScrollToTop />
             <Switch>
               <Route exact path="/" component={HomeV7} />
               <Route path="/service" exact component={Service} />
               <Route path="/cart"  exact component={CartPage}/>
-              <Route path="/service-details" component={ServiceDetails} />
-              <Route path="/portfolio-details" component={PortfolioDetails} />
-              <Route path="/team" component={Team} />
-              <Route path="/team-details" component={TeamDetails} />
-              <Route path="/faq" component={Faq} />
-              <Route path="/coming-soon" component={ComingSoon} />
-              <Route path="/404" component={Error} />
-              <Route path="/location" component={Location} />
-              <Route path="/shop" component={Shop} />
+              <Route path="/service-details/:code?" exact component={ServiceDetails} />
+              <Route path="/portfolio-details" exact component={PortfolioDetails} />
+              <Route path="/team" exact component={Team} />
+              <Route path="/team-details" exact component={TeamDetails} />
+              <Route path="/faq" exact component={Faq} />
+              <Route path="/coming-soon" exact component={ComingSoon} />
+              <Route path="/404" exact component={Error} />
+              <Route path="/location" exact component={Location} />
+              <Route path="/shop" exact component={Shop} />
               <Route path="/shop-grid" component={ShopGrid} />
               <Route path="/shop-left-sidebar" component={ShopLeftSidebar} />
               <Route
@@ -128,7 +131,7 @@ const App = () => {
               <Route path="/terms" exact component={TermCondition} />
               <Route path="/media" component={MediaComp} />
 
-              <Route path="/product-details" component={ProdductDetails} />
+              <Route path="/product-details/:product_id?" component={ProdductDetails} />
               <Route path="/blog-grid" component={BlogGrid} />
               <Route path="/blog-left-sidebar" component={BlogLeftSidebar} />
               <Route path="/blog-right-sidebar" component={BlogRightSidebar} />
@@ -150,7 +153,7 @@ const App = () => {
               <Route path="/history" component={History} />
               <Route path="/aboutus" component={RefundPolicy} />
             </Switch>
-      </Router>
+      </BrowserRouter>
          }
           {/* </AuthContext.Provider> */}
         {/* </PullToRefresh> */}

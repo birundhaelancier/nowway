@@ -25,13 +25,11 @@ class ValidationLibrary extends Component {
         }
       }
       else if (validatorsArray[valid].name == 'custommaxValue') {
-        console.log("validation", validatorsArray[valid].params)
         if (parseInt(textValue) > parseInt(validatorsArray[valid].params)) {
           return { msg: "Value should not greater than " + validatorsArray[valid].params, state: false };//validation occurs break the loop & throw the error
         }
       }
       else if (validatorsArray[valid].name == 'customminValue') {
-        console.log("validation", validatorsArray[valid].params)
         if (parseInt(textValue) < parseInt(validatorsArray[valid].params)) {
           return { msg: "Value should  greater than " + validatorsArray[valid].params, state: false };//validation occurs break the loop & throw the error
         }

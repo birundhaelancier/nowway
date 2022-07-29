@@ -125,7 +125,7 @@ const ShopGridV1 = (props) => {
                           <div className="col-xl-6 col-sm-6 col-12" key={data.id}>
                             <div className="ltn__product-item ltn__product-item-4 ltn__product-item-5 text-center---">
                               <div className="product-img go-top">
-                                <Link to={`/product-details?product_id=${data.id}`}>
+                                <Link to={`/product-details/${data.code}`}>
                                   <img
                                     src={
                                       data?.image[0] ||  publicUrl + "assets/img/home.jpeg" 
@@ -139,7 +139,7 @@ const ShopGridV1 = (props) => {
                                       <img
                                         src={
                                           data?.user_image ||   publicUrl +
-                                          "assets/img/blog/author.jpg"
+                                          "assets/img/dummy-profile-pic.png"
                                         }
                                         alt="#"
                                         style={{width:"50px",height:"50px"}}
@@ -155,7 +155,7 @@ const ShopGridV1 = (props) => {
                                   </ul>
                                 </div>
                                 <h2 className="product-title go-top" style={{marginTop:"10px"}}>
-                                  <Link to={`/product-details?product_id=${data.id}`}>
+                                  <Link to={`/product-details/${data.code}`}>
                                     {data.bhk_type},{data.property_type}
                                   </Link>
                                 </h2>
@@ -192,7 +192,7 @@ const ShopGridV1 = (props) => {
                                 </div>
                                   <ul>
                                     <li>
-                                      <Link to={`/product-details?product_id=${data.id}`}>
+                                      <Link to={`/product-details/${data.code}`}>
                                         <i className="flaticon-expand" />
                                       </Link>
                                     </li>

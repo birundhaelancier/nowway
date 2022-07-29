@@ -14,8 +14,9 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
 import { connect, useDispatch } from 'react-redux'
-import {  GetAmenities,GetHomeList } from '../Redux/Action/allActions'
+import {  GetAmenities,GetHomeList, Visit_OurPages } from '../Redux/Action/allActions'
 import { GetPropertyType, GetLocations, GetHomeOffer,GetServiceDetails } from '../components/apiActions/index';
+import SeoPage from './global-components/Seopage';
 
 const Home_V7 = (props) => {
     let dispatch=useDispatch()
@@ -31,6 +32,9 @@ const Home_V7 = (props) => {
     const [service, setService] = useState([])
 
 
+useEffect(()=>{
+dispatch(Visit_OurPages())
+},[])
 
 useEffect(()=>{
     setHome_list(props.HomeList)
@@ -40,7 +44,7 @@ useEffect(()=>{
     useEffect(() => {
         dispatch(GetHomeList())
         dispatch(GetAmenities())
-        myRef.current.scrollIntoView()
+        // myRef.current.scrollIntoView()
         GetPropertyType().then((data) => {
             setProperty_type(data.Response)
         })
@@ -58,14 +62,14 @@ useEffect(()=>{
             setService(data.Response)
         })
     }, [JSON.parse(localStorage.getItem("Token"))])
-console.log(props.HomeList)
     return (
     <div>
         <Navbar CustomClass="ltn__header-transparent gradient-color-2" Wish_list={Wish_list} /> 
          <BannerV6 property_type={property_type} location={location} />
         <ServiceV1 service={service}/> 
         {/* <Aboutv2 /> */}
-        <div ref={myRef}>
+        {/* <div ref={myRef}> */}
+        <div>
             <Advertisement home_offers={home_offers} />
         </div>
         <Featuresv1 customClass="ltn__feature-area section-bg-1" home_offers={home_offers} />
@@ -74,6 +78,7 @@ console.log(props.HomeList)
         <Category amenities_val={amenities_val} />
         <Testimonial />
         <CallToActionV1 />
+        <SeoPage/>
         <Footer />
     </div>
     )

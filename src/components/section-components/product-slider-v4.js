@@ -23,7 +23,7 @@ const ProductSliderV4 = ({ list, callWish }) => {
        breakpoint: 480,
        settings: {
            arrows:false,
-           dots: true,
+          //  dots: true,
        }
      }
    ]
@@ -141,27 +141,28 @@ const ProductSliderV4 = ({ list, callWish }) => {
               <Slider {...settings} arrows={true}>
                 {list?.map((item, index) => {
                   return (
-                    <div className="col-xl-4 col-sm-6 col-12">
+                    <div className="col-xl-4 col-sm-6 col-12" onClick={()=>history.push(`/product-details/${item.code}`)}>
+                      {/* history.push(`/product-details/${item.property_type.replace(/ /g, "-")}/${item.type}/${item.city+"--"+item.address.replace(/ /g, "-")}/${item.code}`)} */}
                       <div className="ltn__product-item ltn__product-item-4 text-center---">
                         <div className="product-img go-top">
-                          <Link to={`/product-details?product_id=${item.id}`}><img src={item.image[0]?item.image[0]:publicUrl+"assets/img/home.jpeg"}/></Link>
+                          <Link><img src={item.image[0]?item.image[0]:publicUrl+"assets/img/home.jpeg"}/></Link>
                           <div className="product-badge">
                             <ul>
-                              <li className={item.type === "Rent" ? "sale-badge bg-green" : "sale-badge bg-pink"}>{item.type === "Rent" ? "For Rent" : "For Sell"}</li>
+                              <li className={item.type === "Rent" ? "sale-badge bg-green" : "sale-badge bg-pink"}>{item.type}</li>
                             </ul>
                           </div>
                           <div className="product-img-location-gallery">
                             <div className="product-img-location">
                               <ul>
                                 <li>
-                                  <Link to={`/product-details?product_id=${item.id}`}><i className="flaticon-pin" /> {item.city}</Link>
+                                  <div style={{color:"#fff"}}><i className="flaticon-pin" /> {item.code}</div>
                                 </li>
                               </ul>
                             </div>
                             <div className="product-img-gallery go-top">
                               <ul>
                                 <li>
-                                  <Link to={`/product-details?product_id=${item.id}`}><i className="fas fa-camera" /></Link>
+                                  <Link><i className="fas fa-camera" /></Link>
                                 </li>
                                 {/* <li>
                                   <Link to={`/product-details?product_id=${item.id}`}><i className="fas fa-film" /> 2</Link>
@@ -172,13 +173,13 @@ const ProductSliderV4 = ({ list, callWish }) => {
                         </div>
                         <div className="product-info">
                           <div className="product-price">
-                          <Link to={`/product-details?product_id=${item.id}`}>₹{item.price}<label>/Month</label></Link>
+                          <Link>₹{item.price}<label>/Month</label></Link>
                           </div>
-                          <h2 className="product-title go-top"><Link to={`/product-details?product_id=${item.id}`}>{item.tit}</Link></h2>
+                          <h2 className="product-title go-top"><Link>{item.tit}</Link></h2>
                           <div className="product-description">
                             <p>{item.description}</p>
                           </div>
-                          <Link to={`/product-details?product_id=${item.id}`}>
+                          <Link>
                           <ul className="ltn__list-item-2 ltn__list-item-2-before">
                             {/* <li><span>{item.bedrooms} <i className="flaticon-bed" /></span>
                               Bedrooms
@@ -195,16 +196,16 @@ const ProductSliderV4 = ({ list, callWish }) => {
                         <div className="product-info-bottom">
                           <div className="real-estate-agent">
                             <div className="agent-img go-top">
-                              <Link to={`/product-details?product_id=${item.id}`}><img src={item?.user_image || publicUrl + "assets/img/blog/author.jpg"} alt="#" style={{ width: "40px", height: "40px" }} /></Link>
+                              <Link><img src={item?.user_image || publicUrl + "assets/img/dummy-profile-pic.png"} alt="#" style={{ width: "40px", height: "40px" }} /></Link>
                             </div>
                             <div className="agent-brief go-top">
-                              <Link to={`/product-details?product_id=${item.id}`}><h6>{item.user_name}</h6></Link>
+                              <Link><h6>{item.user_name}</h6></Link>
                             </div>
                           </div>
                           <div className="product-hover-action">
                             <ul>
                               <li>
-                                <Link to={`/product-details?product_id=${item.id}`} title="Quick View">
+                                <Link title="Quick View">
 
                                   <i className="flaticon-expand" />
                                 </Link>
@@ -217,7 +218,6 @@ const ProductSliderV4 = ({ list, callWish }) => {
                                   cancelText="No"
                                 >
                                   <a
-                                    href="#"
                                     title="Wishlist"
                                   >
                                     <i
@@ -227,7 +227,6 @@ const ProductSliderV4 = ({ list, callWish }) => {
                                 </Popconfirm>
                                   :
                                   <Link to={JSON.parse(localStorage.getItem("user_id"))?null:"/login"}><a
-                                    href="#"
                                     title="Wishlist"
                                   >
                                     <i
