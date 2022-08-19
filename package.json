@@ -1,7 +1,7 @@
 {
   "name": "quarter",
   "version": "0.1.0",
-  "homepage": "/demo",
+  "homepage": "/web_demo",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.8.2",

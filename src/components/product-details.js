@@ -7,11 +7,12 @@ import CallToActionV1 from './section-components/call-to-action-v1';
 import Footer from './global-components/footer';
 import { GetProductDetails,GetRelatedProducts,Top_Categories,AddPropertyview } from '../components/apiActions/index';
 import { useParams } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 
 const Product_Details = (props) => {
-    document.title ="Welcome | here is your page title to display"; 
-    document.getElementsByTagName("META")[2].content="Your description about the page or site here to set dynamically";
+    // document.title ="Welcome | here is your page title to display"; 
+    // document.getElementsByTagName("META")[2].content="Your description about the page or site here to set dynamically";
     const params = new URLSearchParams(props.location.search);
     const { product_id } =useParams()
     // const Product_id = params.get('product_id');
@@ -38,6 +39,9 @@ const Product_Details = (props) => {
 
 
     return <div>
+        <Helmet>
+        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-62e773a56c3c9de5"></script>
+        </Helmet>
         <Navbar />
         <PageHeader headertitle="Product Details" customclass="mb-0" />
         <ProductSlider ProductInfo={productDetailsInfo}/>

@@ -187,7 +187,7 @@ const ShopGridV1 = (props) => {
                                 <div className="product-price">
                                   <span>
                                     ₹{data.price}
-                                    <label>/Month</label>
+                                    <label>{data.type==="Rent" ? "/Month" : ""}</label>
                                   </span>
                                 </div>
                                   <ul>

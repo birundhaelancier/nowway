@@ -105,13 +105,13 @@ const Login = () => {
 			Swal.fire({
 				title: 'Success!',
 				icon: 'success',
-				text: 'Otp sent your registered mobile number Successfully',
+				text: 'OTP sent your registered mobile number Successfully',
 			})   
 		}).catch(error => {
 			Swal.fire({
 				title: 'Failed!',
 				icon: 'error',
-				text: "Something went wrong Otp not sended please try again",
+				text: "Something went wrong OTP not sended please try again",
 			})
 		})
 
@@ -169,7 +169,7 @@ const onSignInSubmit=async(e)=> {
 		Swal.fire({
 			title: 'Failed!',
 			icon: 'error',
-			text: "Please Enter Valid Otp",
+			text: "Please Enter Valid OTP",
 		})
 	
     })
@@ -203,7 +203,7 @@ const clickHandler=()=>{
 								<h5>Enter Your Mobile Number</h5>
 								<input type="number" style={{marginBottom:validate ? "10px":"20px"}} className="mob_field" name="mobile" placeholder="Mobile No*" value={values.mobile} onChange={(e) => handleChange(e)} required  />
 								{mobileErr && <div className='errMsg' style={{bottom:"16px"}} >Mobile Number should be 10 digit only</div>}
-								{validate || login && <div onClick={()=>{setvalidate(false);setlogin(false)}} style={{textAlign:"end",color:"green",textDecoration:"underline"}}>Change Your MobileNumber</div>}
+								{validate || login && <div onClick={()=>{setvalidate(false);setlogin(false)}} style={{textAlign:"end",color:"green",textDecoration:"underline"}}>Change Your Mobile Number</div>}
 								{login &&
 								<div style={{margin:"15px 0px"}}>
 									<input type="radio"  className="mob_field" name="radio" checked={values.type==="otp"?true:false} value={values.type}  onClick={()=>	OtpVerifyFun()} onChange={(e) => handleChange(e,"type","otp")}   /><span className="otp_pass">Generate OTP</span>{" "} {" "}
@@ -217,9 +217,9 @@ const clickHandler=()=>{
 								</div>:""}
 
 								{!login && validate || login && values.type==="otp" ?<div className='otp_input_div'>
-									<div style={{marginBottom:"10px",fontSize:"15px",fontWeight:500}}>Enter Your Otp</div>
+									<div style={{marginBottom:"10px",fontSize:"15px",fontWeight:500}}>Enter Your OTP</div>
 								<OtpInput value={values.otp}  className="otp_input" onChange={(e)=>handleChange(e,"otp")}  isInputNum={true} numInputs={6} separator={<span style={{padding:"5px"}}>-</span>} /></div>:""}
-								{validate &&<div style={{textAlign:"end"}}><button style={{fontSize:"15px",fontWeight:"bold",color:"#8ab64d",textAlign:"end",cursor:"pointer",textDecoration:"underline",background:"none"}} onClick={(e)=>SubmitOtp(e,"resend")} >Resend Otp</button></div>}
+								{validate &&<div style={{textAlign:"end"}}><button style={{fontSize:"15px",fontWeight:"bold",color:"#8ab64d",textAlign:"end",cursor:"pointer",textDecoration:"underline",background:"none"}} onClick={(e)=>SubmitOtp(e,"resend")} >Resend OTP</button></div>}
 								{login?
 								<div className="btn-wrapper  text-center mt-0">
 								<button className="theme-btn-1 sign_acc btn btn-block">{validate?"VALIDATE OTP":"SIGN IN"}</button>

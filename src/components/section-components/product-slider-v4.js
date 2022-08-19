@@ -118,7 +118,6 @@ const ProductSliderV4 = ({ list, callWish }) => {
       }
     })
   }
-  console.log("listdddddddddd",list)
   return (
 
     <div>
@@ -173,9 +172,9 @@ const ProductSliderV4 = ({ list, callWish }) => {
                         </div>
                         <div className="product-info">
                           <div className="product-price">
-                          <Link>₹{item.price}<label>/Month</label></Link>
+                          <Link>₹{item.price}<label>{item.type==="Rent" && "/Month"}</label></Link>
                           </div>
-                          <h2 className="product-title go-top"><Link>{item.tit}</Link></h2>
+                          <h2 className="product-title go-top"><Link>{item.code}</Link></h2>
                           <div className="product-description">
                             <p>{item.description}</p>
                           </div>

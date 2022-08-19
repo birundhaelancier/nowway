@@ -204,12 +204,12 @@ const HandleSubmit=(data,formValues)=>{
             <div>
               <label>Service Date</label>
               <label>{moment(Formvalues.date).format("DD MMMM YYYY HH:mm")}</label>
-              <label>Change</label>
+              {/* <label>Change</label> */}
             </div>
             <div>
               <label>Address</label>
               <label>{Formvalues.address},{Formvalues.pincode}</label>
-              <label>Change</label>
+              {/* <label>Change</label> */}
             </div>
           </div>
           <div>
@@ -296,7 +296,7 @@ const HandleSubmit=(data,formValues)=>{
             </div>
             <div className="btn-wrapper mt-0 " style={{ textAlign: "center" }}>
             {ViewCarts && ViewCarts.map((data)=>
-              <button className="theme-btn-1 btn btn-block" onClick={openPayModal}>
+              <button className="theme-btn-1 btn btn-block" onClick={()=>openPayModal()}>
                 Pay ₹{data.total || 0} now
               </button>
             )}

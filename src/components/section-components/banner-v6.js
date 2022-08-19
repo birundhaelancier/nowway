@@ -38,7 +38,7 @@ const BannerV6 = ({ property_type, location }) => {
 	  if(SearchValues.Property_Type!==""&&SearchValues.Location!=="") {
     // dispatch(GetPropertyType_Search(SearchValues, Type)).then((data) => {
       history.push({
-        pathname: `/shop-right-sidebar/${SearchValues.Property_Type}/${SearchValues.Location}/${Type}`,
+        pathname: `/shop-right-sidebar/${Type}/${SearchValues.Property_Type}/${SearchValues.Location}`,
         state: Type,
       });
     // });
@@ -46,7 +46,7 @@ const BannerV6 = ({ property_type, location }) => {
    else{
 	 notification.error(({
 		 message:SearchValues.Property_Type==""&&SearchValues.Location==""?
-		 "Please select Propert Type and Location":SearchValues.Property_Type!==""&&SearchValues.Location==""?"Please select location":SearchValues.Property_Type==""&&SearchValues.Location!==""?"Please select Property type":""
+		 "Please Select Property Type and Location":SearchValues.Property_Type!==""&&SearchValues.Location==""?"Please Select Location":SearchValues.Property_Type==""&&SearchValues.Location!==""?"Please Select Property Type":""
 	 }))
    }
   };  
@@ -84,7 +84,7 @@ const BannerV6 = ({ property_type, location }) => {
                           </a>
                           <a
                             data-bs-toggle="tab"
-                            onClick={() => setType("Sell")}
+                            onClick={() => setType("Buy")}
                             href="#ltn__form_tab_1_1"
                             className
                           >

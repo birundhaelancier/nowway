@@ -294,7 +294,7 @@ const MediaUpload=({fileList})=>{
                              
                                 <div className="row">
                                    <div className="col-md-6">
-                                   <h6>Select City</h6>
+                                   <h6>Select City<span>*</span></h6>
                                         <div className="input-item custom_sel">
                                             <SelectInput required dropdown={Location} value={listValues.city.value} changeData={(data) => handleChange(data, "city","select")} 
                                             error={listValues.city.error}
@@ -303,7 +303,7 @@ const MediaUpload=({fileList})=>{
                                         </div> 
                                     </div>
                                     <div className="col-md-6">
-                                       <h6>Select Categories</h6>
+                                       <h6>Select Categories<span>*</span></h6>
                                         <div className="input-item custom_sel">
                                             <SelectInput required dropdown={options} value={listValues.propertyType.value} changeData={(data) => handleChange(data, "propertyType","select")} 
                                              error={listValues.propertyType.error}
@@ -348,7 +348,7 @@ const MediaUpload=({fileList})=>{
                                 <div className="row">
                                
                                     <div className="col-md-6">
-                                    <h6>Select Apartment Type</h6>
+                                    <h6>Select Apartment Type<span>*</span></h6>
 
                                         <div className="input-item custom_sel">
                                             <SelectInput required dropdown={property_type}  value={listValues.types.value} changeData={(data) => handleChange(data, "types", "select")} 
@@ -376,7 +376,7 @@ const MediaUpload=({fileList})=>{
                                 {/* <h6>Listing Details</h6> */}
                                 <div className="row">
                                     <div className="col-md-6">
-                                    <h6>Select BHK Type</h6>
+                                    <h6>Select BHK Type<span>*</span></h6>
                                         <div className="input-item">
                                             <SelectInput required dropdown={floor_type} value={listValues.bhk_type.value} changeData={(data) => handleChange(data,  "bhk_type","select",)} 
                                             error={listValues.bhk_type.error}
@@ -385,7 +385,7 @@ const MediaUpload=({fileList})=>{
                                     </div>
 
                                     <div className="col-md-6">
-                                    <h6>Select Floors No</h6>
+                                    <h6>Select Floors No<span>*</span></h6>
                                         <div className="input-item">
                                             <SelectInput required dropdown={Floors}  value={listValues.floors.value} changeData={(data) => handleChange(data,  "floors","select",)} 
                                             error={listValues.floors.error}
@@ -393,15 +393,15 @@ const MediaUpload=({fileList})=>{
                                         </div> 
                                     </div>
                                     <div className="col-md-6 mb-3">
-                                    <h6>Price/Monthly Rent</h6>
+                                    <h6>Price<span>*</span></h6>
                                         <div className="input-item input-item-name ltn__custom-icon">
-                                            <input  type="text"  className={listValues.size.errmsg?'input_field':"input_field2"} required name={"price"} value={listValues.price.value} onChange={(e) => handleChange(e.target.value,"price")} />
+                                            <input  type="number"  className={listValues.size.errmsg?'input_field':"input_field2"} required name={"price"} value={listValues.price.value} onChange={(e) => handleChange(e.target.value,"price")} />
                                             <div className='Errormsg'>{listValues.price.errmsg}</div>
                                         </div>
                                     </div>
 
                                    {listValues.propertyType.value==="Rent" && <div className="col-md-6">
-                                    <h6>Advance Amount</h6>
+                                    <h6>Advance Amount<span>*</span></h6>
                                         <div className="input-item input-item-name ltn__custom-icon">
                                             <input  type="text"  className={listValues.advance.errmsg?'input_field':"input_field2"}  required name={"advance"} value={listValues.advance.value} onChange={(e) => handleChange(e.target.value,"advance")} />
                                             <div className='Errormsg'>{listValues.advance.errmsg}</div>
@@ -409,7 +409,7 @@ const MediaUpload=({fileList})=>{
                                     </div>}
 
                                     <div className="col-md-6">
-                                    <h6>Monthly  Maintenance</h6>
+                                    <h6>Monthly  Maintenance<span>*</span></h6>
                                         <div className="input-item input-item-name ltn__custom-icon">
                                             <input  type="text"  className={listValues.size.errmsg?'input_field':"input_field2"}  required name={"maintence"} value={listValues.maintenance.value} onChange={(e) => handleChange(e.target.value,"maintenance")} />
                                             <div className='Errormsg'>{listValues.maintenance.errmsg}</div>
@@ -417,15 +417,16 @@ const MediaUpload=({fileList})=>{
                                     </div>
 
                                     <div className="col-md-6">
-                                    <h6>Carpet Area in Sq/ft</h6>
+                                    <h6>Carpet Area in Sq/ft<span>*</span></h6>
                                         <div className="input-item input-item-name ltn__custom-icon">
                                             <input  type="number" className={listValues.size.errmsg?'input_field':"input_field2"}     required name={"size"} value={listValues.size.value} onChange={(e) => handleChange(e.target.value,"size")}  />
                                             <div className='Errormsg'>{listValues.size.errmsg}</div>
                                         
                                         </div>
                                     </div>
+
                                     <div className="col-md-6">
-                                    <h6>Negotiable</h6>
+                                    <h6>Negotiable<span>*</span></h6>
                                         <div className="input-item custom_sel">
                                             <SelectInput required dropdown={[{id:1,name:"Yes"},{id:2,name:"No"}]}  value={listValues.negotiate.value} changeData={(data) => handleChange(data, "negotiate","select")} 
                                             error={listValues.negotiate.error}
@@ -433,8 +434,9 @@ const MediaUpload=({fileList})=>{
                                             />
                                         </div> 
                                     </div>
+
                                     <div className="col-md-6">
-                                    <h6>Facing</h6>
+                                    <h6>Facing<span>*</span></h6>
                                         <div className="input-item custom_sel">
                                             <SelectInput required dropdown={
                                                  [{id:1,name:"East"},{id:2,name:"West"},{id:3,name:"South"},{id:4,name:"North"},{id:5,name:"North East"},
@@ -519,7 +521,7 @@ const MediaUpload=({fileList})=>{
                                 <div className="row">
                             
                                 <div className="col-md-6">
-                                    <h6>Address Details</h6>
+                                    <h6>Address Details<span>*</span></h6>
                                     <div className="input-item input-item-textarea ltn__custom-icon">
                                             <textarea className={listValues.address.errmsg?'input_field':"input_field2"}   required type="text" name={"address"} value={listValues.address.value} onChange={(e) => handleChange(e.target.value,"address")}  />
                                             <div className='Errormsg'>{listValues.address.errmsg}</div>
@@ -527,7 +529,7 @@ const MediaUpload=({fileList})=>{
                                     </div>    
                                 
                                     <div className="col-md-6">
-                                    <h6>Description</h6>
+                                    <h6>Description<span>*</span></h6>
                                         <div className="input-item input-item-textarea ltn__custom-icon">
                                             <textarea  className={listValues.description.errmsg?'input_field':"input_field2"}   required name={"description"} value={listValues.description.value} onChange={(e) => handleChange(e.target.value,"description")}  defaultValue={""} 
                                            />

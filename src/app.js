@@ -103,7 +103,7 @@ const App = () => {
     {!loading ? 
        <Loading/>:
        
-          <BrowserRouter basename="/demo">
+          <BrowserRouter basename="/web_demo">
             <ScrollToTop />
             <Switch>
               <Route exact path="/" component={HomeV7} />
@@ -121,7 +121,7 @@ const App = () => {
               <Route path="/shop-grid" component={ShopGrid} />
               <Route path="/shop-left-sidebar" component={ShopLeftSidebar} />
               <Route
-                path="/shop-right-sidebar/:apartment?/:city?/:type?"
+                path="/shop-right-sidebar/:type?/:apartment?/:city?"
                 component={ShopRightSidebar}
               />
               <Route path="/advertisement" component={Advertisement} />

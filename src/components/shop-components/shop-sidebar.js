@@ -16,13 +16,13 @@ const Sidebar = (props) => {
 	let dispatch = useDispatch()
 	const PriceRange = [{ heading: "Low Price", from: 5000, to: 10000 }, { heading: "Medium", from: 10000, to: 30000 }, { heading: "High Price", from: 30000, to: 50000 }]
 	const Bed_Rooms = [{ heading: "Single", label: "1" }, { heading: "Double", label: "1 or more" }, { heading: "Up To 3", label: "2 or more" }, { heading: "Up To 5", label: "3 or more" }]
-	const Category = [{ heading: "Renting", label: "Rent" }, { heading: "Buying", label: "Sell" },{ heading: "Selling", label: "Buy" }]
+	const Category = [{ heading: "Renting", label: "Rent" }, { heading: "Buying", label: "Buy" },{ heading: "Selling", label: "Sell" }]
 	const [CheckValues, setCheckValues] = useState({
 		Amenities: "",
 		property: [apartment&&apartment],
 		PriceRange: "",
 		Bed_Bath: "",
-		Category: type || "Rent" ,
+		Category: type,
 		Bathrooms: "",
 		city:city,
 		Type:type,
@@ -31,18 +31,20 @@ const Sidebar = (props) => {
 
 		if (name === "PriceRange") {
 			let Pricerange = {
-				from: price.from,
-				to: price.to
-			}
+				from: price.from===CheckValues.PriceRange.from ? "" : price.from,
+				to: price.to===CheckValues.PriceRange.to ? "" :  price.to
+			} 
 			setCheckValues({
 				...CheckValues,
 				[name]: Pricerange,
 			});
 		}
 		else if (name === "Category") {
+		
+			let value=CheckValues.Category===e.target.value ? "" :  e.target.value
 			setCheckValues({
 				...CheckValues,
-				[name]: e.target.value,
+				[name]: value,
 			});
 		}
 		else {
@@ -84,6 +86,8 @@ const Sidebar = (props) => {
 		dispatch(GetPropertyType_Search(CheckValues,Search)).then((data) => {
 		})
 	}
+
+	console.log(CheckValues,type,"Category")
 	return (
 		<div className="col-lg-4">
 			           
@@ -174,7 +178,7 @@ const Sidebar = (props) => {
 						{Category.map((data, index) =>
 							<li>
 								<label className="checkbox-item">{data.heading}
-									<input type="checkbox" checked={CheckValues.Category == data.label ? true : false} onChange={(e) => ChangeCheckbox(e, "Category", data.id, index + 1)} name={data.label} value={data.label} />
+									<input type="checkbox" checked={CheckValues.Category === data.label ? true : false} onChange={(e) => ChangeCheckbox(e, "Category", data.id, index + 1)} name={data.label} value={data.label} />
 									<span className="checkmark" />
 								</label>
 							</li>

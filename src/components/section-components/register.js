@@ -63,7 +63,6 @@ function RegisterComp(props) {
 		e.preventDefault();
 		if (!mobileErr && !emailErr) {
 			onRegister(values,userid).then((data) => {
-				console.log("chekkk",data)
 				if (data.Status === "Success") {
 					localStorage.setItem("wallet", JSON.stringify(data.Response[0].wallet))
 					localStorage.setItem("user_id", JSON.stringify(data.Response[0]?.id))
@@ -104,7 +103,7 @@ const SubmitOtp=()=>{
 			Swal.fire({
 				title: 'Success!',
 				icon: 'success',
-				text: 'Otp sent your registered mobile number Successfully',
+				text: 'OTP sent your registered mobile number Successfully',
 			})
 		})
 	
@@ -135,7 +134,7 @@ const SubmitOtp=()=>{
 			Swal.fire({
 				title: 'Failed!',
 				icon: 'error',
-				text: "Please Enter Valid Otp",
+				text: "Please Enter Valid OTP",
 			})
 		})
 	}
@@ -161,17 +160,17 @@ const SubmitOtp=()=>{
 					<div className="col-lg-6">
 						<div className="account-login-inner">
 							<form className="ltn__form-box contact-form-box" onSubmit={(e) => submitForm(e)}>
-								<input type="text" name="name" placeholder="Name*" value={values.name} onChange={(e) => handleChange(e)} required={showOtp ? false : true} />
-								<input type="text" name="email" placeholder="Email*" value={values.email}
-									onChange={(e) => handleChange(e)} required={showOtp ? false : true} />
+								<input type="text" name="name" placeholder="Name*" value={values.name} onChange={(e) => handleChange(e)} required={true} />
+								<input type="email" name="email" placeholder="Email*" value={values.email}
+									onChange={(e) => handleChange(e)} required={true} />
 								{emailErr && <div className='errMsg'>Invalid Email</div>}
-								<input type="number" name="mobile" placeholder="Mobile No*"  readOnly={userid?true:false} value={values.mobile} onChange={(e) => handleChange(e)} required={showOtp ? false : true} />
+								<input type="text" name="mobile" placeholder="Mobile No*" title={"Please enter exactly 10 digits"}  pattern={"[1-9]{1}[0-9]{9}"}  minLength={10} maxLength={10}   value={values.mobile} readOnly={true} onChange={(e) => handleChange(e)}/>
 								{mobileErr && <div className='errMsg'>Mobile Number should be 10 digit only</div>}
 								<div className='pass_show_div'>
 								<input type={showPass?"text":"password"} name="password" placeholder="Password*" value={values.password} onChange={(e) => handleChange(e)} required={showOtp ? false : true} />
 								   <i onClick={clickHandler} class={showPass ? 'fas fa-eye' : 'fas fa-eye-slash'}></i>
 								</div>
-								<div className="btn-wrapper   go-top">
+								<div className="btn-wrapper  go-top">
 									<button className="theme-btn-1 sign_acc btn black-btn">CREATE ACCOUNT</button>
 								</div>
 							</form>
@@ -184,7 +183,7 @@ const SubmitOtp=()=>{
 								<div className="row text-center">
 									<form className="ltn__form-box" onSubmit={(e) => onOtp(e)}>
 										<input type="number" name="otp" placeholder="OTP*" value={values.otp} style={{marginBottom:"10px"}} onChange={(e) => handleChange(e)} required />
-										<div style={{margin:"8px",fontSize:"15px",fontWeight:"bold",color:"#8ab64d",textAlign:"end"}} onClick={(e) => SubmitOtp(e)}>Resend Otp</div>
+										<div style={{margin:"8px",fontSize:"15px",fontWeight:"bold",color:"#8ab64d",textAlign:"end"}} onClick={(e) => SubmitOtp(e)}>Resend OTP</div>
 										<div className="go-top">
 											<button className="theme-btn-1 btn btn-block postBtn" id="recaptcha">SUBMIT OTP</button>
 										</div>

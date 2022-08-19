@@ -27,7 +27,7 @@ class FeaturesV1 extends Component {
 			            <img src={publicUrl+"assets/img/icons/icon-img/21.png"} alt="#" />
 			          </div>
 			          <div className="ltn__feature-info">
-					  <Link to="/shop-right-sidebar"><h3 style={{color:"#333"}}>Buy a home</h3></Link>
+					  <Link to={`/shop-right-sidebar/${"Buy"}`}><h3 style={{color:"#333"}}>Buy a home</h3></Link>
 			            <p>over 1 million+ homes for sale available on the website, we can match you with a house you will want to call home.</p>
 			            {/* <Link className="ltn__service-btn" to="/#">Find A Home <i className="flaticon-right-arrow" /></Link> */}
 			          </div>
@@ -39,7 +39,7 @@ class FeaturesV1 extends Component {
 			            <img src={publicUrl+"assets/img/icons/icon-img/22.png"} alt="#" />
 			          </div>
 			          <div className="ltn__feature-info">
-					  <Link to="/shop-right-sidebar"><h3 style={{color:"#333"}}>Rent a home</h3></Link>
+					  <Link to={`/shop-right-sidebar/${"Rent"}`}><h3 style={{color:"#333"}}>Rent a home</h3></Link>
 			            <p>over 1 million+ homes for sale available on the website, we can match you with a house you will want to call home.</p>
 			            {/* <Link className="ltn__service-btn" to="/#">Find A Home <i className="flaticon-right-arrow" /></Link> */}
 			          </div>
@@ -51,7 +51,7 @@ class FeaturesV1 extends Component {
 			            <img src={publicUrl+"assets/img/icons/icon-img/23.png"} alt="#" />
 			          </div>
 			          <div className="ltn__feature-info">
-					  <Link to="/shop-right-sidebar"><h3 style={{color:"#333"}}>Sell a home</h3></Link>
+					  <Link to={`/shop-right-sidebar/${"Sell"}`}><h3 style={{color:"#333"}}>Sell a home</h3></Link>
 			            <p>over 1 million+ homes for sale available on the website, we can match you with a house you will want to call home.</p>
 			            {/* <Link className="ltn__service-btn" to="/#">Find A Home <i className="flaticon-right-arrow" /></Link> */}
 			          </div>

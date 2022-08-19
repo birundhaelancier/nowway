@@ -15965,10 +15965,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 /*# sourceMappingURL=style.css.map */
 
-/* iframe{
+iframe{
   z-index: 0 !important;
   position: static !important;
-} */
+}
 
 .uploadBtn{
   position: absolute;
@@ -16349,4 +16349,10 @@ background-color:red;
 
 }
 .otp_pass:first-child{
+}
+
+.custom_change h6 span{
+  color:red;
+  padding-left:2px;
+  font-size: 14px;
 }

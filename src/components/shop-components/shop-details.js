@@ -507,7 +507,7 @@ const PropertyIssue=(id,value,report)=>{
                                     <div className="product-price">
                                       <span>
                                         ₹{item.price}
-                                        <label>/Month</label>
+                                        <label>{item.type==="Rent"?"/Month":""}</label>
                                       </span>
                                     </div>
                                       <ul>
